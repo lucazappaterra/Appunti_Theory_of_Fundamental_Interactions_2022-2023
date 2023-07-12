@@ -1,0 +1,754 @@
+\documentclass[../main.tex]{subfiles}
+\usepackage{slashed}
+\usepackage[table]{xcolor}
+\usepackage{hhline}
+\usepackage{lipsum}
+
+\let\Bbbk\relax
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{simpler-wick}
+
+ \usepackage{stmaryrd}
+\usepackage[compat=1.1.0]{tikz-feynman}
+% \def\plusheight{-\the\dimexpr\fontdimen22\textfont2\relax}
+% \tikzfeynmanset{
+%                 myblob/.style={
+%                 shape=circle,
+%                 draw=black,
+%                 fill=white}
+%                 }
+
+\begin{document}
+\setchapterimage[6.5cm]{images_ch3/feynman_cern_2.png}
+\setchapterpreamble[u]{\margintoc}
+\chapter[Intro alla Rinormalizzazione Perturbativa]{Intro alla Rinormalizzazione Perturbativa\footnote{Immagine: Richard Feynman mentre tiene una lezione al CERN, 1970.}}
+\labch{Intro_PR_QED}
+\fboxsep =1pt % separazione per i box
+
+\section{Considerazioni preliminari}
+Consideriamo la Lagrangiana di QED:
+\begin{equation}
+    \mathscr{L} = -\frac{1}{4} F_{\mu\nu}F^{\mu\nu} + \Bar{\psi}\bigl(i\slashed\partial-m\bigr)\psi + e \Bar{\psi}\gamma^\mu A_\mu\psi
+    \label{eq:QED_lagrangian}
+\end{equation}
+A primo impatto ci verrebbe da considerare “$m$” come la massa dell'elettrone ed “$e$” come la carica elettrica fondamentale. \textbf{Ma perché?}
+\begin{enumerate}
+    \item[i.] Per quanto riguarda la massa, abbiamo calcolato il propagatore del campo di Dirac libero e abbiamo trovato 
+    \[
+    \feynmandiagram[horizontal=a to b, layered layout, small, baseline=\plusheight] {
+                                        a[dot, label={p}]  -- [fermion] b[dot]
+                                        };
+    ~ = \frac{i}{\slashed p - m+i\varepsilon}
+    \]
+    \begin{definition}
+    \textbf{Massa di una particella stabile.}\\
+    In QFT, definiamo la massa di una particella stabile come il polo del suo propagatore.
+    \label{def:particle_mass}
+    \end{definition}
+    Nel caso fermionico, infatti, il polo del propagatore è proprio in $p^2=m^2$, che sembra essere una buona definizione per la massa a riposo in relatività speciale. 
+    
+    \item[ii.]\marginnote{\[
+    \feynmandiagram[small, scale=0.9][horizontal'=a to b] {
+                                        i1[particle=\(e^-\)] -- [fermion] a[dot] -- [fermion] i2[particle=\(e^-\)],
+                                        a -- [photon] b[large, crossed dot, label=\(Ze\)]
+                                        };
+    \]
+    Diagramma di Feynman per lo scattering di un elettrone in presenza di un potenziale Coulombiano.
+    }Per quanto riguarda la carica elettrica, se si calcola al tree-level l'ampiezza di scattering di un elettrone in presenza di un potenziale esterno (e.g. dovuto alla presenza di un nucleo pesante)\footnote{si assume sia stato fatto in corsi precedenti, tuttavia questo conto verrà ripetuto nel prossimo capitolo.}, e ne si prende il limite non relativistico, ci si riconduce alla legge di Coulomb solo intepretando “$e$” come la carica elettrica.
+\end{enumerate}
+Le considerazioni sopra sono vere per una teoria libera ed al tree-level, rispettivamente.
+
+\section{Il propagatore dressed}
+\subsection{Caso fermionico}
+Partiamo considerando la massa dell'elettrone, calcolando invece del propagatore libero l'oggetto conosciuto come propagatore vestito (o “dressed”). Utilizzando un approccio diagrammatico, ci stiamo riferendo alla seguente figura:
+\begin{align*}
+    \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[] % dressed electron propagator diagram
+      \vertex[dot, label={$p$}] (a) at (-1,0) {} ;
+      \vertex[large, blob] (m) at (0,0) {};
+      \vertex[dot] (b) at (1,0) {};
+      \diagram*[small] {
+        (a)--[fermion] (m) -- (b)};
+      \end{feynman}
+  \end{tikzpicture} 
+  =
+  \feynmandiagram[horizontal=a to b, layered layout, small, baseline=\plusheight] {
+                                        a[dot]  -- [fermion] b[dot]
+                                        };
+  +
+  \feynmandiagram [horizontal=a to 1PI, layered layout, small, baseline=\plusheight] {
+     a[dot] --  1PI[myblob]  --  c[dot]
+  };
+  +
+  \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[every blob={/tikz/fill=white!100}]
+      \vertex[blob] (m) at (0,0) {1PI};
+      \vertex[dot] (a) at (-1,0) {} ;
+      \vertex (b) at (1,0);
+      \vertex[blob] (m1) at (1,0) {1PI};
+      \vertex[dot] (c) at (2,0) {};
+      \diagram*[small] {
+        (a)[dot]-- (m) -- (m1) -- (c)};
+      \end{feynman}
+  \end{tikzpicture} 
+  + \cdot\cdot\cdot
+\end{align*}
+
+con
+
+\begin{align*}
+  \feynmandiagram [horizontal=a to 1PI, layered layout, small, baseline=\plusheight] {
+     a[dot] --  1PI[myblob]  --  c[dot]
+  };
+  = 
+  &\feynmandiagram[horizontal=b to c, layered layout, small, baseline=\plusheight] {
+                                        a -- b[dot] -- [photon, half left] c[dot] -- d,
+                                        b -- c
+                                        };
+  +
+  \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[every blob={/tikz/fill=white!100}]
+      \vertex (a) at (-1,0) {} ;
+      \vertex[dot] (l1i) at (0,0) {};
+      \vertex (b) at (1,0) {};
+      \vertex[dot] (l2i) at (1,0) {};
+      \vertex[dot] (l1f) at (2,0) {};
+      \vertex[dot] (l2f) at (3,0) {};
+      \vertex (d) at (4,0) {};
+      \diagram*[small] {
+        (a) -- (l1i) --[photon, half left] (l1f) -- (d),
+        (l2i)--[photon, half right] (l2f),
+        (l1i) -- (l1f),
+        (l2i) -- (l2f)
+        };
+      \end{feynman}
+  \end{tikzpicture} \\
+  &+
+  \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[every blob={/tikz/fill=white!100}]
+      \vertex (a) at (-2,0) {} ;
+      \vertex[dot] (l1i) at (-1,0) {};
+      \vertex[dot] (l2i) at (-0.5,1) {};
+      \vertex[dot] (l2f) at (0.5,1) {};
+      \vertex[dot] (l1f) at (1,0) {};
+      \vertex (b) at (2,0) {};
+      \diagram*[small] {
+        (a) -- (b),
+        (l1i) --[photon,half left, looseness=0.8] (l2i) --[half left] (l2f),
+        (l2i) --[half right] (l2f),
+        (l2f) --[photon, half left, looseness=0.8] (l1f),
+        (l1i) -- (l1f)
+        };
+      \end{feynman}
+  \end{tikzpicture} 
+  +\cdot\cdot\cdot \equiv i\Sigma(\slashed p)
+\end{align*}
+Dal punto di vista matematico, sostituendo ai vari blocchi le espressioni sopra, possiamo ricondurci alla seguente forma:\marginnote{I passaggi sono omessi ma sono semplici, l'unica accortezza è quella di sfruttare l'identità tra operatori \[\frac{1}{\hat{X} + \hat{Y}} = \frac{1}{\hat{X}} - \frac{1}{\hat{X}}\hat{Y}\frac{1}{\hat{X}} + \frac{1}{\hat{X}}\hat{Y}\frac{1}{\hat{X}}\hat{Y}\frac{1}{\hat{X}}-\cdot\cdot\cdot\] dove $\hat{X} = \slashed p - m + i\varepsilon$ , $\hat{Y} = \Sigma(\slashed p)$}
+\begin{equation}
+    \begin{aligned}
+        {
+        \begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed photon propagator diagram
+          \vertex[dot, label={$p$}] (a) at (-1,0) {} ;
+          \vertex[large, blob] (m) at (0,0) {};
+          \vertex[dot] (b) at (1,0) {};
+          \diagram*[small] {
+            (a)--[fermion] (m) -- (b)
+            };
+        \end{feynman}
+      \end{tikzpicture} 
+      = \frac{i}{\slashed p - m + \Sigma(\slashed p) + i\varepsilon}}
+    \end{aligned}
+    \label{eq:dressed_electron_propagator}
+\end{equation}
+
+Nella teoria completamente interagente il parametro “$m$” nella Lagrangiana non è la massa fisica dell'elettrone: la presenza delle interazioni, nella forma di correzioni al loop virtuali dovute allo scambio di fotoni, shifta il polo del propagatore lontano da $m$.
+
+Possiamo quaindi traslare la definizione \ref{def:particle_mass} in una equazione detta \textbf{Equazione del polo}, che identifica la massa dell'elettrone con la condizione che il denominatore del propagatore vestito sia pari a zero quando $\slashed p = m_\text{phys}$, ovvero:
+\begin{equation}
+    {m_\text{phys} - m + \Sigma(\slashed p = m_\text{phys}) = 0}
+    \label{eq:pole_equation}
+\end{equation}
+
+Ora possiamo provare a riscrivere il propagatore vestito alla luce di questo risultato, utilizzando l'espansione di $\Sigma(\slashed p)$ intorno a $m_\text{phys}$. Scriviamo quindi:
+
+\begin{align*}
+    \frac{i}{\slashed p - m + \Sigma(\slashed p) + i\varepsilon} &= \frac{i}{\slashed p \underbrace{- m + \Sigma(m_\text{phys})}_{\overset{\text{(\ref{eq:pole_equation})}}{=}-m_\text{phys}} + \bigl[ \frac{d\Sigma}{d\slashed p}\big|_{m_\text{phys}}(\slashed p - m_\text{phys}) + ... \bigr] + i\varepsilon} \\
+    & = \frac{i}{(\slashed p -m_\text{phys}) \bigl[1+ \frac{d\Sigma}{d\slashed p}\big|_{m_\text{phys}} + \mathscr{O}(\slashed p -m_\text{phys}) \bigr] + i\varepsilon} \\
+    & = \frac{iZ_2}{\slashed p - m_\text{phys} + i\varepsilon} + \text{Termini analitici in $\slashed p = m_\text{phys}$}
+\end{align*}
+Dove nell'ultimo passaggio abbiamo effettuato un'espansione di Laurent introducendo il residuo 
+\[Z_2 = \frac{1}{1+ \frac{d\Sigma}{d\slashed p}\big|_{m_\text{phys}}}\]
+
+Ci accorgiamo quindi del fatto che la presenza delle interazioni non solo cambia la posizione del polo rispetto a quella della teoria libera, ma ne modifica anche il residuo nella posizione del polo fisico.
+
+Riportiamo quindi una sintesi di quanto ottenuto:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed photon propagator diagram
+          \vertex[dot, label={$p$}] (a) at (-1,0) {} ;
+          \vertex[large, blob] (m) at (0,0) {};
+          \vertex[dot] (b) at (1,0) {};
+          \diagram*[small] {
+            (a)--[fermion] (m) -- (b)
+            };
+        \end{feynman}
+      \end{tikzpicture} 
+      = \frac{iZ_2}{\slashed p - m_\text{phys} + i\varepsilon} + \substack{\text{Termini analitici} \\\text{in $\slashed p = m_\text{phys}$}} \\
+      & \text{con } Z_2 = \frac{1}{1+ \frac{d\Sigma}{d\slashed p}\big|_{m_\text{phys}}} \text{ ed $m_\text{phys}$ definita da} \\
+      & m_\text{phys} - m + \Sigma(\slashed p = m_\text{phys}) = 0 
+    \end{aligned}
+      }
+    \label{eq:dressed_electron_propagator_summary}
+\end{equation}
+
+\begin{nota}
+Chiaramente, tutta questa discussione è valida solo nel momento in cui $\Sigma(\slashed p)$ risulta essere una “buona funzione”, ovvero una funzione che non diverge e le cui derivate non divergono.
+
+Questo non è il nostro caso: sia $\Sigma(\slashed p)$ che $\nicefrac{d\Sigma}{d\slashed p}$ divergono, quindi non siamo ancora in grado di utilizzare i risultati trovati per $\Sigma(\slashed p)$ nell'equazione che abbiamo appena trovato ma, d'altronde, lo scopo della discussione non è mai stato questo.
+
+Quello che ci interessa portare a casa è che \textbf{il parametro “$m$” nella Lagrangiana non è la massa dell'elettrone} (nella teoria completamente interagente).
+\end{nota}
+% \feynmandiagram[every blob={/tikz/fill=white!100,/tikz/inner sep=3pt}, horizontal=(a) to (m), layered layout, small, baseline=\plusheight] {
+%      \vertex[blob] (m) at (0,0) {$\boldsymbol{G^c}$};
+%      \vertex (a) at (-1,0) ;
+%      \vertex (c) at (1,0) ;
+%      (a)[dot] --  (m)[blob]  --  (c)[dot]
+%   };
+%   \feynmandiagram [horizontal=a to 1PI, layered layout, small, baseline=\plusheight] {
+%      a[dot] --  1PI[myblob]  --  c[dot]
+%   };
+
+\subsection{Caso fotonico}
+\label{subsec:dressed_photon_propagator}
+Possiamo ripetere gli stessi calcoli con il propagatore vestito del fotone:
+\begin{align*}
+    \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[] % dressed electron propagator diagram
+      \vertex[dot, label={$\mu$}] (a) at (-1,0) {} ;
+      \vertex[large, blob] (m) at (0,0) {};
+      \vertex[dot, label={$\nu$}] (b) at (1,0) {};
+      \diagram*[small] {
+        (a)--[photon, momentum={$q$}] (m) --[photon] (b)};
+      \end{feynman}
+  \end{tikzpicture} 
+  =
+  \feynmandiagram[horizontal=a to b, layered layout, small, baseline=\plusheight] {
+                                        a[dot]  -- [photon] b[dot]
+                                        };
+  +
+  \feynmandiagram [horizontal=a to 1PI, layered layout, small, baseline=\plusheight] {
+     a[dot] -- [photon] 1PI[myblob]  -- [photon] c[dot]
+  };
+  +
+  \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[every blob={/tikz/fill=white!100}]
+      \vertex[blob] (m) at (0,0) {1PI};
+      \vertex[dot] (a) at (-1,0) {} ;
+      \vertex (b) at (1,0);
+      \vertex[blob] (m1) at (1,0) {1PI};
+      \vertex[dot] (c) at (2,0) {};
+      \diagram*[small] {
+        (a)-- [photon](m) --[photon] (m1) --[photon] (c)
+        };
+      \end{feynman}
+  \end{tikzpicture} 
+  + \cdot\cdot\cdot
+\end{align*}
+con
+\begin{align*}
+    \feynmandiagram [horizontal=a to 1PI, layered layout, small, baseline=\plusheight] {
+     a -- [photon] 1PI[myblob]  -- [photon] c
+    };
+    &=
+    \feynmandiagram[horizontal=b to c, layered layout, small, baseline=\plusheight] {
+                                        a --[photon] b[dot] -- [fermion, half left] c[dot] --[photon] d,
+                                        c --[fermion, half left] b
+                                        };
+   +
+    \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[every blob={/tikz/fill=white!100}] 
+      \vertex[] (a) at (-1.5,0) {};
+      \vertex[blob] (m) at (0,0) {};
+      \vertex[] (c) at (0,0.5) {};
+      \vertex[] (d) at (0,-0.5) {};
+      \vertex[] (e) at (1.5,0) {};
+      \diagram*[medium] {
+        (a)--[photon] (m) -- [photon] (e),
+        (c) --[photon] (d)};
+      \end{feynman}
+  \end{tikzpicture} \\
+  &=i\Pi^{\mu\nu}(q) = i(q^2g^{\mu\nu} - q^\mu q^\nu)\Pi(q^2)  
+\end{align*}
+
+Riscriviamo il propagatore libero del fotone nella Gauge $R_\xi$:
+\begin{equation}
+    \feynmandiagram[small][horizontal=a to b, layered layout, small, baseline=\plusheight] {
+                                        a[dot]  -- [photon, momentum=q] b[dot]
+                                        };
+    ~ \equiv \frac{-i}{q^2 +i\varepsilon}\Bigl[g^{\mu\nu} - (1-\xi)\frac{q^\mu q^\nu}{q^2+i\varepsilon}\Bigr]
+    \label{eq:R_xi_free_propagator}
+\end{equation}
+Nel momento in cui si prende $\xi=1$, si torna nella più familiare Gauge di Feynman.
+\begin{nota}
+    Aggiungere termini $\propto q^\mu q^\nu$ non ha alcuna influenza sul calcolo finale delle ampiezze di scattering: Difatti questi termini porteranno sempre a contributi nulli come conseguenza dell'identità di Ward.
+    \label{note:terms_vanishing_for_wardID}
+\end{nota}
+
+\begin{nota}
+    Formalmente, si può mostrare come il propagatore (\ref{eq:R_xi_free_propagator}) si possa derivare dalla Lagrangiana di QED
+    \[
+    \mathscr{L}_{QED} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}-\frac{1}{2\xi} \bigl(\partial_{\mu}A^\mu \bigr)
+    \]
+    in cui $\xi$ può essere interpretato come un moltiplicatore di Lagrange che forza la condizione $\bigl(\partial_{\mu}A^\mu \bigr)=0$.
+\end{nota}
+\begin{nota}
+    \begin{itemize}
+        \item[$\blacksquare$] Guardando all'ampiezza 1PI per l'auto-energia del fotone, possiamo definire il proiettore trasverso 
+        \begin{definition}
+            \textbf{(Proiettore Trasverso)} \[ P_T^{\mu\nu} \equiv g^{\mu\nu} - \frac{q^\mu q^\nu}{q^2}\] t.c. siano verificate le proprietà 
+            \begin{enumerate}
+                \item[i.] \( q_\mu P_T^{\mu\nu} = q_\nu P_T^{\mu\nu} = 0\)
+                \item[ii.] \( P_T^{\mu\nu}\bigl(P_T\bigr)_{\nu}^{\,\rho} =  P_T^{\mu\rho} \)
+            \end{enumerate}
+            La ii., in particolare, giustifica il nome "proiettore".
+        \end{definition}
+        in modo da riscrivere 
+        \begin{equation}
+            i\Pi^{\mu\nu}(q^2) = iq^2 P_T^{\mu\nu}\Pi(q^2)
+            \label{eq:Pi_munu_projector}
+        \end{equation} 
+        
+        \item[$\blacksquare$] In luce di questo risultato, riscriviamo il propagatore del fotone libero partendo dalla (\ref{eq:R_xi_free_propagator}), trascurando il termine $i\varepsilon$ a denominatore dentro la parentesi:
+        \begin{equation}
+            \feynmandiagram[horizontal=a to b, layered layout, small, baseline=\plusheight] {
+                                                a[dot]  -- [photon, momentum={q}] b[dot]
+                                                };
+            ~ \equiv \frac{-i}{q^2 +i\varepsilon}\Bigl[P_T^{\mu\nu} + \xi\frac{q^\mu q^\nu}{q^2}\Bigr]
+            \label{eq:R_xi_free_propagator_transverseprojector}
+        \end{equation}
+        \begin{definition} 
+            \textbf{(Propagatore Longitudinale)}\\
+            Definiamo propagatore longitudinale il termine:
+            \[P_L^{\mu\nu} \equiv \frac{q^\mu q^\nu}{q^2}\]
+            t.c. siano verificate le proprietà:
+            \begin{enumerate}
+                \item[i.] \( P_L^{\mu\nu}\bigl(P_L\bigr)_{\nu}^{\,\rho} =  P_L^{\mu\rho} \)
+                \item[ii.] \( P_L^{\mu\nu}\bigl(P_T\bigr)_{\nu}^{\,\rho} = P_T^{\mu\nu}\bigl(P_L\bigr)_{\nu}^{\,\rho} = 0\)
+                \item[iii.] \( P_L^{\mu\nu} + P_T^{\mu\nu} = g^{\mu\nu}\)
+            \end{enumerate}
+        \end{definition}
+    \end{itemize}
+\end{nota}
+
+Torniamo quindi al calcolo del propagatore vestito, e formalizziamone la forma diagrammatica in termini matematici, sfruttando quanto appreso dai precedenti commenti. Fermandoci al prim'ordine, troviamo:
+\begin{align*}
+    \begin{tikzpicture}[baseline=\plusheight]
+      \begin{feynman}[] % dressed electron propagator diagram
+      \vertex[dot, label={$\mu$}] (a) at (-1,0) {} ;
+      \vertex[large, blob] (m) at (0,0) {};
+      \vertex[dot, label={$\nu$}] (b) at (1,0) {};
+      \diagram*[small] {
+        (a)--[photon, momentum={$q$}] (m) --[photon] (b)};
+      \end{feynman}
+  \end{tikzpicture} 
+  =& \frac{(-i)}{q^2 +i\varepsilon}\Bigl[P_T^{\mu\nu} + \xi\frac{q^\mu q^\nu}{q^2}\Bigr] \\
+   & + \frac{(-i)}{q^2 +i\varepsilon}\Bigl[P_T^{\mu\rho} + \cancel{\xi\frac{\textcolor{Red}{q^\mu q^\rho}}{q^2}}\Bigr]i\textcolor{Green}{\cancel{q^2}} \bigl(P_T\bigr)_{\rho\sigma}\Pi(q^2)\frac{(-i)}{\textcolor{Green}{\cancel{q^2 +i\varepsilon}}}\Bigl[P_T^{\sigma\nu} + \cancel{\xi\frac{\textcolor{Red}{q^\sigma q^\nu}}{q^2}}\Bigr] + ... \overset{\star}{=}
+\end{align*}
+Notiamo subito come i termini in $\textcolor{Red}{q^\mu q^\nu}$ possano essere trascurati per via della proprietà ii. del propagatore longitudinale. Inoltre possiamo trascurare il termine $i\varepsilon$ al denominatore (ad eccezione del primo denominatore incontrato), in modo da togliere di mezzo i $\textcolor{Green}{q^2}$ a numeratore che appaiono dal secondo ordine in poi.
+
+Procedendo quindi con la sostituzione dei diagrammi con i loro corrispettivi elementi matematici ed adoperando le semplificazioni evidenziate, ci ritroviamo nella condizione di poter raccogliere a fattor comune $\frac{(-i)}{q^2 +i\varepsilon}P_T^{\mu\nu}$, ottenendo
+
+\begin{align*}
+    \overset{\star}{=} \frac{(-i)}{q^2 +i\varepsilon}P_T^{\mu\nu} \underbrace{\bigl[1 + \Pi(q^2) + \Pi(q^2)^2 + ...\bigr]}_{\text{Serie geometrica}} - \frac{i\xi q^\mu q^\nu}{q^4}
+\end{align*}
+
+A questo punto, raccogliendo la serie geometrica, arriviamo alla forma finale del propagatore fotonico vestito:
+\begin{equation}
+    \begin{aligned}
+        \begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[dot, label={$\mu$}] (a) at (-1,0) {} ;
+          \vertex[large, blob] (m) at (0,0) {};
+          \vertex[dot, label={$\nu$}] (b) at (1,0) {};
+          \diagram*[small] {
+            (a)--[photon, momentum={$q$}] (m) --[photon] (b)};
+          \end{feynman}
+      \end{tikzpicture} 
+      = \frac{(-i)P_T^{\mu\nu}}{(q^2 +i\varepsilon)\bigl[1-\Pi(q^2)\bigr]} - \frac{i\xi q^\mu q^\nu}{q^4}
+    \end{aligned}
+    \label{eq:dressed_photon_propagator}
+\end{equation}
+\begin{nota}
+    Qui siamo di fronte ad una differenza concettuale importante rispetto al caso precedente visto con la (\ref{eq:dressed_electron_propagator}): il polo della (\ref{eq:dressed_photon_propagator}) permane nel limite $q^2\rightarrow 0$. In altri termini \textbf{il fotone rimane massless anche nella teoria completamente interagente}! \marginnote{I libri in questo caso tendono a dire la magica frase “il fotone resta massless in quanto protetto dall'invarianza di Gauge”. Tuttavia il professore ci tiene a sottolineare che l'invarianza di Gauge esiste in quanto il fotone è massless, e non viceversa.}
+
+    Inoltre, è interessante notare che le correzioni al loop influiscono solo sulla parte trasversa del propagatore e non sulla parte longitudinale. Quindi anche se le correzioni al loop non modificano il polo massless del fotone, ne modificano il propagatore!
+\end{nota}
+
+Se effettuiamo, come per l'elettrone, un'espansione di Laurent, arriviamo in definitiva alla forma:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[dot, label={$\mu$}] (a) at (-1,0) {} ;
+          \vertex[large, blob] (m) at (0,0) {};
+          \vertex[dot, label={$\nu$}] (b) at (1,0) {};
+          \diagram*[small] {
+            (a)--[photon, momentum={$q$}] (m) --[photon] (b)};
+          \end{feynman}
+      \end{tikzpicture} 
+      = \frac{(-i)g^{\mu\nu}Z_3}{(q^2 +i\varepsilon)} + \substack{\text{termini analitici} \\ \text{in } q^2=0} + \substack{\text{termini} \\ \propto q^\mu q^\nu}
+      \\
+      & Z_3 = \bigl[1-\Pi(q^2=0)\bigr]^{-1}
+    \end{aligned}}
+    \label{eq:dressed_photon_propagator_summary}
+\end{equation}
+
+\section{Discussione formale sui residui dei poli}
+\label{sec:poles_formal_discussion}
+I residui che abbiamo introdotto, $Z_1$ e $Z_2$\footnote{il perché di questa numerazione diventerà chiaro durante la discussione in merito ai contro-termini.} sono piuttosto rilevanti. Risulta quindi opportuno dedicar loro del tempo, soffermandoci su alcuni commenti interessanti:
+
+Se $Z_1, Z_2\neq 1$, dovremmo introdurli nei diagrammi di Feynman per i campi esterni! Formalmente dovremmo quindi scrivere:
+    \[\boxed{
+    \begin{aligned}
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[] (a) at (-1.5,0) {} ;
+          \vertex[small, dot] (m) at (0,0) {};
+          \vertex[] (b) at (0.5,0.5) {};
+          \vertex[] (c) at (0.5,-0.5) {};
+          \diagram*[small] {
+            (a) --[fermion,edge label=\(p\)] (m) --[photon] (b),
+            (m) -- (c)};
+          \end{feynman}
+        \end{tikzpicture} = u_s(p) \\
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[] (a) at (-0.5,0.5) {} ;
+          \vertex[] (b) at (-0.5,-0.5) {};
+          \vertex[small, dot] (m) at (0,0) {};
+          \vertex[] (c) at (1.5,0) {};
+          \diagram*[small] {
+            (a) --[photon] (m) -- (b),
+            (m) --[fermion,edge label=\(p\)] (c)};
+          \end{feynman} 
+        \end{tikzpicture} = \bar u_s(p)
+    \end{aligned}
+    \xrightarrow[]{Z_2\neq 1}
+    \begin{aligned}
+        &= \sqrt{Z_2}u_s(p) \\ \\
+        &= \sqrt{Z_2}\bar u_s(p)
+    \end{aligned}}\]
+
+    \[
+    \boxed{
+    \begin{aligned}
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[] (a) at (-1.5,0) {} ;
+          \vertex[small, dot] (m) at (0,0) {};
+          \vertex[] (b) at (0.5,0.5) {};
+          \vertex[] (c) at (0.5,-0.5) {};
+          \diagram*[small] {
+            (a) --[photon,momentum=\(p\)] (m) --[photon] (b),
+            (m) -- (c)};
+          \end{feynman}
+        \end{tikzpicture} = \varepsilon_\mu(p) \\
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[] (a) at (-0.5,0.5) {} ;
+          \vertex[] (b) at (-0.5,-0.5) {};
+          \vertex[small, dot] (m) at (0,0) {};
+          \vertex[] (c) at (1.5,0) {};
+          \diagram*[small] {
+            (a) --[photon] (m) -- (b),
+            (m) --[photon,momentum=\(p\)] (c)};
+          \end{feynman} 
+        \end{tikzpicture} = \varepsilon_\mu^*(p)
+    \end{aligned}
+    \xrightarrow[]{Z_3\neq 1}
+    \begin{aligned}
+        &= \sqrt{Z_3}\varepsilon_\mu(p) \\ \\
+        &= \sqrt{Z_3}\varepsilon_\mu^*(p)
+    \end{aligned}}\]
+    Le motivazioni di questa modifica sono legate alla formula di riduzione LSZ. \marginnote{Come reminder: la formula di riduzione LSZ è un metodo per scrivere la matrice di scattering in termini di funzioni di correlazione tempo-ordinate.}
+
+    Consideriamo il processo \[e^-(p_1,\sigma_1)e^-(p_2,\sigma_2)\rightarrow e^-(p_1',\sigma_1')e^-(p_2',\sigma_2')\] Quello a cui siamo interessati è il calcolo della parte connessa dell'ampiezza di scattering: \[S_{fi} = \langle e^-(p_1',\sigma_1')e^-(p_2',\sigma_2')| i\mathscr{M} | e^-(p_1,\sigma_1)e^-(p_2,\sigma_2) \rangle\]
+    Nel linguaggio dei diagrammi di Feynman, al tree-level:
+    \[i\mathscr M =
+    \begin{aligned}
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[label=$u_1$] (a) at (-1,0.8) {};
+            \vertex[label=$\bar u_1$] (b) at (1,0.8) {};
+            \vertex[small, dot] (i1) at (0,0.5) {};
+            \vertex[small, dot] (i2) at (0,-0.5) {};
+            \vertex[label=$u_2$] (c) at (-1,-0.8) {};
+            \vertex[label=$\bar u_2$] (d) at (1,-0.8) {};
+            \diagram*[small]{
+                (a) --[fermion] (i1) --[fermion] (b),
+                (i1) --[photon] (i2),
+                (c) --[fermion] (i2) --[fermion] (d)
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    -
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[label=$u_1$] (a) at (-1,0.8) {};
+            \vertex[label=$\bar u_1$] (b) at (1,0.8) {};
+            \vertex[small, dot] (i1) at (0,0.5) {};
+            \vertex[empty dot,minimum size=0mm] (dummy) at (0.39,0) {};
+            \vertex[small, dot] (i2) at (0,-0.5) {};
+            \vertex[label=$u_2$] (c) at (-1,-0.8) {};
+            \vertex[label=$\bar u_2$] (d) at (1,-0.8) {};
+            \diagram*[small]{
+                (a) --[fermion] (i1) -- (dummy) -- [fermion] (d),
+                (i1) --[photon] (i2),
+                (c) --[fermion] (i2) -- (dummy) --[fermion] (b)
+            };
+        \draw[-,line width=2mm,white] (dummy)++(-0.1cm,-0.1cm) -- ++(0.2cm,0.2cm);
+        \draw[-,black] (dummy)++(-0.185cm,0.24cm) -- ++(0.28cm,-0.365cm);
+        \end{feynman}
+    \end{tikzpicture}
+    \end{aligned}\]
+    Dove le gambe esterne sono “amputate”, ossia non abbiamo propagatori ma spinori esterni.
+    Anche questa convenzione deriva dalla formula LSZ, che per questo specifico esempio si scrive:
+    \begin{equation}
+    \begin{aligned}
+        \langle e^-_{1'}e^-_{2'}| i\mathscr{M} | e^-_1e^-_2 \rangle = \lim_\text{on-shell} \Bigl(\frac{-i}{\sqrt Z_2}\Bigr)^4\int &d^4x_1 d^4x_2 d^4x_1' d^4x_2' \, e^{i(p_1'\cdot x_1'+p_2'\cdot x_2' - p_1\cdot x_1 - p_2\cdot x_2)} \cdot\\
+        & \cdot \bar u_{1'}\bigl(i\Vec{\partial}_{x_1'} - m_\text{phys}\bigr)\bar u_{2'}\bigl(i\Vec{\partial}_{x_2'} - m_\text{phys}\bigr)\cdot\\
+        &\cdot \langle \Omega |T\bigl[ \psi(x_1')\psi(x_2')\bar\psi(x_1) \bar\psi(x_2) \bigr] | \Omega \rangle \cdot\\
+        &\cdot \bigl(-i\cev{\partial}_{x_1} - m_\text{phys}\bigr)u_{1}\bigl(-i\cev{\partial}_{x_2} - m_\text{phys}\bigr)u_{2}
+    \end{aligned}
+    \label{eq:S_fi_LSZ}
+    \end{equation}
+Il limite on-shell è inteso nel senso che prendiamo i quadrati dei 4-impulsi uguali a $m_\text{phys}^2$.
+Inoltre, la formula è valida non perturbativamente, i.e. è esatta.
+In particolare, \(\langle \Omega |T\bigl[ \psi(x_1')\psi(x_2')\bar\psi(x_1) \bar\psi(x_2) \bigr] | \Omega \rangle \) è la funzione di correlazione della teoria completamente interagente, $\psi$ e $\bar\psi$ non sono campi liberi.
+
+Per calcolare questo oggetto sfruttiamo quindi la teoria delle perturbazioni, riscrivendolo in termini dei campi liberi:
+\begin{align*}
+    \langle \Omega |T\bigl[ \psi(x_1')\psi(x_2')&\bar\psi(x_1) \bar\psi(x_2) \bigr] | \Omega \rangle = \\
+    & = \langle 0 |T\bigl[ \underbrace{\psi(x_1')\psi(x_2')\bar\psi(x_1)}_{\substack{\text{Questi sono ora}\\ \text{campi liberi.}}} \bar\psi(x_2) e^{i\int d^4x e\bar\psi(x)\gamma^\mu A_\mu(x)\psi(x)}\bigr] | 0 \rangle_\text{conn}
+\end{align*}
+    Utilizzando il teorema di Wick, abbiamo un metodo sistematico per calcolare questo correlatore di campi liberi, espandendo l'esponenziale fino ad un certo ordine:
+\begin{itemize}
+    \item[$\blacksquare$] All'ordine più basso abbiamo semplicemente:
+    \[\langle 0 |T\bigl[ \psi(x_1')\psi(x_2')\bar\psi(x_1) \bar\psi(x_2) \bigr] | 0 \rangle =
+    \begin{aligned}
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[small,dot, label=$x_1$] (a) at (-1,0.5) {};
+            \vertex[small,dot,label=$x_1'$] (b) at (1,0.5) {};
+            \vertex[small,dot,label=$x_2$] (c) at (-1,-0.5) {};
+            \vertex[small,dot,label=$x_2'$] (d) at (1,-0.5) {};
+            \diagram*[small]{
+                (a) --[fermion] (b),
+                (c) --[fermion] (d)
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    +
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[small,dot, label=$x_1$] (a) at (-1,0.5) {};
+            \vertex[small,dot,label=$x_1'$] (b) at (1,0.5) {};
+            \vertex[empty dot, minimum size=0mm] (dummy) at (0,0) {};
+            \vertex[small,dot,label=$x_2$] (c) at (-1,-0.5) {};
+            \vertex[small,dot,label=$x_2'$] (d) at (1,-0.5) {};
+            \diagram*[small]{
+                (a) --[fermion] (dummy) -- (d),
+                (c) -- (dummy) --[fermion] (b)
+            };
+            \draw[-,line width=2mm,white] (dummy)++(-0.1cm,-0.1cm) -- ++(0.2cm,0.2cm);
+             \draw[-,black] (dummy)++(-0.2cm,0.1cm) -- ++(0.4cm,-0.2cm);
+        \end{feynman}
+    \end{tikzpicture}
+    \end{aligned}
+    \]
+    Questi sono termini disconnessi e non partecipano alla definizione di $i\mathscr M$.
+    \item[$\blacksquare$] Al prim'ordine abbiamo un numero totale di campi dispari, quindi il valore atteso sul vuoto va a zero.
+    \item[$\blacksquare$] Al secondo ordine abbiamo due possibili contrazioni connesse distinte:
+    \[
+    \begin{aligned}
+    &\frac{(ie)^2}{2}\int d^4y d^4z
+    \wick[positions={-1,-1,+1,+1,+1}]{
+        \langle 0 | T\bigl[\c1{\psi(x_1')}\c2{\psi(x_2')}\c3{\bar\psi(x_1)}\c4{\bar\psi(x_2)}\c1{\bar\psi(y)}\gamma^\mu \c5{A_\mu(y)} \c3{\psi(y)}\c2{\bar\psi(z)}\gamma^\mu \c5{A_\mu(z)}\c4{\psi(z)}\bigr] | 0 \rangle_{conn}
+    }\\
+    &\text{a cui corrisponde il diagramma }
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[small, dot, label=left:$x_1$] (a) at (-1,0.5) {};
+            \vertex[small, dot, label=right:$x_1'$] (b) at (1,0.5) {};
+            \vertex[small, dot, label=$y$] (i1) at (0,0.5) {};
+            \vertex[small, dot, label=below:$z$] (i2) at (0,-0.5) {};
+            \vertex[small, dot, label=left:$x_2$] (c) at (-1,-0.5) {};
+            \vertex[small, dot, label=right:$x_2'$] (d) at (1,-0.5) {};
+            \diagram*[small]{
+                (a) --[fermion] (i1) --[fermion] (b),
+                (i1) --[photon] (i2),
+                (c) --[fermion] (i2) --[fermion] (d)
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    \end{aligned}
+    \]
+
+    \[
+    \begin{aligned}
+    &\frac{(ie)^2}{2}\int d^4y d^4z
+    \wick[positions={-1,-1,+1,+1,+1}]{
+        \langle 0 | T\bigl[\c1{\psi(x_1')}\c2{\psi(x_2')}\c3{\bar\psi(x_1)}\c4{\bar\psi(x_2)}\c2{\bar\psi(y)}\gamma^\mu \c5{A_\mu(y)} \c3{\psi(y)}\c1{\bar\psi(z)}\gamma^\mu \c5{A_\mu(z)}\c4{\psi(z)}\bigr] | 0 \rangle_{conn}
+    }\\
+    &\text{a cui corrisponde il diagramma }
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[small, dot, label=left:$x_1$] (a) at (-1,0.5) {};
+            \vertex[small, dot, label=right:$x_1'$] (b) at (1,0.5) {};
+            \vertex[small, dot, label=$y$] (i1) at (0,0.5) {};
+            \vertex[empty dot, minimum size=0mm] (dummy) at (0.5,0) {};
+            \vertex[small, dot, label=below:$z$] (i2) at (0,-0.5) {};
+            \vertex[small, dot, label=left:$x_2$] (c) at (-1,-0.5) {};
+            \vertex[small, dot, label=right:$x_2'$] (d) at (1,-0.5) {};
+            \diagram*[small]{
+                (a) --[fermion] (i1) -- (dummy) --[fermion] (d),
+                (i1) --[photon] (i2),
+                (c) --[fermion] (i2) -- (dummy)--[fermion] (b)
+            };
+        \draw[-,line width=2mm,white] (dummy)++(-0.1cm,-0.1cm) -- ++(0.2cm,0.2cm);
+        \draw[-,black] (dummy)++(-0.2cm,0.2cm) -- ++(0.33cm,-0.33cm);
+        \end{feynman}
+    \end{tikzpicture}
+    \end{aligned}
+    \]
+    Notiamo inoltre che ci sono i propagatori sulle gambe esterne dei diagrammi.
+\end{itemize}
+Se adesso utilizziamo questo risultato nella formula LSZ, lavorando nello spazio dell'impulso, troviamo quanto segue:
+\begin{itemize}
+    \item consideriamo il tree-level ($Z_2=1$, $m_\text{phys}=m$) e concentriamoci su una sola gamba:
+    \[
+    \begin{aligned}
+        &\begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+          \vertex[small, dot] (a) at (-1.5,0) {} ;
+          \vertex[small, dot] (m) at (0,0) {};
+          \vertex[] (b) at (0.5,0) {};
+          \vertex[] (c) at (0,-0.5) {};
+          \diagram*[small] {
+            (a) --[fermion,edge label=\(p_1\)] (m) -- (b),
+            (m) --[photon] (c)};
+          \end{feynman}
+        \end{tikzpicture} = \underbrace{\frac{i}{\slashed p_1 - m}}_{\text{da Wick}}\underbrace{(\slashed p_1 - m)(-i)u(p_1,\sigma_1)}_{\substack{\text{dalla gamba}\\ \text{esterna nella LSZ}}} = u(p_1,\sigma_1)
+    \end{aligned}\]
+    \item consideriamo adesso la situazione oltre il tree-level. Il diagramma al tree-level sarà sostituito dalla struttura più generica:
+    \[
+    \begin{tikzpicture}[baseline=\plusheight]
+          \begin{feynman}[] % dressed electron propagator diagram
+            \vertex[blob, minimum size=28mm, fill=gray!15] (bigblob) at (0,0) {“connected core”};
+            
+            \vertex[small, dot, label=left:$x_1$] (a) at (-2,2) {};
+            \vertex[blob] (dress1) at (-1.5,1.5) {};
+            \vertex[small, dot] (e) at (-1,1) {};
+            
+            \vertex[small, dot, label=right:$x_1'$] (b) at (2,2) {};
+            \vertex[blob] (dress2) at (1.5,1.5) {};
+            \vertex[small, dot] (f) at (1,1) {};
+            
+            
+            \vertex[small, dot, label=left:$x_2$] (c) at (-2,-2) {};
+            \vertex[blob] (dress3) at (-1.5,-1.5) {};
+            \vertex[small, dot] (g) at (-1,-1) {};
+            
+            \vertex[small, dot, label=right:$x_2'$] (d) at (2,-2) {};
+            \vertex[blob] (dress4) at (1.5,-1.5) {};
+            \vertex[small, dot] (h) at (1,-1) {};
+          \diagram*[small] {
+            (a) -- (dress1) -- (e),
+            (b) -- (dress2) -- (f),
+            (c) -- (dress3) -- (g),
+            (d) -- (dress4) -- (h)};
+          \end{feynman}
+          \draw [decoration={brace, mirror}, decorate] ([xshift=.5cm,yshift=-.5cm]f.east) -- ([xshift=.5cm,yshift=-.5cm]b.south east) node [pos=.5, below right] {propagatore vestito};
+    \end{tikzpicture}
+    \]
+    e concentrandoci nuovamente su una sola gamba otteniamo:
+    \marginnote{nel limite on-shell sopravvive solo il primo termine del propagatore vestito}
+    \[
+    \begin{aligned}
+    &\Bigl[ \frac{i}{\slashed p_1 - m + \Sigma(\slashed p_1) + i\varepsilon}\Bigr]\frac{(-i)}{\sqrt{Z_2}}\bigl(\slashed p_1-m_\text{phys}\bigr)u(p_1,\sigma_1) =\\ 
+    &= \Bigl[ \frac{iZ_2}{\slashed p_1 - m + i\varepsilon} + \, \substack{\text{termini} \\ \text{analitici in} \\ {\slashed p_1 = m_\text{phys}}}\Bigr]\frac{(-i)}{\sqrt{Z_2}}\bigl(\slashed p_1-m_\text{phys}\bigr)u(p_1,\sigma_1) =\\
+    &= \sqrt{Z_2} u(p_1,\sigma_1)
+    \end{aligned}
+    \]
+\end{itemize}
+Abbiamo quindi ritrovato il fattore $\sqrt{Z_2}$ da cui siamo partiti all'inizio e con considerazioni simili si trova il fattore $\sqrt{Z_3}$ per un fotone esterno.
+
+\begin{nota}
+    Possiamo imparare un'altra lezione importante dalla formula LSZ supponendo di voler riscalare $\psi\rightarrow \textcolor{Red}{a}\psi$ per un determinato numero a.
+    Allora \textit{la funzione di correlazione verrà modificata}:
+    \[\begin{aligned}
+    \langle \Omega |T\bigl[ \psi(x_1')\psi(x_2')&\bar\psi(x_1) \bar\psi(x_2) \bigr] | \Omega \rangle \rightarrow \\ &\textcolor{Red}{a^4}\langle \Omega |T\bigl[ \psi(x_1')\psi(x_2')\bar\psi(x_1) \bar\psi(x_2) \bigr] | \Omega \rangle 
+    \end{aligned}\]
+    ma anche \textit{il propagatore viene modificato}:
+    \[\langle \Omega |T\bigl[ \psi(x)\bar\psi(y) \bigr] | \Omega \rangle \rightarrow \textcolor{Red}{a^2}\langle \Omega |T\bigl[ \psi(x)\bar\psi(y) \bigr] | \Omega \rangle\]
+    e in particolare da questo deduciamo che $Z_2 \rightarrow \textcolor{Red}{a^2} Z_2$ (i.e. $\sqrt{Z_2} \rightarrow \textcolor{Red}{a} \sqrt{Z_2}$), in modo tale da lasciare $S_{fi}$ invariata. 
+    
+    È facile accorgersene guardando la (\ref{eq:S_fi_LSZ}): il fattore $(\nicefrac{1}{\sqrt Z_2})^4$ produrrà un fattore $a^{-4}$, che andrà a cancellare precisamente il fattore $a^4$ generato dalla funzione di correlazione.
+
+    Quindi \textbf {il rescaling dei campi non modifica la fisica.}
+    \label{note:field_rescaling}
+\end{nota}
+\section{La carica elettrica}
+Supponiamo che il parametro “$e$” della Lagrangiana di QED (\ref{eq:QED_lagrangian}) non sia la carica elettrica fondamentale.
+
+In QED definiamo la carica elettrica come segue:
+\begin{definition}
+    \textbf{(Carica elettrica fondamentale in QED.)}
+    \[
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex (a) at (-1,-1) {};
+            \vertex (b) at (-1,1) {};
+            \vertex[blob] (v) at (0,0) {};
+            \vertex (c) at (1.5,0) {};
+            \diagram*[small]{
+                (a) -- [fermion, edge label'=\(p\)] (v) --[fermion, edge label'=\(p'\)] (b),
+                (v)--[photon, momentum=\(q\)] (c) 
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    = ie_\text{phys}\gamma^\mu \text{ per } q\rightarrow 0
+    \]
+    \label{def:electric_charge}
+\end{definition}
+Questa definizione arriva da un'evidenza sperimentale: dal calcolo dell'ampiezza di scattering di un elettrone in presenza di un nucleo pesante a riposo, nel limite $q\rightarrow 0$ per il trasferimento di impulso, \textbf{troviamo un risultato compatibile con la legge di Coulomb} solo considerando il precedente vertice di interazione dove $e_\text{phys}$ è identificata con la carica elettrica.
+
+In particolare:
+\begin{itemize}
+    \item Al tree-level otteniamo precisamente $e=e_\text{phys}$.
+    \item Introducendo le correzioni quantistiche al loop, questo non è più vero! Abbiamo infatti visto esplicitamente nel capitolo precedente come il vertice di interazione subisca una correzione e diventi:
+    \[
+    \begin{tikzpicture}[baseline=\plusheight]
+        \begin{feynman}
+            \vertex[] (a) at (-1,-1) {};
+            \vertex[] (b) at (-1,1) {};
+            \vertex[blob, fill=white!100] (v) at (0,0) {1PI};
+            \vertex[] (c) at (1.5,0) {};
+            \diagram*[small]{
+                (a) -- [fermion, edge label=\(p\)] (v) --[fermion, edge label=\(p'\)] (b),
+                (v)--[photon, momentum=\(q\)] (c) 
+            };
+        \end{feynman}
+    \end{tikzpicture}
+    = ie\Gamma^\mu(p,p') \overset{q\rightarrow 0}{=} ie F_1(q^2=0)\gamma^\mu
+    \]
+\end{itemize}
+Quindi, in generale, $e\neq e_\text{phys}$.
+
+
+\end{document}

@@ -1,0 +1,1069 @@
+\documentclass[../main.tex]{subfiles}
+\usepackage{slashed}
+\usepackage[table]{xcolor}
+\usepackage{hhline}
+\usepackage{lipsum}
+
+\let\Bbbk\relax
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{simpler-wick}
+
+\begin{document}
+%\setchapterstyle{kao} % decommentare se non si mette l'immagine
+\setchapterimage[6.5cm]{images_ch8/FidgetSpinners}
+\setchapterpreamble[u]{\margintoc}
+\chapter[Simmetrie Globali e Cariche Conservate]{Simmetrie Globali e Cariche Conservate\footnote{Immagine da Quanta Magazine, \href{https://www.quantamagazine.org/symmetry-algebra-and-the-monster-20170817/}{Symmetry, Algebra and the Monster}}}
+% \labch{???}
+\label{ch:globalsymms}
+\fboxsep =1pt % separazione per i box
+
+\section{Invarianza di Gauge e Correnti Conservate}
+
+Consideriamo l'accoppiamento di $A_\mu(x)$ con una corrente conservata come una regola alla base della costruzione di teorie che possano descrivere particelle di spin 1 interagenti.
+
+La richiesta di una corrente conservata corrisponde alla richiesta di una \textbf{simmetria globale continua nella Lagrangiana}. Prendiamo i due esempi più semplici, la Lagrangiana di Dirac e quella di Klein-Gordon, invarianti sotto trasformazioni di $\textrm{U}(1)$:
+\begin{align*}
+    &\mathscr{L}_\text{Dirac} = \bar\psi(i\gamma^\mu\partial_\mu - m)\psi \quad &\psi'=e^{-i\alpha}\psi\\
+    &\mathscr{L}_\text{KG} = (\partial_\mu\phi^\ast)(\partial^\mu\phi)-m^2\phi^\ast\phi \quad &\phi'=e^{-i\alpha}\phi
+\end{align*}
+
+Le corrispondenti correnti conservate possono essere ricavate considerando la simmetria al livello infinitesimo (e possiamo farlo in quanto questa è continua):
+\begin{align*}
+    &\psi'=(1 - i\alpha)\psi = \psi +\delta\psi \quad\Rightarrow\quad \delta\psi = - i\alpha\psi\\
+    &\phi'=(1 - i\alpha)\phi = \phi +\delta\phi \quad\Rightarrow\quad \delta\phi = - i\alpha\phi
+\end{align*}
+Di conseguenza le correnti di Noether saranno:
+\begin{equation}
+    j^\mu_\text{Dirac} = \bar\psi\gamma^\mu\psi \quad \text{e} \quad j^\mu_\text{KG} = i\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big] 
+    \label{eq:kg_dirac_noether_currs}
+\end{equation}
+
+Se ora proviamo a costruire l'accoppiamento, i.e.:
+\[
+A_\mu j^\mu \rightarrow
+\begin{cases}
+    A_\mu\bar\psi\gamma^\mu\psi \\
+    iA_\mu\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big] 
+\end{cases}
+\]
+ci accorgiamo che, mentre il primo caso ricostruisce la QED, il secondo non ricostruisce la QED scalare! Questo accade perché in questa operazione siamo stati troppo ingenui: nel secondo caso \textit{abbiamo provato a costruire l'accoppiamento tra $A_\mu$ e la corrente conservata nella teoria non interagente!} Tuttavia, aggiungere il termine di interazione non necessariamente risolve il problema, in quanto farlo modificherebbe le equazioni del moto e non c'è nulla che ci garantisce che la corrente della teoria libera sia ancora conservata.
+
+\begin{exercise}
+    Considerando la Lagrangiana della QED
+    \[
+    \mathscr{L}_\text{QED} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + \bar\psi(i\gamma^\mu\partial_\mu - m)\psi + e\bar\psi\gamma^\mu A_\mu\psi
+    \]
+    verificare che la corrente $ j^\mu = \bar\psi\gamma^\mu\psi$ sia conservata sulle equazioni del moto nella teoria interagente. \textbf{[Conti svolti Lezione 29p1 pag. 2÷3]}
+\end{exercise}
+
+
+\begin{exercise}
+    Considerando la Lagrangiana
+    \[
+    \mathscr{L} =(\partial_\mu\phi^\ast)(\partial^\mu\phi)-m^2\phi^\ast\phi - iA_\mu\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big]
+    \]
+    verificare che la corrente $ j^\mu = i\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big]$ \textbf{NON} sia conservata sulle equazioni del moto. \textbf{[Conti svolti Lezione 29p1 pag. 3÷4]}
+\end{exercise}
+
+Proviamo allora a seguire una strategia differente:
+\begin{itemize}
+    \item[\blacksquare] Consideriamo una densità di Lagrangiana, $\mathscr{L} = \mathscr{L}(\phi, \partial_\mu \phi, A_\mu)$, e supponiamola invariante sotto una simmetria globale continua che, nella sua forma infinitesima, sia descritta dalla trasformazione $\phi(x) \rightarrow \phi'(x)=\phi(x)-i\alpha\phi(x)$, con $\delta\mathscr{L} = 0$ e $\alpha\in\mathbb{R}$ costante
+    
+    \item[\blacksquare] Ragioniamo ora su cosa potrebbe succedere nel momento in cui $\alpha$ non sia più una costante, ma anzi dipenda dalla posizione nello spazio-tempo “$x$”. Di conseguenza avremo $\delta\mathscr{L} \neq 0$ e, in particolare, dovremmo avere qualcosa del tipo
+    \[
+    \delta\mathscr{L} = \big[\partial_\mu\alpha(x)\big]h^\mu(x)
+    \]
+    per un qualche 4-vettore $h^\mu(x)$, in quanto nel momento in cui $\alpha(x)$ sia costante la sua derivata annulla $\delta\mathscr{L}$.
+    
+    \item[\blacksquare] Per quanto concerne la variazione dell'azione, possiamo scrivere \marginnote{qui stiamo integrando per parti sfruttando il fatto che 
+    \[\partial_\mu(\alpha h^\mu) = (\partial_\mu\alpha) h^\mu + \alpha(\partial_\mu h^\mu)\] e utilizzando il teorema della divergenza in 4D
+    \[
+    \int_{}d^4x\,\partial_\mu(\alpha h^\mu) = 0
+    \] per scartare il termine di contorno.}
+    \begin{align*}
+        \delta \textrm{S} = \int_{}d^4x\,\delta\mathscr{L} &= \int_{}d^4x\, (+1)\big[\partial_\mu\alpha(x)\big]h^\mu(x) =\\
+        &= -\int_{}d^4x\, \alpha(x)\big[\partial_\mu h^\mu(x)\big]
+    \end{align*}
+    
+    \item[\blacksquare] Dall'equazione che abbiamo trovato per $\delta\textrm{S}$ possiamo ottenere un'interpretazione per $h^\mu(x)$. Quando le equazioni del moto per $\phi$ sono soddisfatte, abbiamo $\delta\textrm{S} = 0$ per ogni variazione del campo, inclusa quella della forma $\delta\phi = - i\alpha\phi$. Di conseguenza, sulle equazioni del moto, abbiamo:
+    \[
+    \delta\textrm{S} \overset{!}{=} 0 \Rightarrow \int_{}d^4x\, \alpha(x)\big[\partial_\mu h^\mu(x)\big]\overset{!}{=} 0 \Rightarrow \boxed{\partial_\mu h^\mu(x) = 0}
+    \]
+    Questo significa che $\mathbf{h^\mu(x)}$ \textbf{è esattamente la corrente conservata} $j^\mu(x)$, in quanto essa ha precisamente la proprietà di essere conservata sulle equazioni del moto.
+    
+    \item[\blacksquare] Combiniamo a questo punto la trasformazione $\phi \rightarrow \phi -i\alpha(x)\phi$ con la trasformazione di gauge, ovvero la trasformazione combinata:
+    \begin{equation}
+        \boxed{
+        \begin{aligned}
+            &A_\mu(x) \rightarrow A_\mu(x) + \partial_\mu\lambda(x)\\
+            &\phi(x) \rightarrow \phi(x) -i\lambda(x)\phi(x)
+        \end{aligned}}
+        \label{eq:comb_transform}
+    \end{equation}
+    Sotto tale trasformazione combinata la variazione dell'azione è la seguente: \marginnote{Il termine in $\frac{\delta\textrm{S}}{\delta A_\mu}$ riproduce la parte proporzionale ad $A_\mu$ all'interno della Lagrangiana (in questo caso la $\delta$ è da intendersi come operatore di derivata funzionale!). Per esempio in QED abbiamo che $\textrm{S}\supset \int_{}d^4x\, A_\mu\bar\psi\gamma^\mu\psi$ e 
+    \[
+    \frac{\delta\textrm{S}}{\delta A_\mu} = \bar\psi\gamma^\mu\psi
+    \]
+    che moltiplicato alla variazione di $A_\mu$, $\partial_\mu\lambda(x)$, riproduce la variazione dell'azione che ci aspettiamo dalla trasformazione di gauge.}
+    \begin{align*}
+        \delta\textrm{S} &= \int_{}d^4x\,\Big\{ \big[\partial_\mu\lambda(x)\big]j^\mu(x) + \frac{\delta\textrm{S}}{\delta A_\mu(x)}\big[\partial_\mu\lambda(x)\big] \Big\} = \\
+        &= \int_{}d^4x\,\big[\partial_\mu\lambda(x)\big]\bigg[ j^\mu(x) + \frac{\delta\textrm{S}}{\delta A_\mu(x)} \bigg] \textcolor{Red}{\overset{!}{=} 0}
+    \end{align*}
+    Quindi per far si che la Lagrangiana sia invariante sotto la trasformazione (\ref{eq:comb_transform}) la parte proporzionale ad $A_\mu$ nella Lagrangiana deve essere 
+    \[
+    \boxed{\frac{\delta\textrm{S}}{\delta A_\mu(x)} = -j^\mu(x)}
+    \]
+    Che è esattamente il nostro punto di partenza, derivato in maniera più formale e con una prospettiva differente:
+    \begin{kaobox}
+        La richiesta $\nicefrac{\delta\textrm{S}}{\delta A_\mu(x)} = -j^\mu(x)$ può essere riformulata come un principio di invarianza sotto le trasformazioni congiunte:
+        \[\begin{aligned}
+            &A_\mu(x) \rightarrow A_\mu(x) + \partial_\mu\lambda(x)\\
+            &\phi(x) \rightarrow \phi(x) -i\lambda(x)\phi(x)
+        \end{aligned}\]
+    \end{kaobox}
+\end{itemize}
+
+\begin{exercise}
+    Considerando nuovamente la densità di Lagrangiana:
+    \[
+    \mathscr{L} =(\partial_\mu\phi^\ast)(\partial^\mu\phi)-m^2\phi^\ast\phi - iA_\mu\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big]
+    \]
+    \begin{enumerate}
+        \item[\textbf{i)}] Mostrare che questa Lagrangiana \textbf{NON} è invariante sotto le trasformazioni combinate (\ref{eq:comb_transform}) ad ordine $\mathscr O (\lambda)$.
+        \item[\textbf{ii)}] Mostrare che l'aggiunta del termine $A_\mu^2\phi^\ast\phi$ rende $\mathscr{L}$ invariante sotto le (\ref{eq:comb_transform}).
+        \item[\textbf{iii)}] La Lagrangiana 
+        \begin{align*}
+            \mathscr{L} =& -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + (\partial_\mu\phi^\ast)(\partial^\mu\phi) - iA_\mu\big[ \phi^\ast(\partial^\mu\phi) - \phi(\partial^\mu\phi^\ast) \big] +\\
+            &+A_\mu A^\mu\phi^\ast\phi-m^2\phi^\ast\phi
+        \end{align*}
+        beneficia ancora della simmetria globale $\phi\rightarrow e^{-i\alpha}\phi$. Calcolare la corrispondente corrente conservata e mostrare che è conservata sulle equazioni del moto.
+
+        \textbf{[Conti svolti Lezione 29p1 pag. 8÷11]}
+    \end{enumerate}
+\end{exercise}
+
+\section{Simmetrie Globali in Generale}
+Prendiamo come esempio per la nostra discussione una teoria di campo classica con “$N$” campi scalari reali $\Phi_a(x)$, con $a=1,...,N$, la cui densità di Lagrangiana si può scrivere:
+\begin{equation}
+    \boxed{\mathscr{L} = \frac{1}{2}\sum_a(\partial_\mu\Phi_a)(\partial^\mu\Phi_a) - \frac{m^2}{2}\sum_a(\Phi_a)^2 - \frac{\lambda}{4}\Big(\sum_a (\Phi_a)^2\Big)^2}
+    \label{eq:general_classic_real_lagrangian}
+\end{equation}
+Allora possiamo osservare quanto segue:
+\begin{itemize}
+    \item Questa densità di Lagrangiana è invariante sotto le trasformazioni ortogonali di $\textrm{O}(N)$, ovvero che trasformano un campo in un altro:
+    \begin{equation}
+        \boxed{
+        \Phi'(x) = \sum_b R_{ab}\Phi_b(x)~,\quad R\in\textrm{O}(N)
+        }
+        \label{eq:O_n_internal_symm}
+    \end{equation}
+    Questo è un esempio di \textbf{Simmetria Globale Interna}.
+
+    \begin{proof}
+        Dall'ortogonalità di $R$, i.e. $R^TR=\mathbb 1 \Rightarrow (R^T)_{ab}R_{bc} = R_{ba}R_{bc} =\delta_{ac}$ abbiamo che 
+        \[
+        \sum_a(\Phi_a)^2 = \sum_{a,b,c} R_{ab}\Phi_b R_{ac}\Phi_c = \sum_a (\Phi_a)^2
+        \]
+        ergo il secondo e terzo termine della (\ref{eq:general_classic_real_lagrangian}) sono invarianti.
+
+        Per quanto riguarda il termine cinetico, sfruttiamo il fatto che, per una simmetria globale, $R_{ab}$ è la stessa per ogni “$x$”, i.e. è costante, da cui:
+        \[
+        \partial_\mu\Phi_a' = R_{ab}(\partial_\mu\Phi_b)
+        \]
+        Segue quindi, con ragionamenti simili a quelli sopra, che anche il termine cinetico è invariante.
+    \end{proof}
+
+    \item Come già detto, in $\textrm{O}(N)$ abbiamo  $R^TR=\mathbb 1$, ovvero $(\det R)^2 = 1 \Rightarrow \det R = \pm 1$.
+
+    Il sottogruppo continuo di $\textrm{O}(N)$ è $\textrm{SO}(N)$, il gruppo speciale ortogonale (delle rotazioni) in $N$ dimensioni. Siccome per applicare il teorema di Noether abbiamo bisogno di una simmetria globale \textbf{continua}, ha senso restringersi ad $\textrm{SO}(N)$. 
+
+    Inoltre, ora che siamo connessi all'identità con una mappa continua, possiamo utilizzare le tecniche della teoria dei gruppi.
+
+    \item \textbf{Trasformazioni dei campi, generatori ed algebra.}
+
+    Se consideriamo $R=1+\epsilon$, con $\epsilon$ quantità infinitesima, dalla relazione di ortogonalità (trascurando l'ordine $\mathscr O(\epsilon^2)$) troviamo che $\epsilon$ è una matrice anti-simmetrica
+    \[
+    \epsilon^T=-\epsilon \Rightarrow \boxed{\epsilon_{ab}=-\epsilon_{ba}}
+    \]
+
+    Possiamo quindi riscrivere la trasformazione infinitesima nello spazio del campo:
+    \[
+    \Phi'_a(x) = \Phi_a(x) + \delta \Phi_a(x)~,\quad \delta \Phi_a(x) = \epsilon_{ab} \Phi_b(x)
+    \]
+    Ma c'è di più, possiamo infatti riscrivere la variazione del campo introducendo i generatori di $\textrm{SO}(N)$ nella rappresentazione fondamentale, che indichiamo con $T_{AB}$, In definitiva si ottiene:
+    \[
+    \boxed{\begin{aligned}
+        &\delta \Phi_a(x) = -\frac{i}{2}\epsilon_{AB}\big(T_{AB}\big)_{ab}\Phi_b(x) \\
+        &\big(T_{AB}\big)_{ab} \equiv i(\delta_{Aa}\delta_{Bb} - \delta_{Ab}\delta_{Ba})
+    \end{aligned}}
+    \]
+    \begin{exercise}
+        Calcolare il numero di generatori per il gruppo $\textrm{SO}(N)$ (ossia la dimensione del gruppo). \textbf{[Conti svolti Lezione 29p2 pag. 16÷17]}\\
+
+        \textbf{Soluzione. } 
+        \[
+        \boxed{\dim \big[\textrm{SO}(N)\big] = \frac{N(N-1)}{2}}
+        \]
+    \end{exercise}
+    \begin{exercise}
+        Ricavare l'algebra dei generatori di $\textrm{SO}(N)$ considerando la rappresentazione fondamentale. \textbf{[Conti svolti Lezione 29p2 pag. 18]}\\
+
+        \textbf{Soluzione. } 
+        \begin{equation}
+            \boxed{\big[T_{AB}, T_{CD}\big] = -i\delta_{AC}T_{BD} + i\delta_{AD}T_{BC} - i\delta_{BD}T_{AC} + i\delta_{CB}T_{AD}}
+            \label{eq:SO_N_gens_algebra}
+        \end{equation}
+    \end{exercise}
+
+    \item \textbf{Correnti e Cariche di Noether.}
+
+    Dal teorema di Noether sappiamo che \textit{ad ogni generatore della simmetria globale corrisponde una corrente conservata}.
+
+    Prendendo in considerazione $\delta \Phi_a(x) = -\frac{i}{2}\epsilon_{AB}\big(T_{AB}\big)_{ab}\Phi_b(x)$, in cui stiamo sottintendendo una somma su $A,B$ da $1$ a $\nicefrac{N(N-1)}{2}$, questa espressione ci dice che abbiamo $\nicefrac{N(N-1)}{2}$ “direzioni” (i parametri necessari a descrivere il singolo elemento di $\textrm{SO}(N)$) lungo le quali possiamo trasformare il campo senza modificare la struttura della Lagrangiana. Consideriamo ognuna di queste direzioni separatamente.
+
+    Innanzitutto abbiamo
+    \[
+    \frac{\delta \Phi_a}{\delta\epsilon_{AB}} = -i\big(T_{AB}\big)_{ab}\Phi_b
+    \]
+    e di conseguenza 
+    \begin{align*}
+        j^\mu_{AB} &= \frac{\partial\mathscr{L}}{\partial(\partial_\mu\Phi_a)}\frac{\delta \Phi_a}{\delta\epsilon_{AB}} = (\partial^\mu\Phi_a)(-i)\big(T_{AB}\big)_{ab}\Phi_b = \\
+        &=(\partial^\mu\Phi_a)(-i)i(\delta_{Aa}\delta_{Bb} - \delta_{Ab}\delta_{Ba})\Phi_b
+    \end{align*}
+    Troviamo quindi che la corrente di Noether è:
+    \begin{equation}
+        \boxed{j^\mu_{AB} = (\partial^\mu\Phi_A)\Phi_B - (\partial^\mu\Phi_B)\Phi_A}
+        \label{eq:noeth_curr_SON}
+    \end{equation}
+    È importante tenere a mente che:
+    \begin{enumerate}
+        \item[\textbf{i)}] La Lagrangiana è invariante sotto le trasformazioni di $\textrm{SO}(N)$ indipendentemente dal fatto che il campo obbedisca o non obbedisca ad una qualsivoglia equazione del moto.
+        \item[\textbf{ii)}] Le correnti di Noether, d'altra parte, sono conservate solo quando i campi rispettano le proprie equazioni del moto.
+    \end{enumerate}
+    \begin{exercise}
+        Mostrare che $\partial_\mu j^\mu_{AB} = 0$ sulle equazioni del moto. \textbf{[Conti svolti Lezione 29p2 pag. 20]}
+        \label{ex:current_is_conserved_on_EOM}
+    \end{exercise}
+
+    Le cariche conservate saranno quindi:
+    \begin{equation}
+        \boxed{Q_{AB}(t) = \int_{}d^3\Vec{x}\, j^0_{AB}(\Vec{x},t)~,\quad \Dot{Q}_{AB}(t) = 0}
+        \label{eq:noeth_charges_SON}
+    \end{equation}
+
+    \item \textbf{Dai campi classici ai campi quantistici.}
+
+    Nella teoria quantistica dei campi, sia le cariche che le correnti diventano operatori, quindi sono costruite sulla base di altri operatori associati ai campi. Abbiamo dunque per le correnti:
+    \begin{equation}
+        \boxed{\hat{j}^\mu_{AB} = (\partial^\mu\hat{\Phi}_A)\hat{\Phi}_B - (\partial^\mu\hat{\Phi}_B)\hat{\Phi}_A}
+        \label{eq:quantum_noether_curr}
+    \end{equation}
+    Mentre, definendo il \textit{campo coniugato canonico}\footnote{$\hat{\Pi}$ e $\hat{\Phi}$ sono detti coniugati in quanto non commutano tra loro.} come $\hat{\Pi}_A(x) = \partial_t\hat{\Phi}_A(x)$, avremo:
+    \begin{equation}
+        \boxed{
+        \begin{aligned}
+            &\hat{Q}_{AB}(t) = \int_{}d^3\Vec{x}\, \hat{j}^0_{AB}(\Vec{x},t) \\
+            &\hat{j}^0_{AB} = \hat{\Pi}_A(x)\hat{\Phi}_B(x) - \hat{\Pi}_B(x)\hat{\Phi}_A(x)
+        \end{aligned}
+        }
+        \label{eq:quantum_noether_charges}
+    \end{equation}
+    I campi $\hat{\Phi}_A(x)$ non sono campi liberi, ma evolvono nel tempo in maniera non banale come conseguenza delle interazioni. Su di loro possiamo dire due cose:
+    \begin{enumerate}
+        \item Verificano relazioni di commutazione a tempi uguali, che generalizzano quelle tra posizione e momento canonico incontrate in meccanica quantistica:
+        \begin{equation}
+            \begin{aligned}
+                &\big[\hat{\Phi}_A(\Vec{x}, t), \hat{\Phi}_B(\Vec{y}, t)\big] = 0\\
+                &\big[\hat{\Pi}_A(\Vec{x}, t), \hat{\Pi}_B(\Vec{y}, t)\big]= 0 \\
+                &\big[\hat{\Phi}_A(\Vec{x}, t),\hat{\Pi}_B(\Vec{y}, t) \big]= i\delta_{AB}\delta(\Vec{x}-\Vec{y})
+            \end{aligned}
+            \label{eq:equal_time_commrels}
+        \end{equation}
+        \item Evolvono nel tempo secondo le equazioni di Heisenberg, che assumono la forma:
+        \begin{equation}
+            \begin{aligned}
+                &i\frac{\partial}{\partial t}\hat{\Phi}_A(\Vec{x}, t) = \big[\hat{\Phi}_A(\Vec{x}, t), \hat{H}\big]\\
+                &i\frac{\partial}{\partial t}\hat{\Pi}_A(\Vec{x}, t)= \big[\hat{\Pi}_A(\Vec{x}, t), \hat{H}\big]
+            \end{aligned}
+            \label{eq:heisenber_eqs}
+        \end{equation}
+        La dinamica nascosta dietro queste equazioni è analoga a quella che, classicamente, è descritta dalle equazioni del moto.
+    \end{enumerate}
+    \begin{exercise}
+    Considerando la densità di Lagrangiana con interazione quartica (\ref{eq:general_classic_real_lagrangian}) nel caso di un singolo campo scalare, vale a dire:
+    \begin{equation}
+        \mathscr{L} = \frac{1}{2}(\partial_\mu\phi)(\partial^\mu\phi) - \frac{m^2}{2}\phi^2 - \frac{\lambda}{4}\phi^4
+        \label{eq:quarticint_scalar_lagrangian}
+    \end{equation}
+    Verificare che delle equazioni di Heisenberg (\ref{eq:heisenber_eqs}) nascondano la dinamica le equazioni del moto passando per i seguenti step:
+    \begin{enumerate}
+        \item Costruire l'operatore Hamiltoniano $\hat{H}$.
+        \item Calcolare i commutatori ai RHS delle (\ref{eq:heisenber_eqs}).
+        \item Combinare le due equazioni trovate dal punto precedente.
+    \end{enumerate}
+    \textbf{[Conti svolti Lezione 29p2 pag. 23÷28]}
+
+    \textbf{Soluzione. } Il risultato finale è l'equazione seguente:
+    \begin{equation}
+        \Big(\frac{\partial^2}{\partial t^2} - \Delta\Big)\phi(\Vec{x}, t) = -m^2\phi(\Vec{x}, t) - \lambda\phi(\Vec{x}, t)^3
+        \label{eq:scalar_field_EOM_from_commutators}
+    \end{equation}
+    ed è equivalente a quanto si può trovare nello svolgimento dell'esercizio \ref{ex:current_is_conserved_on_EOM}.
+    \label{ex:EOM_verif}
+\end{exercise}
+\end{itemize}
+A questo punto abbiamo tutti gli ingredienti per tradurre tutto ciò che è possibile vedere dal punto di vista classico nell'esercizio \ref{ex:EOM_verif} in termini di operatori. In altre parole vogliamo studiare quale ruolo giochino correnti e cariche conservate nella teoria quantistica.
+
+Per fare ciò seguiremo il seguente percorso, evidenziando in particolare le proprietà delle cariche di Noether:
+\begin{enumerate}
+    \item[\textbf{1)}] Calcoliamo l'operatore Hamiltoniano $\hat{H}$ per la nostra teoria simmetrica sotto $\textrm{SO}(N)$.
+
+    \item[\textbf{2)}] Studiamo le relazioni di commutazione tra cariche e campi/ momenti coniugati.
+
+    \item[\textbf{3)}] Studiamo la relazione di commutazione tra le cariche e l'operatore Hamiltoniano.
+    
+    \item[\textbf{4)}] Studiamo l'algebra delle cariche di Noether.
+    
+    \item[\textbf{5)}] Studiamo la relazione di commutazione tra le cariche e l'impulso $\Vec{P}$ definito sulla base del tensore energia-impulso.
+    
+    \item[\textbf{6)}] Studiamo l'azione delle cariche sullo stato di vuoto.
+\end{enumerate}
+
+\subsection[$\hat{H}$ nella teoria $\textrm{SO}(N)$-simm]{1) $\hat{\mathbf{H}}$ nella teoria $\textrm{SO}\mathbf{(N)}$ - simmetrica}
+
+Questa è una generalizzazione del caso scalare dell'esercizio \ref{ex:EOM_verif}. Abbiamo
+\[
+\hat{H} = \int_{} d^3x\, \hat{\mathscr{H}}(\Vec{x}, t)
+\]
+dove $\hat{\mathscr{H}}$ è la densità di Hamiltoniana scritta in termini di operatori di campo quantistici, ottenibile dalla trasformata di Legendre della Lagrangiana (somme sottintese):
+\[
+\mathscr{L} = \frac{1}{2}(\partial_\mu\hat{\Phi}_A)(\partial^\mu\hat{\Phi}_A) - \frac{m^2}{2}\hat{\Phi}_A^2 - \frac{\lambda}{4}\big(\hat{\Phi}_A^2\big)^2
+\]
+Ricordando quindi il campo coniugato $\hat{\Pi}_A(\Vec{x}, t) = \partial_t \hat{\Phi}_A(\Vec{x}, t)$, la densità di Hamiltoniana si ricava da \(\hat{\mathscr{H}} = \hat{\Pi}_A(\partial_t \hat{\Phi}_A) - \mathscr{L}\).
+
+In definitiva abbiamo quindi (sottintendendo somme e dipendenze):
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        &\hat{H} = \int_{} d^3x\, \hat{\mathscr{H}}(\Vec{x}, t) \\
+        &\hat{\mathscr{H}} = \frac{1}{2}\hat{\Pi}_A^2 + \frac{1}{2}|\Vec{\nabla}\hat{\Phi}_A|^2 + \frac{m^2}{2}\hat{\Phi}_A^2 + \frac{\lambda}{4}\big(\hat{\Phi}_A^2\big)^2
+    \end{aligned}}
+    \label{eq:hamilt_operator_and_density}
+\end{equation}
+
+\subsection[Commutazione $\hat{Q}_{AB}$ - $\hat{\Phi}$ / $\hat{\Pi}$]{2) Commutazione tra $\hat{\mathbf{Q}}_{\mathbf{AB}}$ e $\hat{\mathbf{\Phi}}$ / $\hat{\mathbf{\Pi}}$}
+Le relazioni di commutazione sono le seguenti:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        & \big[ \hat{Q}_{AB}(t), \hat{\Phi}_C(\Vec{x}, t) \big] = +i\delta_{BC}\hat{\Phi}_A(\Vec{x}, t) - i\delta_{AC}\hat{\Phi}_B(\Vec{x}, t) \\
+        & \big[ \hat{Q}_{AB}(t), \hat{\Pi}_C(\Vec{x}, t) \big] = +i\delta_{BC}\hat{\Pi}_A(\Vec{x}, t) - i\delta_{AC}\hat{\Pi}_B(\Vec{x}, t)
+    \end{aligned}}
+    \label{eq:Q_Phi/Pi_commrels}
+\end{equation}
+\begin{proof}
+    La dimostrazione è pressoché banale, basta passare per la definizione delle cariche di Noether (\ref{eq:quantum_noether_charges}).
+    
+    Partiamo dalla componente temporale della corrente di Noether \(\hat{j}^0_{AB}(\Vec{y}, t) = \hat{\Phi}_B(\Vec{y}, t)\hat{\Pi}_A(\Vec{y}, t) - \hat{\Phi}_A(\Vec{y}, t)\hat{\Pi}_B(\Vec{y}, t)\) e sfruttando l'algebra dei commutatori, con riferimento alle (\ref{eq:equal_time_commrels}), si trova:
+    \begin{align*}
+        & \big[ \hat{\Phi}_B(\Vec{y}, t)\hat{\Pi}_A(\Vec{y}, t), \hat{\Phi}_C(\Vec{x}, t) \big] = -i\delta_{AC}\delta(\Vec{x}-\Vec{y})\hat{\Phi}_B(\Vec{x}, t) \\
+        & \big[ \hat{\Phi}_A(\Vec{y}, t)\hat{\Pi}_B(\Vec{y}, t), \hat{\Phi}_C(\Vec{x}, t) \big] = -i\delta_{BC}\delta(\Vec{x}-\Vec{y})\hat{\Phi}_A(\Vec{x}, t)
+    \end{align*}
+    Di conseguenza la prima delle (\ref{eq:Q_Phi/Pi_commrels}) sarà data dall'integrale in $d^3\Vec{y}$ della differenza tra i due commutatori appena trovati.
+
+    La seconda equazione si trova con considerazioni analoghe.
+\end{proof}
+
+\subsection[Commutazione $\hat{Q}_{AB}$ - $\hat{H}$]{3) Commutazione tra $\hat{\mathbf{Q}}_{\mathbf{AB}}$ e $\hat{\mathbf{H}}$}
+
+Tutte le cariche $\hat{Q}_{AB}$ commutano con $\hat{H}$, i.e.:
+\begin{equation}
+    \boxed{\big[ \hat{Q}_{AB}, \hat{H}\big] = 0}
+    \label{eq:Q_H_commrels}
+\end{equation}
+Questa relazione è l'analogo quantistico della conservazione della carica elettrica.
+\begin{proof}
+    Anche questo non è difficile da verificare, in quanto essendo $\mathscr{H}$ composta da operatori del tipo \(\sum_A\hat{\Pi}_{A}^2\), \(\sum_A\hat{\Phi}_{A}^2\) e \(\sum_A|\Vec{\nabla}\hat{\Phi}_{A}|^2\), se consideriamo l'operatore
+    \[
+    \hat{V}_C(\Vec{x},t) \in \Big\{ \hat{\Pi}_{C}, \hat{\Phi}_{C}, \Vec{\nabla}\hat{\Phi}_{C} \Big\}
+    \]
+    ci accorgiamo che in ogni caso \marginnote{vale anche nel caso di $\Vec{\nabla}\hat{\Phi}_{C}(\Vec{x}, t)$ poiché, intuitivamente, sopravvive solo $\frac{\partial}{\partial \vec{x}}$ che può essere portata fuori dal commutatore.} vale la (\ref{eq:Q_Phi/Pi_commrels}):
+    \[
+    \big[ \hat{Q}_{AB}(t), \hat{V}_C(\Vec{x}, t) \big] = i\delta_{BC}\hat{V}_A(\Vec{x}, t) - i\delta_{AC}\hat{V}_B(\Vec{x}, t)
+    \]
+
+    A questo punto è immediato verificare che:
+    \begin{align*}
+        \big[ \hat{Q}_{AB}(t), \sum_C \hat{V}_C(\Vec{x}, t)^2 \big] &= \sum_C\big[ \hat{Q}_{AB}(t), \hat{V}_C(\Vec{x}, t)^2 \big] =\\
+        &=\sum_C \Big(\hat{V}_C(x)\big[ \hat{Q}_{AB}, \hat{V}_C(x) \big] + \big[ \hat{Q}_{AB}, \hat{V}_C(x) \big] \hat{V}_C(x)\Big)\\
+        &=\sum_C \Big[ \hat{V}_C(\Vec{x}, t), \big[ \hat{Q}_{AB}(t), \hat{V}_C(\Vec{x}, t) \big] \Big]_+\\
+        &= \sum_C \big[ \hat{V}_C(\Vec{x}, t), i\delta_{BC}\hat{V}_A(\Vec{x}, t) - i\delta_{AC}\hat{V}_B(\Vec{x}, t)\big]_+\\
+        &= \big[ \hat{V}_B(\Vec{x}, t), i\hat{V}_A(\Vec{x}, t)\big]_+ - \big[ \hat{V}_A(\Vec{x}, t), i\hat{V}_B(\Vec{x}, t)\big]_+ = 0
+    \end{align*}
+    Quindi $\hat{Q}_{AB}$ commuta con ogni termine di $\hat{\mathscr{H}}$ e di conseguenza commuta con $\hat{H}$.
+\end{proof}
+
+\subsection[Algebra delle $\hat{Q}_{AB}$]{4) Algebra delle cariche di Noether}
+
+Le cariche di Noether rispettano l'algebra dei generatori di $\textrm{SO}(N)$ (\ref{eq:SO_N_gens_algebra}), i.e.:
+\begin{equation}
+    \boxed{\big[\hat{Q}_{AB}, \hat{Q}_{CD}\big] = i\delta_{BC}\hat{Q}_{AD} - i\delta_{AC}\hat{Q}_{BD} - i\delta_{BD}\hat{Q}_{AC} + i\delta_{AD}\hat{Q}_{BC} }
+    \label{eq:noether_charges_algebra}
+\end{equation}
+
+\begin{proof}
+    La strategia della dimostrazione è piuttosto semplice, basta calcolare esplicitamente il commutatore
+    \begin{align*}
+        \big[\hat{Q}_{AB}, \hat{Q}_{CD}\big] &= \big[\hat{Q}_{AB}, \int_{}d^3\,\Vec{x}\hat{j}^0_{CD}\big] = \\
+        &=\int_{}d^3\Vec{x}\,\big[\hat{Q}_{AB}, \hat{\Phi}_D\hat{\Pi}_C - \hat{\Phi}_C\hat{\Pi}_D\big]
+    \end{align*}
+    avvalendosi delle (\ref{eq:Q_Phi/Pi_commrels}). Il conto esplicito è lasciato come esercizio.
+\end{proof}
+Concettualmente, \textit{abbiamo scoperto che le cariche di Noether $\hat{Q}_{AB}$ rappresentano i generatori della simmetria $T_{AB}$}. È quindi naturale chiedersi \textbf{quale sia la rappresentazione in cui i generatori si presentano nella forma delle cariche conservate}!
+
+Per rispondere a questa domanda, notiamo innanzitutto che le $\hat{Q}_{AB}$ sono anti-simmetriche ed hermitiane. 
+\begin{proof}
+Di questa ultima proprietà ce ne accorgiamo dal fatto che essendo i campi reali, le loro controparti quantistiche devono essere hermitiane e di conseguenza partendo da 
+\[
+\hat{j}^0_{AB} = \hat{\Phi}_B \hat{\Pi}_A- \hat{\Phi}_A \hat{\Pi}_B 
+\]
+avremo:
+\begin{align*}
+    \big(\hat{j}^0_{AB}\big)^\dagger = \hat{\Pi}_A^\dagger \hat{\Phi}_B^\dagger- \hat{\Pi}_B^\dagger \hat{\Phi}_A^\dagger = \hat{\Pi}_A \hat{\Phi}_B- \hat{\Pi}_B \hat{\Phi}_a 
+\end{align*}
+Siccome le correnti non nulle sono generate sono nel caso di $A\neq B$ e per tempi uguali e $A\neq B$ i campi commutano (nelle (\ref{eq:Q_Phi/Pi_commrels}) $\delta_{AB}\neq0$ per $A\neq B$), troviamo che $\big(\hat{j}^0_{AB}\big)^\dagger = \hat{j}^0_{AB}$ da cui segue la tesi.
+\end{proof}
+
+Se prendiamo una combinazione lineare del tipo $\hat{V} \equiv \frac{1}{2}\sum_{A,B}\mathscr{A}_{AB}\hat{Q}_{AB}$, con $C_{AB}\in \mathbb{R}$ e dove la somma restituisce $\nicefrac{N(N-1)}{2}$ termini, chiaramente questo deve essere un operatore hermitiano e se ne prendiamo l'esponenziale, otteniamo un operatore unitario, ovvero:
+\[
+\hat{U} \equiv \exp \bigg( -\frac{i}{2}\sum_{A,B}\mathscr{A}_{AB}\hat{Q}_{AB} \bigg)
+\]
+Questo implica che \textbf{la rappresentazione ottenuta esponenziando le cariche di Noether è unitaria!}
+
+Possiamo a questo punto calcolare la legge di trasformazione del campo sotto questa rappresentazione, vale a dire $\hat{U}\hat{\Phi}_A(\Vec{x},t)\hat{U}^\dagger$, sfruttando il \href{https://en.wikipedia.org/wiki/Hadamard%27s_lemma}{Lemma di Hadamard}:
+
+\[
+e^{-i\hat{V}}\hat{\Phi}_A e^{i\hat{V}} \textcolor{Green}{=} \sum_{n=0}^\infty\frac{(-i)^n}{n!}[\hat{V},[..., [\hat{V}, \hat{\Phi}_A]]]_\text{$n$ volte}
+\]
+In generale, si dimostra per induzione che 
+\[
+[\hat{V},[..., [\hat{V}, \hat{\Phi}_A]]]_\text{$n$ volte} = (+i)^n\sum_C(\mathscr{A}^n)_{CA}\hat{\Phi}_C
+\]
+quindi:
+\begin{align*}
+    e^{-i\hat{V}}\hat{\Phi}_A e^{i\hat{V}} &= \sum_{n=0}^\infty\frac{(-i)^n}{n!}(+i)^n\sum_C(\mathscr{A}^n)_{CA}\hat{\Phi}_C\\
+    &= \sum_C\Big[ \sum_{n=0}^\infty\frac{1}{n!}(\mathscr{A}^n) \Big]_{CA}\hat{\Phi}_C\\
+    &= \sum_C\Big[\exp\big(\mathscr{A}\big)\Big]_{CA}\hat{\Phi}_C
+\end{align*}
+
+In definitiva abbiamo (somme sottintese):
+\begin{equation}
+    \boxed{\begin{aligned}
+        &\hat{U} \equiv \exp \bigg( -\frac{i}{2}\mathscr{A}_{AB}\hat{Q}_{AB} \bigg)\\
+        &\hat{U}\hat{\Phi}_A\hat{U}^\dagger= \Big[\exp\big(\mathscr{A}\big)^T\Big]_{AC}\hat{\Phi}_C
+    \end{aligned}}
+    \label{eq:SON_unitary_rep+transf_law}
+\end{equation}
+È quindi giunto il momento di interpretare il risultato e per farlo utilizziamo la seguente proprietà: \textit{ogni matrice $R\in\textrm{SO}(N)$ può essere scritta come l'esponenziale di una qualunque matrice anti-simmetrica “$\mathscr{A}$” reale ed $N\times N$}, i.e.: 
+\[\boxed{R=e^\mathscr{A}}\]
+Notiamo che una matrice reale anti-simmetrica ed $N\times N$ ha precisamente $\frac{N\times N - N}{2} = \frac{N(N - 1)}{2}$ elementi indipendenti.
+
+Se ora riprendiamo le (\ref{eq:SON_unitary_rep+transf_law}) e consideriamo l'operatore $\hat{U}$ costruito precisamente sulla matrice antisimmetrica $\mathscr{A}_{AB}$ che definisce la rotazione $R$, allora la legge di trasformazione di $\hat{\Phi}_A$ si scrive come segue:
+\begin{equation}
+    \boxed{\hat{U}(\mathscr{A})\hat{\Phi}_A(x)\hat{U}(\mathscr{A})^\dagger= \sum_C\Big[R\big(\mathscr{A}\big)^{-1}\Big]_{AC}\hat{\Phi}_C}
+    \label{eq:SON_field_transf_law_revised}
+\end{equation}
+\textbf{Le cariche di Noether forniscono al rappresentazione di $\textrm{SO}(N)$ agente sui campi quantistici.} Tra l'altro questa equazione è analoga a quella che abbiamo “trovato”\footnote{In realtà l'abbiamo assunto, essendo uno degli assiomi di Wightman.} per il gruppo di Poincaré, i.e. la (\ref{eq:wightman_transform_axiom}), ma agente sullo spazio del campo.
+
+Quindi gli $U(\mathscr{A})$ \textbf{sono operatori unitari agenti su uno spazio di Hilbert!}.
+
+\subsection[Commutazione $\hat{{Q}}_{\mathbf{AB}}$ - $\Vec{{P}}$]{5) Commutazione tra $\hat{\mathbf{Q}}_{\mathbf{AB}}$ e $\Vec{\mathbf{P}}$}
+
+Così come per l'operatore Hamiltoniano, anche in questo caso abbiamo:
+\begin{equation}
+    \boxed{\big[ \hat{Q}_{AB}, \Vec{P}\big] = 0}
+    \label{eq:Q_P_commrels}
+\end{equation}
+\begin{proof}
+    La dimostrazione è facile e lasciata per esercizio, si passa per la definizione di $\Vec{P}$ in funzione del tensore energia-impulso $T^{\mu\nu}$, i.e.:
+    \[
+    P^i = \int_{}d^3\Vec{x} T^{0i}(\Vec{x}, t)
+    \]
+    dove \(T^{\mu\nu} = (\partial^\mu\Phi_a)(\partial^\nu\Phi_a) - \eta^{\mu\nu}\mathscr L\)
+\end{proof}
+
+\subsection[Azione delle $\hat{Q}_{AB}$ sul vuoto]{6) Azione delle cariche sul vuoto}
+Come ultima importante proprietà, consideriamo lo stato $\hat{Q}_{AB}|0\rangle$ e proviamo a calcolarne la norma. Essendo le $\hat{Q}_{AB}$ hermitiane, abbiamo:
+\begin{align*}
+    ||\hat{Q}_{AB}|0\rangle||^2 &= \langle 0 |\hat{Q}_{AB}\hat{Q}_{AB}| 0\rangle\\
+    &\overset{(\ref{eq:quantum_noether_charges})}{=}\int_{}d^3\Vec{x}\langle 0 |\hat{Q}_{AB}\hat{j}^0(x)| 0\rangle \overset{\star}{=}
+\end{align*}
+
+Ora, $j^\mu$ è un 4-vettore, ergo trasforma sotto Poincaré secondo la legge (\ref{eq:Pmu_transform_rules}):
+\[
+U(\Lambda, a) j^\mu(x)U(\Lambda, a)^\dagger = \big(\Lambda^{-1}\big)^\mu_{~\nu}j^\nu(\Lambda x+a)
+\]
+che ristretta alle traslazioni spazio-temporali diventa:
+\[
+U(\mathbb 1, a) j^\mu(x)U(\mathbb 1, a)^\dagger = \delta^\mu_{~\nu}j^\nu(x+a) = j^\mu(x+a)
+\]
+Di conseguenza, essendo $U(\mathbb 1, a) = \exp(ia_\mu P^\mu)$ e considerando $a=-x$, troviamo:
+\[
+j^\mu(x) = \exp(-ix_\mu P^\mu)j^\mu(0)\exp(ix_\mu P^\mu)
+\]
+
+Sostituendo ora nell'equazione per la norma dello stato che abbiamo considerato inizialmente otteniamo:
+\begin{align*}
+    ||\hat{Q}_{AB}|0\rangle||^2 &\overset{\star}{=} \int_{}d^3\Vec{x}\langle 0 |
+    \overbrace{\hat{Q}_{AB}\exp(-ix_\mu P^\mu)}^{\big[ \hat{Q}_{AB}, P^\mu\big] = 0}
+    \hat{j}^0(0)
+    \overbrace{\exp(ix_\mu P^\mu)| 0\rangle}^{=| 0\rangle}=\\
+    &=\int_{}d^3\Vec{x}\langle 0 |\hat{Q}_{AB}\hat{j}^0(0)| 0\rangle
+\end{align*}
+Abbiamo raggiunto un risultato interessante: essendo l'integranda indipendente da $x$, formalmente abbiamo:
+\[
+||\hat{Q}_{AB}|0\rangle||^2 = \infty
+\]
+e di conseguenza dobbiamo concludere che:
+\begin{equation}
+    \boxed{\hat{Q}_{AB}|0\rangle = 0}
+    \label{eq:Q_on_vacuum}
+\end{equation}
+
+e lo stesso ragionamento deve valere per tutti i generatori.
+
+Questa condizione implica che lo stato di vuoto sia invariante sotto l'azione delle trasformazioni del gruppo, ovvero:
+\[
+\boxed{\exp \bigg( -\frac{i}{2}\mathscr{A}_{AB}\hat{Q}_{AB} \bigg)|0\rangle = |0\rangle}
+\]
+
+\textbf{Le simmetrie tali per cui la (\ref{eq:Q_on_vacuum}) sia rispettata sono dette “realizzate à la Wigner-Weyl”}.
+
+\section{Azione delle Simmetrie sugli Stati Esterni}
+Al fine di studiare l'azione delle trasformazioni di simmetria sugli stati esterni, “spegniamo” le interazioni ed espandiamo il campo in funzione degli operatori di creazione e distruzione:
+\[
+\hat{\Phi}_A(x) = \int_{}\frac{d^3\Vec{p}}{(2\pi)^3\sqrt{2p^0}}\big[ a(\Vec{p}, A)e^{-ip\cdot x} + a^\dagger(\Vec{p}, A)e^{ip\cdot x} \big]
+\]
+Applichiamo (\ref{eq:SON_field_transf_law_revised}) ed isoliamo le trasformazioni di $a$ ed $a^\dagger$:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        &\hat{U}(\mathscr{A})a(\Vec{p}, A)\hat{U}(\mathscr{A})^\dagger=\Big[R\big(\mathscr{A}\big)^{-1}\Big]_{AC}a(\Vec{p}, C)\\
+        &\hat{U}(\mathscr{A})a^\dagger(\Vec{p}, A)\hat{U}(\mathscr{A})^\dagger=\Big[R\big(\mathscr{A}\big)^{-1}\Big]_{AC}a^\dagger(\Vec{p}, C)
+    \end{aligned}}
+    \label{eq:SON_creat_annihil_transf}
+\end{equation}
+Considerando quindi gli stati di singola particella, $a^\dagger(\Vec{p}, A)|0\rangle = |\Vec{p}, m, A\rangle$, ed applicando $U(\mathscr{A})$ non è difficile arrivare a:
+\begin{equation}
+    \boxed{U(\mathscr{A})|\Vec{p}, m, A\rangle = \Big[R\big(\mathscr{A}\big)\Big]_{CA}|\Vec{p}, m, C\rangle}
+    \label{eq:SON_action_ext_states}
+\end{equation}
+In sostanza significa che le trasformazioni di $\textrm{SO}(N)$ ruotano l'indice di “specie”, senza toccare impulso e massa.
+Questo è un risultato generico: \textbf{le simmetrie globali implicano la degenerazione}. 
+
+In altre parole, organizziamo adesso i nostri stati secondo $\pazocal P \otimes \textrm{SO}(N)$. Gli stati di singola particella sono ora rappresentazioni unitarie irriducibili di questo nuovo gruppo e la “vecchia” rappresentazione per particelle massive di spin 0 $\{|m,\Vec{p},0,0\rangle\}$ viene sostituita dagli stati
+\[
+\Big\{|m,\Vec{p},0,0;~A\rangle\text{ con } A =1,...,N\Big\}
+\]
+che sono degeneri sia in massa che in impulso.
+
+Dobbiamo quindi includere l'intero multipletto per far si che questa rappresentazione sia irriducibile sotto l'azione di $\textrm{SO}(N)$.
+
+\section{Teorie di Gauge non-Abeliane}
+
+Abbiamo approcciato la teoria di gauge $\textrm{U}(1)$ della QED (una teoria abeliana) da una prospettiva più fisica, quella di un campo massless di spin 1. Questo ci ha portato a due considerazioni:
+\begin{itemize}
+    \item Una teoria quantistica di campo in grado di descrivere in maniera consistente (dal punto di vista dell'invarianza di Lorentz) un campo libero di spin 1, i.e. $A_\mu(x)$, deve essere una teoria di gauge. Siamo in altre parole forzati ad imporre l'invarianza di gauge.
+    
+    \item A livello dell'interazione, per raggiungere la consistenza della teoria è necessario che il campo $A_\mu(x)$ sia accoppiato ad una corrente conservata, e ciò è equivalente all'imposizione di un'invarianza di gauge nella Lagrangiana. 
+    
+    \textbf{\underline{Nota:}} Questo processo è noto come \textit{gauging di una simmetria globale nel settore di massa}, in cui si richiede che i parametri della simmetria siano funzioni della posizione nello spazio-tempo.
+\end{itemize}
+
+\subsection[Approccio geometrico al caso abeliano]{Un approccio più geometrico nel caso abeliano}
+Vorremmo adesso generalizzare la nostra trattazione, e per farlo introduciamo un approccio più geometrico, sempre nel caso di teorie di gauge abeliane, ma che ci consentirà di passare più facilmente al caso non-abeliano.
+\begin{enumerate}
+    \item[\textbf{1.}] \marginnote{nel caso della QED, $Q$ rappresenta precisamente la carica elettrica. In sostanza, dal punto di vista della teoria dei gruppi, stiamo aggiungendo una simmetria globale $\textrm{U}(1)$ alla Lagrangiana, e questo equivale all'aggiunta dell'autovalore di $Q$ nella descrizione del sistema, al momento della diagonalizzazione congiunta della simmetria spazio-temporale e della nuova simmetria globale.} Partiamo da una teoria di massa con una simmetria globale che scegliamo essere $\textrm{U}(1)$. Per esempio consideriamo la Lagrangiana di Dirac che descrive un campo massivo di spin $\nicefrac{1}{2}$:
+    
+    \begin{align*}
+        &\mathscr{L} = \bar\psi(x)\big(i\gamma^\mu\partial_\mu - m\big)\psi(x)\\
+        &\psi(x) \rightarrow \psi'(x) = e^{-i\alpha Q}\psi(x)~,\quad \alpha\in\mathbb R
+    \end{align*}
+    dove $Q$ è il generatore della simmetria $\textrm{U}(1)$. 
+
+    \item[\textbf{2.}] Promuoviamo la simmetria a simmetria locale, che richiede che il parametro da cui dipende sia funzione dello spazio-tempo, i.e. $\alpha = \alpha(x)$:
+    \[
+    \psi(x) \rightarrow \psi'(x) = e^{-i\alpha(x) Q}\psi(x) \equiv U(x)\psi(x)
+    \]
+    Nel seguito adotteremo la notazione con il più generico operatore $U(x)$, anche se nel caso della simmetria $\textrm{U}(1)$ si tratta di una semplice fase.
+    
+    \item[\textbf{3.}] Ci accorgiamo immediatamente che una simmetria locale non è più compatibile con la precedente Lagrangiana, per colpa della presenza della derivata.
+    
+    Infatti, essendo la derivata ordinaria definita da
+    \[
+    n^\mu\partial_\mu\psi(x) = \lim_{\epsilon\rightarrow0} \frac{\psi(x^\mu + n^\mu\epsilon) - \psi(x)}{\epsilon}
+    \]
+    appare chiaro il problema che questa presenta: abbiamo una differenza di campi calcolati in punti diversi dello spazio tempo, che quindi trasformeranno in maniera differente, ovvero $\psi(x) \rightarrow U(x)\psi(x)$, mentre $\psi(x + n\epsilon) \rightarrow U(x + n\epsilon)\psi(x + n\epsilon)$.
+
+    \textbf{Abbiamo bisogno di una migliore nozione di derivata.}
+    
+    \item[\textbf{4.}] Introduciamo un oggetto chiamato \href{https://en.wikipedia.org/wiki/Wilson_loop}{Linea di Wilson}, $\textrm{W}(x,y)$, tale che sotto la trasformazione $\psi(x) \rightarrow U(x)\psi(x)$ si abbia:
+    \begin{equation}
+        \begin{aligned}
+            &\textrm{W}(y,x) \rightarrow U(y)\textrm{W}(y,x)U(x)^{-1} \\
+            &\Rightarrow\textrm{W}(y,x)\psi(x) \rightarrow U(y)\textrm{W}(y,x)\psi(x)
+        \end{aligned}
+        \label{eq:wilson_line_transform_prop}
+    \end{equation}
+    Di conseguenza, definiamo la \textbf{derivata covariante} $D_\mu$ t.c.:
+    \begin{equation}
+        \boxed{n^\mu D_\mu\psi(x) = \lim_{\epsilon\rightarrow0} \frac{\psi(x+n\epsilon) - \textrm{W}(x+n\epsilon,x)\psi(x)}{\epsilon}}
+        \label{eq:covder_action}
+    \end{equation}
+    che trasforma in maniera corretta, infatti:
+    \begin{align*}
+        n^\mu D_\mu\psi(x) \rightarrow &\lim_{\epsilon\rightarrow0} \frac{U(x+n\epsilon)\psi(x+n\epsilon) - U(x+n\epsilon)\textrm{W}(x+n\epsilon,x)\psi(x)}{\epsilon} =\\
+        &=U(x)\lim_{\epsilon\rightarrow0} \frac{\psi(x+n\epsilon) - \textrm{W}(x+n\epsilon,x)\psi(x)}{\epsilon} =\\
+        &=U(x)n^\mu D_\mu\psi(x)
+    \end{align*}
+    vale a dire
+    \begin{equation}
+        \boxed{D_\mu\psi(x) \rightarrow U(x)D_\mu\psi(x)}
+        \label{eq:covder_transf}
+    \end{equation}
+    
+    \item[\textbf{5.}] Ora formalizziamo la linea di Wilson, partendo da $\textrm{W}(x+n\epsilon,x)$ ed imponendo la condizione $\textrm{W}(x,x)=1$. In altre parole vogliamo che la linea di Wilson agisca in maniera non banale solo quando lo fa tra due punti diversi dello spazio-tempo.
+
+    Utilizzando l'espansione di Taylor, possiamo scrivere, per un qualsiasi campo vettoriale $A_\mu(x)$:
+    \begin{equation}
+        \textrm{W}(x+n\epsilon,x) = \underbrace{\textrm{W}(x,x)}_{=1} - iQA_\mu(x)n^\mu\epsilon + \mathscr{O}(\epsilon^2)
+        \label{eq:wilson_line}
+    \end{equation}
+    Di conseguenza:
+    \begin{align*}
+        n^\mu D_\mu\psi(x) &= \lim_{\epsilon\rightarrow0} \frac{\psi(x+n\epsilon) - [1 - iQA_\mu(x)n^\mu\epsilon]\psi(x)}{\epsilon} =\\
+        &= \lim_{\epsilon\rightarrow0} \frac{\psi(x+n\epsilon) - \psi(x)}{\epsilon} + iQA_\mu(x)n^\mu\psi(x) =\\
+        &=n^\mu \partial_\mu\psi(x) + n^\mu iQA_\mu(x)\psi(x)
+    \end{align*}
+    Ergo, abbiamo trovato la forma esplicita della derivata covariante:
+    \begin{equation}
+        \boxed{D_\mu= \partial_\mu + iQA_\mu(x)}
+        \label{eq:covder_explicit_form}
+    \end{equation}
+    Inoltre, dalla proprietà di trasformazione della linea di Wilson (\ref{eq:wilson_line_transform_prop}) ad ordine $\mathscr{O}(\epsilon)$:
+    \begin{align*}
+        1 - iQA_\mu(x)n^\mu\epsilon \rightarrow &U(x+n\epsilon)\big[1 - iQA_\mu(x)n^\mu\epsilon\big]U(x)^{-1} = \\
+        &=\big[U(x) +\epsilon n^\mu\partial_\mu U(x)\big]\big[1 - iQA_\mu(x)n^\mu\epsilon\big]U(x)^{-1} =\\
+        &=1 + n^\mu\epsilon(\partial_\mu U) U^{-1} - iQn^\mu\epsilon UA_\mu U^{-1} + \mathscr{O}(\epsilon^2)
+    \end{align*}
+    Che in definitiva ci fornisce la legge di trasformazione del campo $A_\mu(x)$:
+    \begin{equation}
+        \boxed{A_\mu(x) \rightarrow U(x)A_\mu(x) U(x)^{-1} + \frac{i}{Q}\big(\partial_\mu U(x)\big) U(x)^{-1}}
+        \label{eq:generic_Amu_transform}
+    \end{equation}
+    Ovviamente, nel caso della simmetria sotto $\textrm{U}(1)$, essendo $U(x)$ una semplice fase, la (\ref{eq:generic_Amu_transform}) riproduce perfettamente la struttura di una trasformazione di gauge.
+    
+    Da questo punto di vista geometrico, il campo $A_\mu(x)$ è chiamato “\textit{connessione}”.
+    
+    \item[\textbf{6.}] Esplicitiamo ora la regola di trasformazione del commutatore $\big[D_\mu,D_\nu\big]$ pensando alla sua azione su campo $\psi(x)$ e sfruttando la proprietà (\ref{eq:covder_transf}). È piuttosto evidente il fatto che:
+    \[
+    D_\mu\big(D_\nu\psi(x)\big) \rightarrow U(x)D_\mu\big(D_\nu\psi(x)\big)
+    \]
+    il che significa che:
+    \begin{align*}
+        \big[D_\mu,D_\nu\big]\psi(x) \rightarrow &U(x)\big[D_\mu,D_\nu\big]\psi(x) = \\
+        &= U(x)\big[D_\mu,D_\nu\big]U(x)^{-1}U(x)\psi(x)
+    \end{align*}
+    e possiamo quindi isolare la proprietà di trasformazione del commutatore:
+    \begin{equation}
+        \boxed{\big[D_\mu,D_\nu\big] \rightarrow U(x)\big[D_\mu,D_\nu\big]U(x)^{-1}}
+        \label{eq:covder_commutator_transf}
+    \end{equation}
+    Ma c'è di più: siccome conosciamo la forma esplicita della derivata covariante (\ref{eq:covder_explicit_form}), possiamo calcolare esplicitamente il commutatore. Per farlo applichiamolo nuovamente al campo $\psi$:
+
+    \begin{align*}
+        \big[D_\mu,D_\nu\big]\psi(x) &= \big[\partial_\mu + iQA_\mu(x), ~\partial_\nu + iQA_\nu(x)\big]\psi(x) \\
+        &=\Big\{ iQ\big(\partial_\mu A_\nu\big) -iQ\big(\partial_\nu A_\mu\big) + (iQ)^2\big[A_\mu, A_\nu\big] \Big\}\psi(x)
+    \end{align*}
+    Dove i termini simmetrici sotto scambio $\mu\leftrightarrow\nu$ si elidono a vicenda.
+
+    Questa espressione ci suggerisce la seguente definizione per il tensore di sforzo del campo:
+    \begin{equation}
+        \boxed{F_{\mu\nu}\equiv \frac{1}{iQ}\big[D_\mu,D_\nu\big] = \partial_\mu A_\nu - \partial_\nu A_\mu + iQ\big[A_\mu, A_\nu\big]}
+        \label{eq:field_strenght_tensor}
+    \end{equation}
+    che rispetta la legge di trasformazione
+    \begin{equation}
+        \boxed{F_{\mu\nu}\rightarrow U(x)F_{\mu\nu}U(x)^{-1}}
+        \label{eq:field_strenght_tensor_transform}
+    \end{equation}
+    Nel caso di $\textrm{U}(1)$, $F_{\mu\nu}$ è invariante!
+    
+    \item[\textbf{7.}] In definitiva arriviamo alla Lagrangiana 
+    \begin{equation}
+        \boxed{\mathscr{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + \bar\psi(i\gamma^\mu D_\mu - m)\psi}
+        \label{eq:final_lagrangian_abelian}
+    \end{equation}
+\end{enumerate}
+\subsection{Generalizzazione al caso non-abeliano}
+Consideriamo un gruppo di Lie $G$ di dimensione $\dim(G)$ e scriviamo un elemento di tale gruppo nel modo seguente:
+\begin{equation}
+    \boxed{h = \exp\bigg(-i\mathsf{g}\sum_{A=1}^{\dim G}\alpha_AT^A\bigg)~,\quad h\in G}
+    \label{eq:generic_group_element}
+\end{equation}
+
+dove $\mathsf{g}\in\mathbb R$ è detto coupling di gauge, gli $\alpha_A\in\mathbb R$ sono parametri reali ed i $T^A$ formano una base dell'algebra di Lie $\mathfrak{g}$ del gruppo $G$ (i.e. sono i generatori di $\mathfrak{g}$).
+
+I generatori chiudono la seguente algebra di Lie:
+\begin{equation}
+    \big[T^A,T^B\big] = i f^{ABC}T^C
+    \label{eq:generators_algebra}
+\end{equation}
+dove le $f^{abc}$ sono note come costanti di struttura e, nel caso di un gruppo di Lie compatto, queste sono totalmente anti-simmetriche.
+
+Il commutatore (\ref{eq:generators_algebra}) rispetta l'identità di Jacobi, i.e. ciclando verso destra:
+\begin{equation}
+    \big[T^A, \big[T^B,T^C\big]\big] + \big[T^C, \big[T^A,T^B\big]\big] + \big[T^B, \big[T^C,T^A\big]\big] = 0
+    \label{eq:commutator_jacobi}
+\end{equation}
+che di conseguenza produce un vincolo sulle costanti di struttura:
+\begin{align*}
+    &\big[T^A, i f^{BCD}T^D\big] + \big[T^C, i f^{ABD}T^D\big] + \big[T^B, i f^{CAD}T^D\big] = \\
+    &= - f^{ADE}f^{BCD}T^E - f^{CDE}f^{ABD}T^E - f^{BDE}f^{CAD}T^E = 0
+\end{align*}
+ergo:
+\begin{equation}
+    \boxed{f^{ADE}f^{BCD} + f^{CDE}f^{ABD} + f^{BDE}f^{CAD} = 0}
+    \label{eq:struct_const_constraint_jacobi}
+\end{equation}
+
+\textbf{Ci concentriamo ora sul caso $\mathbf{G=\textrm{SU}(N)}$}, il gruppo Speciale Unitario i.e.:
+\[\textrm{SU}(N) = \Big\{ U\in\textrm{GL}(N,\mathbb C) : U^\dagger U=\mathbb 1, \det U = +1 \Big\}\]
+Si dimostra che $\dim[\textrm{SU}(N)] = N^2-1$.
+\begin{exercise}
+    Dimostrare che $\dim[\textrm{SU}(N)] = N^2-1$. \textbf{[Conti svolti Lezione 31p1 pag. 8÷9]}
+\end{exercise}
+Lavorando al livello dell'algebra di $\textrm{SU}(N)$, vale a dire $\mathfrak{su}(N)$, possiamo scrivere schematicamente la mappa esponenziale dei generatori $U=\exp(iT)\in\textrm{SU}(N)$ e da qui seguono le seguenti considerazioni:
+\begin{enumerate}
+    \item [i)] dalla condizione $U^\dagger=U^{-1}$, sappiamo che i generatori devono essere hermitiani;
+    \item [ii)] dalla proprietà $\det e^{iT}=e^{\Tr iT}$ della mappa esponenziale e dalla condizione che $\det e^{iT}=+1$, in quanto $e^{iT}$ è elemento di $\textrm{SU}(N)$, si deduce che i generatori devono essere a traccia nulla (“\textit{traceless}”).
+\end{enumerate}
+riassumendo:
+\[
+\boxed{
+\big(T^A\big)^\dagger=T^A~;\quad \Tr \big(T^A\big) = 0
+}
+\]
+\begin{nota}
+    Abbiamo un minimo di libertà in merito alla normalizzazione dei generatori, che si identifica con la possibilità di modificare le costanti di struttura.
+
+    Nel seguito adotteremo la convenzione fisica, secondo cui, per $\textrm{SU}(N)$:
+    \[
+    \sum_{CD=1}^{\dim\textrm{SU}(N)}f^{ACD}f^{BCD} = N\delta^{AB}
+    \]
+\end{nota}
+\begin{example}
+    Per $N=2$, abbiamo $\dim[\textrm{SU}(2)] = 3$, ergo
+    \[
+    \sum_{CD=1}^{3}f^{ACD}f^{BCD} = 2\delta^{AB}
+    \]
+    che ci permette di identificare le costanti di struttura con il simbolo di Levi-Civita in 3 dimensioni. Quindi, nel caso di $\textrm{SU}(2)$: 
+    \[
+    f^{ABC} = \varepsilon^{ABC}
+    \]
+\end{example}
+
+\subsection{Costruzione delle teorie di gauge $\textrm{SU}(N)$}
+Vogliamo costruire una teoria che sia invariante sotto trasformazioni globali di $\textrm{SU}(N)$ e l'opzione più semplice da prendere in considerazione è quella di una “collezione” di $N$ campi di Dirac e formare da questi un vettore $N$-dimensionale, i.e.:
+\begin{align*}
+    \Psi(x) \equiv 
+    \begin{pmatrix}
+        \begin{array}{c}
+             \psi_1(x) \\
+              \vdots\\
+              \psi_N(x)
+        \end{array}    
+    \end{pmatrix}~,\quad
+    \bar\Psi(x) \equiv 
+    \begin{pmatrix}
+        \begin{array}{ccc}
+             \bar\psi_1(x), &    \cdots, &    \bar\psi_N(x)
+        \end{array}    
+    \end{pmatrix}
+\end{align*}
+con $\bar\psi_A(x)=\psi_A^\dagger(x)\gamma^0$.
+
+\marginnote{Ricordiamo che $\textrm{SU}(N)$, così come anche $\textrm{SO}(N)$, sono gruppi di Lie definiti come insiemi di operatori lineari che agiscono su uno spazio vettoriale. La loro rappresentazione fondamentale (talvolta detta “defining”) in questi casi è semplicemente la rappresentazione $D(U)$, $U\in\textrm{SU}(N)$, in cui gli elementi del gruppo sono precisamente le matrici $U$ stesse.}
+Assumiamo che $\Psi(x)$ trasformi sotto $\textrm{SU}(N)$ secondo la rappresentazione fondamentale di quest'ultimo; di conseguenza avremo:
+\begin{equation}
+    \begin{aligned}
+        &\Psi(x)\rightarrow\Psi'(x)=U\Psi(x)\\
+        &\bar\Psi(x)\rightarrow\bar\Psi'(x)=\bar\Psi(x)U^\dagger
+    \end{aligned}
+    ~,\quad U\in\textrm{SU}(N)
+    \label{eq:Psi_transform_SUN}
+\end{equation}
+Eventualmente in componenti: $\Psi'_A=U_{AB}\Psi_B$.
+
+Questa scelta è particolarmente conveniente, in quanto la densità di Lagrangiana è invariante sotto tale simmetria globale e si può scrivere semplicemente come segue:
+\begin{equation}
+    \mathscr{L} = \bar\Psi(x)\big(i\slashed\partial-m\big)\Psi(x) = \sum_{A=1}^N\bar\Psi_A(x)\big(i\slashed\partial-m\big)\Psi_A(x)
+    \label{eq:SUN_inv_lagrangian}
+\end{equation}
+E dal momento che la trasformazione è globale, l'operatore $U$ può “passare attraverso” la derivata, i.e.:
+\[
+\bar\Psi\big(i\slashed\partial-m\big)\Psi \rightarrow\bar\Psi U^\dagger \big(i\slashed\partial-m\big)U\Psi = \bar\Psi\big(i\slashed\partial-m\big)\Psi
+\]
+\begin{exercise}
+    Trovare l'espressione degli elementi di $\textrm{SU}(2)$ nella rappresentazione fondamentale.
+
+    \textbf{Soluzione. } Dobbiamo prendere la mappa esponenziale di $\mathfrak{su}(2)$. Ci servono 3 generatori, matrici nella rappresentazione fondamentale, che siano hermitiani e traceless e che verifichino l'algebra (\ref{eq:generators_algebra}) con le costanti di struttura equivalenti al simbolo di Levi-Civita. 
+
+    Siccome si dà il caso che le matrici di Pauli $\sigma^{k=1,2,3}$ rispettino l'algebra
+    \[
+    \big[\sigma^A, \sigma^B\big] = 2i\epsilon^{ABC}\sigma^C
+    \]
+    non ci resta che prendere come generatori $\boxed{T^A= \sigma^A/2}$, questa è la rappresentazione fondamentale che cercavamo per $\mathfrak{su}(N)$.
+
+    Inoltre dalla relazione sulla traccia $\Tr\sigma^A\sigma^B=2\delta^{AB}$ ci accorgiamo del fatto che\footnote{Anche se qui siamo nel caso di $\textrm{SU}(2)$, la relazione (\ref{eq:definingrepr_2generators_trace}) \href{https://scipost.org/SciPostPhysLectNotes.21/pdf}{vale in generale} per i generatori di $\textrm{SU}(N)$ nella rappresentazione defining.}: \marginnote{\textbf{Attenzione:} la (\ref{eq:definingrepr_2generators_trace}) è una conseguenza della compattezza del gruppo, alla fine del capitolo è possibile trovare un commento sui casi in cui le teorie di gauge siano basate su gruppi non compatti.}
+    \begin{equation}
+        \Tr\big[T^AT^B\big] = \frac{1}{2}\delta^{AB}
+        \label{eq:definingrepr_2generators_trace}
+    \end{equation}
+    Segue quindi dalla (\ref{eq:generic_group_element}) il risultato cercato, gli elementi di $\textrm{SU}(2)$ nella rappresentazione fondamentale:
+    \begin{equation}
+        U=\exp\bigg(-i\mathsf g \sum_{A=1}^3\alpha_A\frac{\sigma^A}{2}\bigg)
+        \label{eq:SU2_group_element}
+    \end{equation}
+    \textbf{Nota:} nel caso di $\textrm{SU}(3)$, la cui dimensione è pari ad 8, i generatori dell'algebra sono le 8 matrici di Gell-Mann.
+\end{exercise}
+
+A questo punto promuoviamo la simmetria a simmetria locale, i.e.:
+\[
+\boxed{\begin{aligned}
+    &U(x) = \exp\bigg(-i\mathsf{g}\sum_{A=1}^{\dim G}\alpha_A(x)T^A\bigg)\\
+    &\Psi(x)\rightarrow U(x)\Psi(x)
+\end{aligned}}
+\]
+con i generatori $T^A$ presi nella rappresentazione fondamentale.
+
+Utilizziamo nuovamente il trucco della linea di Wilson, scrivendo formalmente, sulla base della (\ref{eq:wilson_line_transform_prop}):
+\[
+\textrm{W}(y,x)\Psi(x) \rightarrow U(y)\textrm{W}(y,x)\Psi(x)
+\]
+o, equivalentemente:
+\[
+\textrm{W}(y,x) \rightarrow U(y)\textrm{W}(y,x)U(x)^{-1}
+\]
+Quindi la linea di Wilson è una matrice $N\times N$ che trasforma a destra e a sinistra per mezzo dell'operatore $U(x)$.
+
+Espandiamola nuovamente tramite Taylor, prendendo $y=x+n\epsilon$:
+\[
+\textrm{W}(x+n\epsilon,x) = \mathbb 1 - i\mathsf{g}\epsilon n^\mu A_\mu(x)+\mathscr{O}(\epsilon^2)
+\]
+Abbiamo ottenuto un'espressione analoga a quella vista in precedenza, ma con la differenza che ora $A_\mu(x)$ è una matrice $N\times N$.
+
+È chiaro che, sulla base degli stessi ragionamenti già visti, possiamo definire la derivata covariante come:
+\[
+D_\mu\Psi(x) = \partial_\mu\Psi(x) + i\mathsf{g}A_\mu(x)\Psi(x)
+\]
+e dalla proprietà di trasformazione della linea di Wilson troviamo nuovamente la trasformazione di gauge (\ref{eq:generic_Amu_transform}), questa volta nel caso di $\textrm{SU}(N)$:
+\begin{equation}
+    A_\mu(x) \rightarrow U(x)A_\mu(x) U(x)^{-1} + \frac{i}{\mathsf{g}}\big(\partial_\mu U(x)\big) U(x)^{-1}
+    \label{eq:SUN_Amu_gauge_transform}
+\end{equation}
+che è ancora scritta in forma matriciale. 
+
+\begin{nota}
+    A priori, $A_\mu(x)$ è una matrice $N\times N$ complessa, tuttavia possiamo notare due cose:
+    \begin{itemize}
+        \item[i.] \(A'_\mu(x) = U(x)A_\mu(x) U(x)^{-1} + \frac{i}{\mathsf{g}}\big(\partial_\mu U(x)\big) U(x)^{-1}\) ed il secondo termine è sempre hermitiano.
+        \begin{proof}
+        \marginnote{Dal fatto che $UU^{-1}=\mathbb 1$ e derivando, arriviamo alla relazione:\[
+        \big(\star\big) \quad \partial_\mu U^{-1} = -U^{-1}\big(\partial_\mu U\big)U^{-1}
+        \]}
+        \begin{align*}
+            \bigg[\frac{i}{\mathsf{g}}\big(\partial_\mu U(x)\big) U(x)^{-1}\bigg]^\dagger &= \frac{-i}{\mathsf{g}} \big(U(x)^{-1}\big)^\dagger\big(\partial_\mu U(x)\big)^\dagger =\\
+            &=\frac{-i}{\mathsf{g}} U(x)(\partial_\mu U(x)^{-1}\big) \overset{\star}{=}\\
+            &\overset{\star}{=} \frac{i}{\mathsf{g}}\big(\partial_\mu U(x)\big) U(x)^{-1}
+        \end{align*}
+        \end{proof}
+        Di conseguenza: 
+        \[
+        \big(A'_\mu\big)^\dagger = U\big(A_\mu\big)^\dagger U^{-1} + \frac{i}{\mathsf{g}}\big(\partial_\mu U\big) U^{-1}
+        \]
+        Questo significa che, \textbf{se} ci restringiamo ad una matrice hermitiana per descrivere $A_\mu$, allora la proprietà di trasformazione che la definisce è rispettata.
+        
+        \item[ii.] Se ora consideriamo la traccia di $A'_\mu$ e sfruttiamo la ciclicità sul primo termine, troviamo:
+        \[
+        \Tr\big(A'_\mu\big) = \Tr\big(A_\mu\big) + \frac{i}{\mathsf{g}}\Tr\big[\big(\partial_\mu U\big) U^{-1}\big]
+        \]
+        \marginnote{Una dimostrazione della famosa identità può essere fornita passando per una regola magica dell'esponenziale di matrice, \(\det(\exp U) = \exp(\Tr U)\), da cui:
+        \[
+        \det(U) = \det (e^{\log U}) = e^{\Tr(\log U)}
+        \]
+        Ora prendiamo il $\log$ del primo e dell'ultimo termine e abbiamo finito.}
+        Ora sfruttiamo il fatto la derivata può essere tirata fuori dal logaritmo e ci avvaliamo di una \href{https://math.stackexchange.com/questions/154776/proof-of-2-matrix-identities-traces-logs-determinants}{famosa identità} secondo cui 
+        \[
+        \Tr\big(\log U\big) = \log\big(\det U\big)
+        \]
+        tuttavia se $U\in\textrm{SU}(N)$ il suo determinante è unitario ed il logaritmo in 1 è nullo. Questo significa che \textbf{se} $A_\mu$ fosse una matrice traceless, anche la traccia di $A'_\mu$ sarebbe nulla.
+    \end{itemize}
+    \label{note:Amu_traceless_and_hermitian}
+\end{nota}
+Sulla base della nota \ref{note:Amu_traceless_and_hermitian}, possiamo quindi dire che la connessione di $\textrm{SU}(N)$ è una matrice $N\times N$, hermitiana e con traccia nulla, quindi possiamo usare i generatori della rappresentazione fondamentale di $\mathfrak{su}(N)$ per scrivere:
+\begin{equation}
+    \boxed{A_\mu(x) = \sum_{a=1}^{N^2-1} A^a_\mu(x)T^a}
+    \label{eq:SUN_connection_explicit}
+\end{equation}
+e di conseguenza la derivata covariante assume la forma:
+\begin{equation}
+    \boxed{D_\mu\Psi(x) = \partial_\mu\Psi(x) + i\mathsf{g}A^a_\mu T^a\Psi(x)}
+    \label{eq:SUN_covder_explicit}
+\end{equation}
+
+\begin{exercise}
+    È istruttivo riscrivere la trasformazione di gauge (\ref{eq:SUN_Amu_gauge_transform}) in termini del campo $A_\mu^a(x)$. Per farlo consideriamo trasformazioni locali e infinitesime:
+    \[
+    U = 1-i\mathsf{g}\alpha_aT^a~,\quad U^\dagger = 1+ i\mathsf{g}\alpha_aT^a
+    \]
+    che di conseguenza comportano la seguente riscrittura del RHS della (\ref{eq:SUN_Amu_gauge_transform}) ad ordine $\mathscr{O}(\alpha)$:
+    \begin{align*}
+        &(1-i\mathsf{g}\alpha_aT^a)A_\mu^bT^b(1+ i\mathsf{g}\alpha_cT^c) + \frac{i}{\mathsf{g}}\overbrace{[-i\mathsf{g}(\partial_\mu\alpha_a)T^a]}^{\partial_\mu U}(1+ i\mathsf{g}\alpha_aT^a) =\\
+        &=A_\mu^aT^a - i\mathsf{g}\alpha_b T^b A_\mu^cT^c + A_\mu^cT^ci\mathsf{g}\alpha_bT^b +(\partial_\mu\alpha_a)T^a =\\
+        &=A_\mu^aT^a + (\partial_\mu\alpha_a)T^a - i\mathsf{g}\alpha_b A_\mu^c\big[T^b,T^c\big] = \\
+        &=A_\mu^aT^a + (\partial_\mu\alpha_a)T^a -i\mathsf{g}\alpha_b A_\mu^c (if^{bca}T^a)
+    \end{align*}
+    per cui otteniamo in definitiva la trasformazione di gauge infinitesima per $A_\mu^a(x)$ nel caso di $\textrm{SU}(N)$:
+    \begin{equation}
+        \boxed{A_\mu^a(x) \rightarrow A_\mu^a(x) + \partial_\mu\alpha_a(x) + \mathsf{g}f^{abc}\alpha_b(x) A_\mu^c(x)}
+        \label{eq:SUN_Amu_infinit_gauge_transform}
+    \end{equation}
+    dove figura un termine con la funzione di struttura che non era presente nel caso di $U(1)$.
+\end{exercise}
+Consideriamo ora il tensore di sforzo, che dalla (\ref{eq:field_strenght_tensor}) possiamo generalizzare in maniera naturale ad $\textrm{SU}(N)$:
+\begin{equation}
+    \begin{aligned}
+        &F_{\mu\nu}\equiv  \partial_\mu A_\nu - \partial_\nu A_\mu + i\mathsf{g}\big[A_\mu, A_\nu\big]\\
+        &F_{\mu\nu}\rightarrow U(x)F_{\mu\nu}U(x)^\dagger
+    \end{aligned}
+    \label{eq:SUN_field_strenght_tensor+transform}
+\end{equation}
+Anche in questo caso abbiamo a che fare con una matrice $N\times N$ ed è cruciale elaborare in maniera esplicita la sua struttura.
+
+Per farlo sfruttiamo la riscrittura $A_\mu = A_\mu^aT^a$, così da avere:
+\begin{align*}
+    F_{\mu\nu}&= (\partial_\mu A_\nu^a)T^a - (\partial_\nu A_\mu^a)T^a + i\mathsf{g}A_\mu^b A_\nu^c\big[T^b, T^c\big]\\
+    &=(\partial_\mu A_\nu^a)T^a - (\partial_\nu A_\mu^a)T^a - \mathsf{g}A_\mu^b A_\nu^c f^{bca}T^a\\
+    &=\big(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a - \mathsf{g}f^{abc}A_\mu^b A_\nu^c\big) T^a
+\end{align*}
+possiamo quindi riscrivere il tensore di sforzo in funzione dei generatori di $\mathfrak{su}(N)$, in cui appare esplicita la sua natura non abeliana:
+\begin{equation}
+    \boxed{\begin{aligned}
+        &F_{\mu\nu} \equiv F_{\mu\nu}^aT^a\\
+        &F_{\mu\nu}^a \equiv \partial_\mu A_\nu^a - \partial_\nu A_\mu^a - \mathsf{g}f^{abc}A_\mu^b A_\nu^c
+    \end{aligned}}
+    \label{eq:SUN_field_strenght_tensor_generators}
+\end{equation}
+Per via della legge di trasformazione di $F_{\mu\nu}$, il prodotto $F_{\mu\nu}F^{\mu\nu}$ \textbf{non} è una quantità invariante; tuttavia, la traccia di questo prodotto è invariante! Infatti, grazie alla proprietà di ciclicità della traccia:
+\[
+\Tr[F_{\mu\nu}F^{\mu\nu}] \rightarrow \Tr[UF_{\mu\nu}U^\dagger UF^{\mu\nu}U^\dagger] = \Tr[F_{\mu\nu}F^{\mu\nu}]
+\]
+Se a questo punto sfruttiamo la riscrittura in termini dei generatori (\ref{eq:SUN_field_strenght_tensor_generators}) e svolgiamo qualche conto ci accorgiamo di un'altra cosa interessante:
+\begin{align*}
+    \Tr(F_{\mu\nu}F^{\mu\nu}) &= \Tr(F_{\mu\nu}^aT^aF^{b,\mu\nu}T^b)=F_{\mu\nu}^aF^{b,\mu\nu}\Tr(T^aT^b)\overset{(\ref{eq:definingrepr_2generators_trace})}{=}F_{\mu\nu}^aF^{b,\mu\nu}\frac{1}{2}\delta^{ab}\\
+    &=\frac{1}{2}F_{\mu\nu}^aF^{a,\mu\nu}
+\end{align*}
+Sostituiamo a questo punto l'espressione secondo cui è definito $F_{\mu\nu}^a$ e svolgendo i prodotti otteniamo:
+\[
+\Tr(F_{\mu\nu}F^{\mu\nu}) = \frac{1}{2}\big(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a\big)\big(\partial^\mu A^{a,\nu} - \partial^\nu A^{a,\mu}\big) + \substack{\text{interazioni tra i}\\\text{campi di gauge}}
+\]
+La cosa interessante è che il primo termine è analogo, a meno di fattori moltiplicativi, al termine cinetico per i fotoni nella Lagrangiana di QED, ma scritto per ogni campo di gauge $A_\mu^a$. Possiamo quindi normalizzare il tutto in modo tale da ottenere anche il fattore $-1/4$ a moltiplicare, i.e.:
+\[
+\boxed{
+\begin{aligned}
+    -\frac{1}{2}\Tr(F_{\mu\nu}F^{\mu\nu}) &= -\frac{1}{4}\big(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a\big)\big(\partial^\mu A^{a,\nu} - \partial^\nu A^{a,\mu}\big) + \text{interazioni} \\
+    &=-\frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu}
+\end{aligned}}
+\]
+Arriviamo quindi alla cosiddetta \textbf{Lagrangiana di Yang-Mills}, che descrive la teoria di gauge $\textrm{SU}(N)$ nella rappresentazione fondamentale:
+\begin{equation}
+    \boxed{\begin{aligned}
+        \mathscr{L}_{YM} &= -\frac{1}{2}\Tr(F_{\mu\nu}F^{\mu\nu}) + \bar\Psi(i\gamma^\mu D_\mu - m)\Psi \\
+        &=-\frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu} + \bar\Psi_a(i\gamma^\mu \partial_\mu - m)\Psi_a - \mathsf{g}\bar\Psi_A\gamma^\mu A_\mu^a (T^a)_{AB}\Psi_B
+    \end{aligned}}
+    \label{eq:SUN_yangmills_lagrangian}
+\end{equation}
+\begin{nota}
+    Alcune osservazioni:
+    \begin{enumerate}
+        \item[\textbf{i)}] La proprietà di trasformazione del tensore di sforzo, $F_{\mu\nu}\rightarrow U(x)F_{\mu\nu}U(x)^{-1}$, implica che i campi del tensore di sforzo $F_{\mu\nu}^a(x)$ formino un multipletto aggiunto del gruppo $G$ e che trasformino secondo:
+        \[
+        F_{\mu\nu}^a(x)\rightarrow {F'}_{\mu\nu}^{a}(x) = \big(U_\text{adj}(x)\big)^{ab}F_{\mu\nu}^b(x)
+        \]
+        Infatti ogni gruppo di Lie semplice possiede una rappresentazione aggiunta, i cui generatori sono rappresentati da:
+        \[
+        \big(T_{adj}^a\big)^{bc} = (-i)f^{abc}
+        \]
+        dove le $T_\text{adj}^a$ sono matrici $N\times N$ costruite sulla base delle costanti di struttura.
+
+        Per mezzo del vincolo sulle costanti di struttura dovuto all'identità di Jacobi (\ref{eq:struct_const_constraint_jacobi}), si verifica che anche i generatori della rappresentazione aggiunta chiudono l'algebra della rappresentazione fondamentale, i.e.:
+        \[
+        \big[T_\text{adj}^a,T_\text{adj}^b\big] = i f^{abc}T_\text{adj}^c
+        \]
+        Supponendo ora di avere una quantità $X^a$ che, per definizione, trasforma secondo la rappresentazione aggiunta. Questo significa che:
+        \begin{align*}
+            X^a\rightarrow {X'}^a &= \Big[\exp(-i\mathsf{g}\alpha_cT^c_\text{adj})\Big]^{ab}X^b\\
+            &=X^a - \mathsf{g}\alpha_c f^{cab}X^b + \mathscr(\alpha^2)
+        \end{align*}
+        Se adesso consideriamo la quantità $X=X^aT^a$ dove $X^a$ trasforma sotto la rappresentazione aggiunta mentre i $T^a$ sono i generatori di una qualunque rappresentazione di $\textrm{SU}(N)$, chiaramente avremo:
+        \[
+        X^aT^a \rightarrow {X'}^aT^a = \Big[\exp(-i\mathsf{g}\alpha_cT^c_\text{adj})Big]^{ab}X^bT^a
+        \]
+        Si dimostra che $X$ trasforma secondo la seguente legge:
+        \[
+        X \rightarrow UXU^{-1}~,\quad U=\exp(-i\mathsf{g}\alpha_aT^a_\text{adj})
+        \]
+        \item[\textbf{ii)}] \textbf{Interazioni pure di gauge.}
+
+        Dal termine cinetico
+        \begin{align*}
+        &-\frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu} = \\
+        &= -\frac{1}{4}\big(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a - \mathsf{g}f^{abc}A_\mu^b A_\nu^c\big)\big(\partial^\mu A^{a,\nu} - \partial^\nu A^{a,\mu} - \mathsf{g}f^{ade}A^{d,\mu} A^{e,\nu}\big)
+        \end{align*}
+        possiamo estrarre due tipologie di interazione:
+        \begin{itemize}
+            \item \textbf{Interazioni tri-lineari} (o cubiche)\textbf{:}
+            \[
+            \mathscr{L}_{3A}= +\frac{1}{2}\big(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a\big)\mathsf{g}f^{ade}A^{d,\mu}A^{e,\nu}
+            \Rightarrow \feynmandiagram [small, horizontal=v to e, inline=(e.base)] {
+               {a[particle=\(a\)],d[particle=\(d\)]} --[photon] v[dot] --[photon] e[particle=\(e\)] };
+            \]
+            
+            \item \textbf{Interazioni quartiche:}
+            \[
+            \mathscr{L}_{4A}= -\frac{1}{4}\mathsf{g}^2f^{abc}f^{ade}A^{b,\mu}A^{c,\nu}A^{d,\mu}A^{e,\nu}
+            \Rightarrow \feynmandiagram [small, inline=(v.base),layered layout] {
+               {b[particle=\(b\)],c[particle=\(c\)]} --[photon] v[dot] --[photon] {d[particle=\(d\)], e[particle=\(e\)]} };
+            \]
+        \end{itemize}
+        \textbf{Conseguenze:} La funzione beta, ossia quella che determina in che modo procede il running del coupling $\mathsf{g}$, di una teoria di gauge $\textrm{SU}(N)$ con $N_f$ multipletti fondamentali\footnote{$N_f$ è il numero dei sapori (\textit{flavor}) e dipende da quanti campi fermionici inseriamo nella teoria; nel caso da noi trattato $N_f=1$} è esprimibile ad 1 loop nella seguente forma:
+        \[
+        \beta_\text{1-loop}(\mathsf{g}) = \frac{g^3}{16\pi^2}\bigg(-\frac{11}{3}N + \frac{2}{3}N_f\bigg)
+        \]
+        dove notiamo che il primo termine, contributo determinato dalle interazioni pure di gauge, è negativo. Questo ci sta sostanzialmente dicendo che, ad 1 loop, ci saranno auto-interazioni tra i campi di gauge in grado di smorzare il running del coupling fino al limite di \textit{libertà asintotica}, in cui questo termine è maggiore del termine di materia, vale a dire nel caso in cui \(N_f<\frac{11}{2}N\). Un esempio di teoria che rispecchia questo fatto è la CromoDinamica Quantistica (QCD), una teoria di Yang-Mills basata sul gruppo $\textrm{SU}(3)$.
+
+        È anche possibile regolare a piacere $N$ ed $N_f$ in modo da ottenere una funzione beta nulla, il che porta alle cosiddette teorie conformi.
+    \end{enumerate}
+\end{nota}
+\begin{nota}
+    \textbf{(Sulla compattezza e semplicità delle teorie di gauge.)}
+
+    Nel riscrivere la $\Tr(F_{\mu\nu}F^{\mu\nu})$, abbiamo sfruttato l'equazione (\ref{eq:definingrepr_2generators_trace}) che, come già sottolineato, è conseguenza della compattezza del gruppo su cui stiamo basando la nostra teoria di gauge. 
+
+    Nel caso in cui si scelga di basare la teoria su un gruppo non compatto, e ciò è perfettamente possibile, insorgono problemi dovuti al fatto che la $\delta^{AB}$ non ha più la diagonale con tutti segni positivi, ma ammette anche elementi di segno opposto. Questo implica che i termini cinetici estratti da $\Tr(F_{\mu\nu}F^{\mu\nu})$, saranno sia positivi che negativi, e questo alla fine dei conti porta ad una violazione dell'unitarietà.
+
+    Inoltre, noi stiamo considerando un gruppo, $\textrm{SU}(N)$, che è anche semplice (non ha sottogruppi invarianti), ma questo non è un requisito fondamentale da rispettare. Tuttavia un teorema di dice che ogni gruppo non semplice può essere decomposto in somma di gruppi semplici. Un caso eclatante di teoria di gauge basata su un gruppo non semplice è il Modello Standard, gruppo che, per l'appunto, si decompone in $\textrm{SU}(3)\otimes \textrm{SU}(2)\otimes \textrm{U}(1)$ (QCD$\otimes$EW).
+\end{nota}
+\end{document}

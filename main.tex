@@ -1,0 +1,562 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% kaobook
+% LaTeX Template
+% Version 1.2 (4/1/2020)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% For the latest template development version and to make contributions:
+% https://github.com/fmarotta/kaobook
+%
+% Authors:
+% Federico Marotta (federicomarotta@mail.com)
+% Based on the doctoral thesis of Ken Arroyo Ohori (https://3d.bk.tudelft.nl/ken/en)
+% and on the Tufte-LaTeX class.
+% Modified for LaTeX Templates by Vel (vel@latextemplates.com)
+%
+% License:
+% CC0 1.0 Universal (see included MANIFEST.md file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	fontsize=10pt, % Base font size
+	twoside=false, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
+	%open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+	%chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
+	%chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
+	numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
+	%draft=true, % If uncommented, rulers will be added in the header and footer
+	%overfullrule=true, % If uncommented, overly long lines will be marked by a black box; useful for correcting spacing problems
+]{kaobook}
+
+% Set the language
+\usepackage[italian]{babel} % Load characters and hyphenation
+\usepackage[english=british]{csquotes} % English quotes
+
+% Load packages for testing
+\usepackage{blindtext}
+%\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
+%\usepackage{showlabels} % Uncomment to output the content of \label commands to the document where they are used
+
+% Load the bibliography package
+\usepackage{styles/kaobiblio}
+\addbibresource{main.bib} % Bibliography file
+
+% Load mathematical packages for theorems and related environments. NOTE: choose only one between 'mdftheorems' and 'plaintheorems'.
+\usepackage{styles/mdftheorems}
+%\usepackage{styles/plaintheorems}
+\usepackage{physics}
+\usepackage{tikz, mathtools}
+\usepackage{boxedminipage}
+\usepackage{svg}
+\usepackage{wrapfig}
+\usetikzlibrary{arrows.meta, bending, chains}
+% \usepackage[T1]{fontenc}
+\usepackage{fontspec}
+% \usepackage[utf8]{inputenc}
+\usepackage{calrsfs}
+\usepackage{nccmath}
+\usepackage{witharrows}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\usepackage{enumitem}
+\usepackage{tikz-cd} % For the curved arrows under the equations
+\newcommand\bigLambda{\makebox(3,3){\text{\huge $\Lambda_{\mu\nu}$}}}
+\newcommand\bigR{\makebox(3,3){\text{\huge $R$}}}
+\newcommand{\rvline}{\hspace*{-\arraycolsep}\vline\hspace*{-\arraycolsep}}
+\usepackage{nicematrix} %Fa le matrici ciotte
+\usepackage{tikz}
+\usepackage{blkarray}
+\usepackage{multirow}
+\usepackage{arydshln}
+%\usepackage[fleqn,tbtags]{mathtools}
+
+\newcommand\myvec{\begin{matrix} 0 \\ 0 \\ 0 \end{matrix}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+% \tikzstyle{H} = [solid,<->,yshift=-2mm]
+% \tikzstyle{V} = [solid,<->,xshift=8mm]
+%\newcommand{\eps}{\varepsilon}
+\newcommand*{\img}[1]{%
+    \raisebox{-1.9\baselineskip}{%
+        \includegraphics[
+        height=2cm,
+        width=4cm,
+        keepaspectratio,
+        ]{#1}%
+    }%
+}
+\newcommand*\mycirc[1]{%
+   \begin{tikzpicture}
+     \node[draw,circle,inner sep=1pt] {#1};
+   \end{tikzpicture}}
+\graphicspath{{examples/documentation/images/}{images/}} % Paths in which to look for images
+\usepackage{cancel}
+\usepackage{nicefrac}
+\usepackage{graphicx,calc}
+\newlength\myheight
+\newlength\mydepth
+\settototalheight\myheight{Xygp}
+\settodepth\mydepth{Xygp}
+\setlength\fboxsep{0pt}
+\usepackage{subfiles} % Best loaded last in the preamble
+\usepackage{soul}
+\usepackage{xcolor}
+\definecolor{red}{RGB}{255, 0, 0}
+\definecolor{blue}{RGB}{0, 0, 255}
+\renewcommand{\CancelColor}{\color{red}}
+\newcommand\Ccancel[2][black]{\renewcommand\CancelColor{\color{#1}}\cancel{#2}}
+
+\usepackage{slashed}
+\usepackage[table]{xcolor}
+\usepackage{hhline}
+\usepackage{simpler-wick}
+\usepackage[compat=1.1.0]{tikz-feynman}
+\newcommand{\cev}[1]{\reflectbox{\ensuremath{\Vec{\reflectbox{\ensuremath{#1}}}}}}
+\def\plusheight{-\the\dimexpr\fontdimen22\textfont2\relax}
+\tikzfeynmanset{
+                myblob/.style={
+                shape=circle,
+                draw=black,
+                fill=white}
+                }
+                
+\usetikzlibrary{decorations.markings}
+% from https://tex.stackexchange.com/a/39282/121799
+\tikzset{W->-/.style={decoration={
+  markings,
+  mark=at position 0.5*\pgfdecoratedpathlength+2pt with
+  {\draw[-latex] (-2pt,0pt) -- (1pt,0pt);}},postaction={decorate}},
+  W-<-/.style={decoration={
+  markings,
+  mark=at position 0.5*\pgfdecoratedpathlength with
+  {\draw[latex-] (-2pt,0pt) -- (1pt,0pt);}},postaction={decorate}}
+  }
+\pgfkeys{
+  /simplerwick/.cd,
+  arrows/.store in=\LstWickArrows,
+  arrows/.initial={-,-,-,-,-,-,-,-,-}, % the # of contractions is bounded by 9
+  arrows={-,-,-,-,-,-,-,-,-},
+  positions/.store in=\LstWickPositions,
+  positions={+1,+1,+1,+1,+1,+1,+1,+1,+1},
+  positions/.initial={+1,+1,+1,+1,+1,+1,+1,+1,+1},
+}
+
+%per le frecce tra i passaggi
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+\newcommand\sidecomment[5][0.1]%
+  {\begin{tikzpicture}[remember picture,overlay]
+   \draw[-stealth]
+     ($({pic cs:#4}|-{pic cs:#2})+(#1,0)$)
+     .. controls +(0.2,-0.05) and +(0.2,0.1) ..
+     node[right,align=left]{#5}
+     ($({pic cs:#4}|-{pic cs:#3})+(#1,0.1)$);
+   \end{tikzpicture}%
+  }
+\makeatletter
+%per cambiare il colore delle contrazioni
+\pgfkeys{simplerwick,wickcolor/.store in=\swick@color,wickcolor=black}
+\def\swick@end#1#2{
+  \swick@setfalse@#1
+  \tikzexternaldisable
+  \begin{tikzpicture}[remember picture, baseline=(swick-close#1.base)]
+    \node[use as bounding box, inner sep=0pt, outer sep=0pt] (swick-close#1) {$\displaystyle #2$};
+  \end{tikzpicture}
+  \tikz[remember picture, overlay]
+    \draw[\swick@color] ($(swick-open#1.north) + (0, 3pt)$)
+          -- ($(swick-open#1.base) + (0, \swick@offset) + #1*(0, \swick@sep)$)
+          -- ($(swick-close#1.base) + (0, \swick@offset) + #1*(0, \swick@sep)$)
+          -- ($(swick-close#1.north) + (0, 3pt)$);
+  \tikzexternalenable}
+
+%per cambiare la posizione delle contrazioni
+\newcounter{Wick@up}
+\newcounter{Wick@down}
+\def\swick@end#1#2{
+  \swick@setfalse@#1
+  \tikzexternaldisable
+  \begin{tikzpicture}[remember picture, baseline=(swick-close#1.base)]
+    \node[use as bounding box, inner sep=0pt, outer sep=0pt] (swick-close#1) {$\displaystyle #2$};
+  \end{tikzpicture}
+  \tikz[remember picture, overlay]
+{
+\xdef\myW@style{\empty}
+\foreach \W@X[count=\W@C] in \LstWickArrows
+{\ifnum\W@C=#1
+\xdef\myW@style{\W@X}
+\fi}
+\ifx\myW@style\empty
+\PackageWarning{simpler-wick}{%
+The list arrows has not enough entries!%
+}{}
+\xdef\myW@style{-}
+\fi
+\xdef\myW@pos{-77}
+\foreach \W@X[count=\W@C] in \LstWickPositions
+{\ifnum\W@C=#1
+\xdef\myW@pos{\W@X}
+\fi}
+\ifnum\myW@pos=-77
+\PackageWarning{simpler-wick}{%
+The list positions has not enough entries!%
+}{}
+\xdef\myW@pos{+1}
+\fi
+\ifnum\myW@pos=-1
+    \draw[\myW@style] ($(swick-open#1.south) + (0, -3pt)$) 
+          -- ($(swick-open#1.base) + (0, -\swick@offset) + \theWick@down*(0, -\swick@sep)$) 
+          -- ($(swick-close#1.base) + (0, -\swick@offset) + \theWick@down*(0, -\swick@sep)$) 
+          -- ($(swick-close#1.south) + (0, -3pt)$);
+\stepcounter{Wick@down}
+\else
+\stepcounter{Wick@up}
+    \draw[\myW@style] ($(swick-open#1.north) + (0, 3pt)$) 
+          -- ($(swick-open#1.base) + (0, \swick@offset) + \theWick@up*(0, \swick@sep)$) 
+          -- ($(swick-close#1.base) + (0, \swick@offset) + \theWick@up*(0, \swick@sep)$) 
+          -- ($(swick-close#1.north) + (0, 3pt)$);
+\fi}
+  \tikzexternalenable}
+\def\wick@[#1]#2{\setcounter{Wick@up}{0}
+\setcounter{Wick@down}{-1}
+  \ifmmode
+    \begingroup
+    \pgfkeys{
+        simplerwick,
+        #1}
+    % Define the variables and commands
+    \swick@cond@reset
+    \swick@count=0
+    \def\swick@max{0}
+    \def\c{\swick@smart}
+    % Here is the text
+    #2
+    % Add a vbox equal to max height
+    \dimen0=\swick@sep
+    \multiply\dimen0 by \swick@max
+    \advance\dimen0 by \swick@offset
+    \vbox to \dimen0{}
+    % Check that every has been closed
+    \swick@cond@any{
+      \PackageWarning{simpler-wick}{%
+        I have reached the end of \protect\wick\space with some unclosed
+        contractions%
+      }{}
+    }{}
+    \endgroup
+  \else
+    \PackageWarning{simpler-wick}{%
+      \protect\wich\space has been called outside a math environment, this will
+      be ignore%
+    }
+  \fi
+}
+\makeatother
+
+
+
+\makeindex[columns=3, title=Indice analitico, intoc] % Make LaTeX produce the files required to compile the index
+
+\makeglossaries % Make LaTeX produce the files required to compile the glossary
+
+\makenomenclature % Make LaTeX produce the files required to compile the nomenclature
+
+% Reset sidenote counter at chapters
+%\counterwithin*{sidenote}{chapter}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	BOOK INFORMATION
+%----------------------------------------------------------------------------------------
+
+\titlehead{The \texttt{kaobook} class}
+\subject{Appunti del corso di}
+
+\title[Teoria delle Interazioni Fondamentali]{Teoria delle Interazioni Fondamentali}
+\subtitle{Anno accademico 2022/2023\\ tenuto dal Prof. Alfredo Urbano}
+
+\author[Luca Zappaterra]{Luca Zappaterra\thanks{}}
+
+\date{\today}
+
+\publishers{}
+
+%----------------------------------------------------------------------------------------
+
+\frontmatter % Denotes the start of the pre-document content, uses roman numerals
+
+%----------------------------------------------------------------------------------------
+%	OPENING PAGE
+%----------------------------------------------------------------------------------------
+
+% \makeatletter
+% \extratitle{
+%	% In the title page, the title is vspaced by 9.5\baselineskip
+%	\vspace*{9\baselineskip}
+%	\vspace*{\parskip}
+%	\begin{center}
+%		% In the title page, \huge is set after the komafont for title
+%		\usekomafont{title}\huge\@title
+%	\end{center}
+%}
+%\makeatother
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\makeatletter
+\uppertitleback{\@titlehead} % Header
+
+\lowertitleback{
+    \textbf{Versione aggiornata}\\
+	Puoi trovare la versione aggiornata di questo testo, insieme al suo codice \LaTeX  all'indirizzo:\\
+	\url{https://www.overleaf.com/1136142769jddtdbqnktht}\\
+	%E una versione italiana del testo qua:\\
+	%\url{https://www.overleaf.com/read/ntmsgsnnjjqs}\\
+	
+	\medskip
+	
+	\textbf{No copyright}\\
+	\cczero\ This book is released into the public domain using the CC0 code. To the extent possible under law, I waive all copyright and related or neighbouring rights to this work.
+	
+	Per vedere una copia del codice cc0 si può visitare il sito: \\ \url{http://creativecommons.org/publicdomain/zero/1.0/}
+	
+	\medskip
+	
+	\textbf{Colophon} \\
+	This document was typeset with the help of \href{https://sourceforge.net/projects/koma-script/}{\KOMAScript} and \href{https://www.latex-project.org/}{\LaTeX} using the \href{https://github.com/fmarotta/kaobook/}{kaobook} class.
+	
+	Il codice sorgente di questo libro è disponibile su:\\ \url{https://github.com/fmarotta/kaobook}
+	
+	(Il tuo contributo è benvenuto!)
+	
+	\medskip
+	
+
+
+	
+	    
+	\textbf{Publisher} \\
+	First wrote in February 2023.
+}
+\makeatother
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION
+%----------------------------------------------------------------------------------------
+
+\dedication{
+	I think I can safely say that nobody understands Quantum Mechanics.
+	\begin{flushright} -- R. P. Feynman
+	\end{flushright}
+	\small{Penso di poter tranquillamente affermare che nessuno capisce la Meccanica Quantistica\footnote{men che meno la teoria dei campi, aggiungo io.}.}
+	\begin{flushright} -- R. P. Feynman	
+	\end{flushright}    
+}
+
+%----------------------------------------------------------------------------------------
+%	OUTPUT TITLE PAGE AND PREVIOUS
+%----------------------------------------------------------------------------------------
+
+% Note that \maketitle outputs the pages before here
+
+% If twoside=false, \uppertitleback and \lowertitleback are not printed
+% To overcome this issue, we set twoside=semi just before printing the title pages, and set it back to false just after the title pages
+\KOMAoptions{twoside=semi}
+\maketitle
+\KOMAoptions{twoside=false}
+%----------------------------------------------------------------------------------------
+%	PREFACE
+%----------------------------------------------------------------------------------------
+
+%\input{chapters/preface.tex}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LIST OF FIGURES/TABLES
+%----------------------------------------------------------------------------------------
+
+\begingroup % Local scope for the following commands
+
+% Define the style for the TOC, LOF, and LOT
+%\setstretch{1} % Uncomment to modify line spacing in the ToC
+%\hypersetup{linkcolor=blue} % Uncomment to set the colour of links in the ToC
+\setlength{\textheight}{23cm} % Manually adjust the height of the ToC pages
+
+% Turn on compatibility mode for the etoc package
+\etocstandarddisplaystyle % "toc display" as if etoc was not loaded
+\etocstandardlines % toc lines as if etoc was not loaded
+
+\tableofcontents % Output the table of contents
+
+\listoffigures % Output the list of figures
+
+% Comment both of the following lines to have the LOF and the LOT on different pages
+\let\cleardoublepage\bigskip
+\let\clearpage\bigskip
+
+\listoftables % Output the list of tables
+
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	MAIN BODY
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
+\setchapterstyle{kao} % Choose the default chapter heading style
+
+\part{Teoria della Rinormalizzazione}
+\subfile{chapters/1_Degree_of_divergence}
+\subfile{chapters/2_QED_Regularization}
+\subfile{chapters/3_Intro_PR_QED}
+\subfile{chapters/4_Perturb_Ren_QED}
+\subfile{chapters/5_Renormalization_consequences}
+
+
+\part{Simmetrie (e loro rottura) in QFT}
+\subfile{chapters/6_Spacetime_symmetries}
+\subfile{chapters/7_from_Particles_to_Fields}
+\subfile{chapters/8_Global_Symm}
+\subfile{chapters/9_SSB}
+\subfile{chapters/10_Higgs_Mechanism}
+
+% \dedication{
+% 	The beginner should not be discouraged if he finds that he does not have the prerequisites to read the prerequisites.\\
+% 	\begin{flushright} -- \href{https://it.wikipedia.org/wiki/Paul_Halmos}{P. Halmos} in \cite{Halmos1950}
+% 	\end{flushright}
+% 	\newline
+% 	\small{\newline Il principiante non deve scoraggiarsi se scopre di non avere i prerequisiti per leggere i prerequisiti.}\\
+% 	\begin{flushright} -- P. Halmos
+% 	\end{flushright}    
+% }
+
+%\appendix % From here onwards, chapters are numbered with letters, as is the appendix convention
+
+%\pagelayout{wide} % No margins
+%\addpart{Appendice}
+%\pagelayout{margin} % Restore margins
+
+%\input{chapters/appendix.tex}
+
+%----------------------------------------------------------------------------------------
+
+\backmatter % Denotes the end of the main document content
+\setchapterstyle{plain} % Output plain chapters from this point onwards
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+% The bibliography needs to be compiled with biber using your LaTeX editor, or on the command line with 'biber main' from the template directory
+
+\defbibnote{bibnote}{Qui sono elencati i riferimenti ordinati per citazione nel testo.\par\bigskip} % Prepend this text to the bibliography
+\printbibliography[heading=bibintoc, title=Bibliografia, prenote=bibnote] % Add the bibliography heading to the ToC, set the title of the bibliography and output the bibliography note
+
+%----------------------------------------------------------------------------------------
+%	NOMENCLATURE
+%----------------------------------------------------------------------------------------
+
+% The nomenclature needs to be compiled on the command line with 'makeindex main.nlo -s nomencl.ist -o main.nls' from the template directory
+
+% Aggiungere la notazione adottata.
+
+\nomenclature{$c$}{Velocità della luce nel vuoto in un sistema di riferimento inerziale}
+\nomenclature{$h$}{Costante di Planck}
+\nomenclature{$H$}{Hamiltoniana o funzione di Hamilton}
+\nomenclature{$\mathbb{H}$}{Insieme dei quaterioni}
+\nomenclature{$\mathcal{H}$}{Spazio di Hilbert - \textit{Hilbert space}}
+\nomenclature{$\mathbb{N}$}{Numeri naturali - \textit{Natural numbers}}
+\nomenclature{$E$}{Spazio di Banach - \textit{Banach space}}
+\nomenclature{$U$}{Operatore unitario}
+\nomenclature{$\textrm{U}$}{Gruppo di Lie degli operatori unitari}
+\nomenclature{$\pazocal{U}$}{Gruppo degli operatori unitari nello spazio di Hilbert (usato in QM)}
+\nomenclature{$\mathfrak{g}, \mathfrak{h}$}{Algebra di Lie (matriciale) - \textit{(matrix) Lie algebra}}
+
+\renewcommand{\nomname}{Notazione} % Rename the default 'Nomenclature'
+\renewcommand{\nompreamble}{Il seguente elenco descrive alcuni simboli che sono usati in questo documento.} % Prepend this text to the nomenclature
+
+\printnomenclature % Output the nomenclature
+
+
+%----------------------------------------------------------------------------------------
+%	GREEK ALPHABET
+% 	Originally from https://gitlab.com/jim.hefferon/linear-algebra
+%----------------------------------------------------------------------------------------
+
+\vspace{1cm}
+
+{\usekomafont{chapter}Lettere greche con pronuncia inglese} \\[2ex]
+\begin{center}
+	\newcommand{\pronounced}[1]{\hspace*{.2em}\small\textit{#1}}
+	\begin{tabular}{l l @{\hspace*{3em}} l l}
+		\toprule
+		Carattere & Nome & Carattere & Nome \\ 
+		\midrule
+		$\alpha$ & alpha \pronounced{AL-fuh} & $\nu$ & nu \pronounced{NEW} \\
+		$\beta$ & beta \pronounced{BAY-tuh} & $\xi$, $\Xi$ & xi \pronounced{KSIGH} \\ 
+		$\gamma$, $\Gamma$ & gamma \pronounced{GAM-muh} & o & omicron \pronounced{OM-uh-CRON} \\
+		$\delta$, $\Delta$ & delta \pronounced{DEL-tuh} & $\pi$, $\Pi$ & pi \pronounced{PIE} \\
+		$\epsilon$ & epsilon \pronounced{EP-suh-lon} & $\rho$ & rho \pronounced{ROW} \\
+		$\zeta$ & zeta \pronounced{ZAY-tuh} & $\sigma$, $\Sigma$ & sigma \pronounced{SIG-muh} \\
+		$\eta$ & eta \pronounced{AY-tuh} & $\tau$ & tau \pronounced{TOW (as in cow)} \\
+		$\theta$, $\Theta$ & theta \pronounced{THAY-tuh} & $\upsilon$, $\Upsilon$ & upsilon \pronounced{OOP-suh-LON} \\
+		$\iota$ & iota \pronounced{eye-OH-tuh} & $\phi$, $\Phi$ & phi \pronounced{FEE, or FI (as in hi)} \\
+		$\kappa$ & kappa \pronounced{KAP-uh} & $\chi$ & chi \pronounced{KI (as in hi)} \\
+		$\lambda$, $\Lambda$ & lambda \pronounced{LAM-duh} & $\psi$, $\Psi$ & psi \pronounced{SIGH, or PSIGH} \\
+		$\mu$ & mu \pronounced{MEW} & $\omega$, $\Omega$ & omega \pronounced{oh-MAY-guh} \\
+		\bottomrule
+	\end{tabular} \\[1.5ex]
+	Capitals shown are the ones that differ from Roman capitals.
+\end{center}
+
+%----------------------------------------------------------------------------------------
+%	GLOSSARY
+%----------------------------------------------------------------------------------------
+
+% The glossary needs to be compiled on the command line with 'makeglossaries main' from the template directory
+
+\newglossaryentry{computer}{
+	name=computer,
+	description={is a programmable machine that receives input, stores and manipulates data, and provides output in a useful format}
+}
+
+% Glossary entries (used in text with e.g. \acrfull{fpsLabel} or \acrshort{fpsLabel})
+\newacronym[longplural={Frames per Second}]{fpsLabel}{FPS}{Frame per Second}
+\newacronym[longplural={Tables of Contents}]{tocLabel}{TOC}{Table of Contents}
+
+\setglossarystyle{listgroup} % Set the style of the glossary (see https://en.wikibooks.org/wiki/LaTeX/Glossary for a reference)
+\printglossary[title=Special Terms, toctitle=List of Terms] % Output the glossary, 'title' is the chapter heading for the glossary, toctitle is the table of contents heading
+
+%----------------------------------------------------------------------------------------
+%	INDEX
+%----------------------------------------------------------------------------------------
+
+% The index needs to be compiled on the command line with 'makeindex main' from the template directory
+
+\printindex % Output the index
+
+%----------------------------------------------------------------------------------------
+%	BACK COVER
+%----------------------------------------------------------------------------------------
+
+% If you have a PDF/image file that you want to use as a back cover, uncomment the following lines
+
+%\clearpage
+%\thispagestyle{empty}
+%\null%
+%\clearpage
+%\includepdf{cover-back.pdf}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

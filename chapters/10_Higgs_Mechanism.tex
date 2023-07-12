@@ -1,0 +1,745 @@
+\documentclass[../main.tex]{subfiles}
+\usepackage{slashed}
+\usepackage[table]{xcolor}
+\usepackage{hhline}
+\usepackage{lipsum}
+
+\let\Bbbk\relax
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{simpler-wick}
+
+\begin{document}
+%\setchapterstyle{kao} % decommentare se non si mette l'immagine
+\setchapterimage[6.5cm]{images_ch10/SSB.jpg}
+\setchapterpreamble[u]{\margintoc}
+\chapter[Il Meccanismo di Higgs]{Il Meccanismo di Higgs\footnote{Immagine da Towards Data Science, \href{https://towardsdatascience.com/a-no-nonsense-explanation-of-how-the-higgs-gives-particles-their-masses-639a0aba6d54}{“A No-Nonsense Explanation of How the Higgs Boson Gives Particles Their Masses”}}}
+\labch{???}
+\fboxsep =1pt % separazione per i box
+
+\section{Caso Abeliano}
+Consideriamo la teoria di gauge abeliana U$(1)$, descritta dalla Lagrangiana della QED:
+\[
+\boxed{\mathscr{L}_{QED} = \big(D_\mu\phi\big)^\ast\big(D^\mu\phi\big) +\mu^2\phi^\ast\phi - \lambda (\phi^\ast\phi)^2 - \frac{1}{4}F_{\mu\nu}F^{\mu\nu}}
+\]
+con $D_\mu\phi = (\partial_\mu +i\mathsf gA_\mu)\phi$, $F_{\mu\nu}=\partial_\mu A_\nu - \partial_\nu A_\mu$, $\mu^2>0$ e $\lambda>0$ .
+
+Questa Lagrangiana è invariante sotto trasformazioni di gauge, che ricordiamo essere rappresentate dalle trasformazioni simultanee:
+\begin{align*}
+    &\phi(x) \rightarrow \phi'(x)=e^{-i\alpha(x)}\phi(x)   \\
+    &A_\mu(x) \rightarrow A_\mu'(x)= A_\mu(x) + \frac{i}{\mathsf g}\partial_\mu\alpha(x)
+\end{align*}
+
+Inoltre, abbiamo la rottura spontanea di simmetria. Consideriamo infatti il potenziale 
+\[
+V(|\phi|) \equiv -\mu^2\phi^\ast\phi + \lambda (\phi^\ast\phi)^2
+\]
+Si verifica che questo ha un minimo in $|\phi|^2 = \frac{\mu^2}{2\lambda}$, ma questo significa che esiste un insieme di vuoti degeneri tutti uguali a meno di una fase, vale a dire interconnessi da trasformazioni di U$(1)$, i.e.:
+
+\[
+\overline{\phi} = \frac{v}{\sqrt{2}}e^{i\alpha}~,\quad v=\frac{\mu}{\sqrt{\lambda}}
+\]
+
+Come al solito, effettuiamo una scelta specifica in coordinate cartesiane, definendo $\phi = \frac{1}{\sqrt{2}}(\phi_1+i\phi_2)$ e fissando
+\[
+\boxed{\langle0|\phi_1|0\rangle = v ~,\quad \langle0|\phi_2|0\rangle = 0}
+\]
+Se ora espandiamo attorno a questa scelta, shiftando le componenti di $\varphi_1(x)$ e $\varphi_2(x)$ rispettivamente, possiamo scrivere:
+\[
+\phi(x) = \frac{1}{\sqrt{2}}\big(v+\varphi_1(x)+i\varphi_2(x)\big)
+\]
+Ci aspettiamo che il bosone di Goldstone si possa identificare con $\varphi_2(x)$. Procediamo quindi a riscrivere i termini della Lagrangiana in funzione dei campi dinamici $\varphi_{1,2}$, in modo da ottenere la teoria nella sua broken phase.
+
+Qualcosa di peculiare avviene tuttavia quando proviamo a riscrivere il termine cinetico:
+\begin{align*}
+    \big(D_\mu\phi\big)^\ast\big(D^\mu\phi\big) &=\frac{1}{2}\Big| \big(\partial_\mu +i\mathsf gA_\mu\big)\big(v+\varphi_1+i\varphi_2\big)\Big|^2 = \\
+    &= \frac{1}{2} \Big| \partial_\mu \varphi_1 - \mathsf gA_\mu\varphi_2 +i \big[\mathsf gA_\mu(v+\varphi_1) + \partial_\mu \varphi_2\big]\Big|^2 =\\
+    &= \frac{1}{2} \Big[ \big(\partial_\mu \varphi_1 - \mathsf gA_\mu\varphi_2\big)^2 + \big(\mathsf gA_\mu v+\mathsf gA_\mu\varphi_1 + \partial_\mu \varphi_2\big)^2\Big] 
+\end{align*}
+
+Svolgendo ora il secondo quadrato si trova il risultato finale:
+\begin{equation}
+    \begin{aligned}
+        \big|D_\mu\phi\big|^2 =& \frac{1}{2}\big(\partial_\mu \varphi_1 - \mathsf gA_\mu\varphi_2\big)^2 + \frac{1}{2}\big(\partial_\mu \varphi_2 +\mathsf gA_\mu\varphi_1 \big)^2+\\
+        &+\mathsf gv A^\mu \big(\partial_\mu \varphi_2 +\mathsf gA_\mu\varphi_1 \big) +\frac{1}{2}\mathsf g^2v^2 A_\mu A^\mu
+    \end{aligned}
+    \label{eq:peculiar_kinetic_term_U1SSB}
+\end{equation}
+
+I primi due termini sono quelli attesi per la QED scalare, ma gli ultimi due?
+\begin{enumerate}
+    \item[\textbf{i)}] $\frac{1}{2}\mathsf g^2v^2 A_\mu A^\mu$ assomiglia molto ad un \href{https://en.wikipedia.org/wiki/Proca_action}{termine di massa di Proca}\footnote{Ovvero un termine di massa associato ad un campo massivo di spin 1} per il campo di gauge.
+    \item[\textbf{ii)}] $\mathsf gv A^\mu \big(\partial_\mu \varphi_2\big)$ è invece un mixing cinetico tra $\varphi_2$ (il Goldstone) ed il campo di gauge $A_\mu$.
+    \end{enumerate}
+
+\subsection{La gauge unitaria}
+L'idea è quella di rimuovere il mixing e per farlo consideriamo la rappresentazione polare del campo scalare, ovvero:
+\[
+\phi(x) = \frac{1}{\sqrt{2}} \big(v+\rho(x)\big)e^{i\pi(x)/v}
+\]
+dove $\pi(x)$ sarà il campo di Goldstone.
+
+Essendo la teoria invariante sotto trasformazioni di gauge, possiamo riscrivere la Lagrangiana in termini dei campi:
+\[
+\begin{aligned}
+    &\phi'(x)=e^{-i\alpha(x)}\frac{1}{\sqrt{2}} \big(v+\rho(x)\big)e^{i\pi(x)/v} \\
+    &A_\mu'(x)= A_\mu(x) + \frac{i}{\mathsf g}\partial_\mu\alpha(x)
+\end{aligned}
+\]
+con la garanzia di ottenere una teoria totalmente equivalente.
+
+Siccome questo è vero per ogni $\alpha(x)$, ci facciamo furbi e scegliamo una trasformazione di gauge tale che:
+\begin{equation}
+    \boxed{\alpha(x) = \frac{\pi(x)}{v}}
+    \label{eq:unitary_gauge}
+\end{equation}
+Questa scelta in particolare è conosciuta come \textbf{gauge unitaria} e sostanzialmente quello che stiamo facendo si chiama \textit{gauge fixing}.
+
+Definiamo quindi:
+\begin{equation}
+    \boxed{\begin{aligned}
+        &\phi_u(x)=e^{-i\pi(x)/v}\phi(x) = \frac{1}{\sqrt{2}} \big(v+\rho(x)\big) \\
+        &A^\mu_u(x)= A^\mu(x) + \frac{i}{\mathsf gv}\partial_\mu\pi(x)
+    \end{aligned}}
+    \label{eq:unitary_gauged_fields}
+\end{equation}
+
+Si verifica, invertendo le trasformazioni di gauge, che $D_\mu\phi = e^{i\alpha}(\partial_\mu +i\mathsf gA_\mu')\phi'$ e di conseguenza
+\[
+D^\mu\phi(x) = e^{i\pi(x)/v}(\partial^\mu +i\mathsf gA^\mu_u)\phi_u(x)
+\]
+Questo significa che nel termine cinetico $\big(D_\mu\phi\big)^\ast\big(D^\mu\phi\big)$ scompare la dipendenza da $\pi(x)$!
+
+La Lagrangiana assume dunque la forma seguente:
+\begin{equation}
+    \boxed{\mathscr{L}_u = \Big|\partial^\mu\phi_u +i\mathsf gA^\mu_u\phi_u\Big|^2 +\mu^2\big|\phi_u\big|^2 - \lambda \big|\phi_u\big|^4 - \frac{1}{4}F_{u,\mu\nu}F^{u,\mu\nu}}
+    \label{eq:unitary_gauged_lagrangian}
+\end{equation}
+con $\phi_u = \frac{1}{\sqrt2}(v+\rho)$
+
+Possiamo fare di meglio, esplicitando i vari quadrati nell'espressione precedente:
+\begin{itemize}
+    \item[\blacksquare] \underline{Termini di potenziale}
+    \[
+    \mu^2\big|\phi_u\big|^2 - \lambda \big|\phi_u\big|^4 = \Ccancel[Red]{\frac{\mu^4}{4\lambda}} -\mu^2\rho-v\lambda\rho^3-\frac{\lambda}{4}\rho^4
+    \]
+    Dove il primo termine, come al solito, si può rimuovere rinormalizzando il potenziale a zero.
+    
+    Ancora una volta scopriamo, questa volta senza troppo stupore, che il campo radiale $\rho$ è massivo, con massa quadrata $m_\rho^2=2\mu^2$, e possiede interazioni cubiche e quartiche con campi del suo stesso tipo.
+    
+    \item[\blacksquare] \underline{Termine cinetico}
+    \begin{align*}
+        \Big|\partial^\mu\phi_u +i\mathsf gA^\mu_u\phi_u(x)\Big|^2 &= \frac{1}{2}\Big|\partial^\mu\rho +i\mathsf g(v+\rho)A^\mu_u\Big|^2\\
+        &=\frac{1}{2}\big(\partial_\mu\rho\big)\big(\partial^\mu\rho\big) +\frac{1}{2} \mathsf g^2(v+\rho)^2A_{u,\mu}A^\mu_u\\
+        &=\frac{1}{2}\big(\partial_\mu\rho\big)\big(\partial^\mu\rho\big) + \frac{1}{2} \mathsf g^2v^2A_{u,\mu}A^\mu_u +\frac{1}{2} \mathsf g^2(\rho^2 + 2\rho v)A_{u,\mu}A^\mu_u
+    \end{align*}
+\end{itemize}
+Possiamo dunque scrivere la Lagrangiana esplicita nella gauge unitaria, omettendo da qui in poi la “$u$” sui campi:
+\marginnote{I termini evidenziati rappresentano una \textcolor{blue}{Lagrangiana di Proca}, che descrive un campo massivo di spin 1}
+\begin{equation}
+    \boxed{\begin{aligned}
+        \mathscr{L}_{u} =& \frac{1}{2} \big(\partial_\mu\rho\big) \big(\partial^\mu\rho\big) -\mu^2\rho-v\lambda\rho^3-\frac{\lambda}{4}\rho^4 \\
+        & \textcolor{blue}{- \frac{1}{4}\big(\partial_\mu A_\nu - \partial_\nu A_\mu\big)^2 + \frac{1}{2} \mathsf g^2v^2A_{\mu}A^\mu }+\frac{1}{2} \mathsf g^2(\rho^2 + 2\rho v)A_{\mu}A^\mu
+    \end{aligned}}
+    \label{eq:unitary_gauged_lagrangian_explicit}
+\end{equation}
+In sintesi:
+\begin{enumerate}
+    \item[\textbf{i)}] Abbiamo un campo scalare massivo (reale) $\rho$ con massa $m^2_\rho = 2\mu^2$ ed auto-interazioni di terzo e quart'ordine.
+    \item[\textbf{ii)}] Nella gauge unitaria, $A_\mu$ descrive un campo di gauge massivo con $m_A^2 \equiv \mathsf g^2v^2$
+    \item[\textbf{iii)}] Non c'è alcun bosone di Goldstone nello spettro di massa! \textbf{Il campo di gauge ha “mangiato” il bosone di Goldstone ed in tal modo ha acquisito la sua massa.} 
+\end{enumerate}
+Il senso di questa ultima affermazione risiede nel fatto che il grado di libertà relativo al bosone di Goldstone scompare dalla Lagrangiana e compare come grado di libertà aggiuntivo necessario a descrivere un campo di gauge massivo. Discutiamo meglio questo punto nella nota successiva.
+
+\begin{nota}
+    \textbf{(Contare i gradi di libertà.)}
+
+    Consideriamo i due regimi assunti dalla simmetria:
+    \begin{itemize}
+        \item \underline{Simmetria non rotta.} $m^2=-\mu^2>0$, $\mu^2<0$, $\langle0|\phi|0\rangle =0$ .
+        \begin{itemize}
+            \item 1 campo scalare complesso $\Rightarrow$ 2 gradi di libertà (1 particella scalare massiva + 1 anti-particella scalare massiva).
+            \item 1 campo di gauge massless $\Rightarrow$ 2 gradi di libertà, le due polarizzazioni $\lambda=\pm1$.
+        \end{itemize}
+        \textbf{In totale abbiamo 4 gradi di libertà.}
+        
+        \item \underline{Simmetria rotta.} $m^2<0$, $\mu^2>0$, $|\langle0|\phi|0\rangle| = v/\sqrt2\neq0$ .
+        \begin{itemize}
+            \item 1 campo scalare reale $\rho$ $\Rightarrow$ 1 gradi di libertà (1 particella scalare massiva senza carica).
+            \item 1 campo di gauge massivo $\Rightarrow$ 3 gradi di libertà, le tre elicità $\lambda=0,\pm1$.
+        \end{itemize}
+        \textbf{In totale abbiamo 4 gradi di libertà.}
+    \end{itemize}
+\end{nota}
+
+\section{Caso non-Abeliano}
+Consideriamo una teoria di gauge non abeliana basata su SU$(2)$ con un doppietto di campi scalari complessi $\Phi$.
+
+Nella notazione da noi adottata in precedenza, la Lagrangiana invariante di gauge, nel caso di SU$(2)$, è:
+\begin{equation}
+    \boxed{\mathscr{L} = \big(D_\mu\Phi\big)^\dagger\big(D^\mu\Phi\big) - V(\Phi) - \frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu}}
+    \label{eq:SU2_gauge_invariant_lagrangian}
+\end{equation}
+$\Phi = \begin{pmatrix} \phi_1 \\ \phi_2 \end{pmatrix}$ trasforma secondo la rappresentazione fondamentale di SU$(2)$.
+
+Ricordiamo inoltre che per quanto riguarda la derivata covariante, il tensore di Faraday ed il potenziale, abbiamo:
+\[
+\boxed{\begin{aligned}
+    &D_\mu\Phi = \partial_\mu\Phi +i\mathsf g A_\mu^a\frac{\sigma^a}{2}\Phi \\
+    &F_{\mu\nu}^a = \partial_\mu A^a_\nu - \partial_\nu A^a_\mu - \mathsf g \varepsilon^{abc}A^b_\mu A^c_\nu \\
+    &V(\Phi) = -\mu^2|\Phi|^2 + \lambda |\Phi|^4
+\end{aligned}}
+~\begin{aligned}
+    &\dim \text{SU}(2) = 3 \Rightarrow 3 \text{ campi di gauge }A^a_\mu \\
+    & \\
+    & \mu^2 >0, \lambda>0
+\end{aligned}
+\]
+
+L'invarianza di gauge è garantita dalle trasformazioni
+\[
+\boxed{\begin{aligned}
+    &\Phi(x) \rightarrow \Phi'(x) = U(x)\Phi(x) \\
+    &A_\mu(x)\rightarrow A_\mu'(x) =U(x)A_\mu(x)U(x)^{-1} +\frac{i}{\mathsf g}\big(\partial_\mu U(x)\big)U(x)^{-1}
+\end{aligned}}
+\]
+con $U(x) = \exp\big(-i\mathsf g\frac{\sigma^a}{2}\alpha^a(x)\big)$ e $A_\mu(x) \equiv A^a_\mu(x)\frac{\sigma^a}{2}$ .
+
+Essendo $\mu^2>0$ abbiamo la rottura spontanea di simmetria. In particolare, il potenziale è funzione del solo $|\Phi|^2=\Phi^\dagger\Phi \equiv X$, da cui segue:
+\[
+\begin{cases}
+    \frac{dV}{dX} = -\mu^2 + 2\lambda X = 0 \\ 
+    \frac{d^2V}{dX^2}\Big|_{X_\ast}>0
+\end{cases}
+\Rightarrow ~\boxed{X_\ast = \frac{\mu^2}{2\lambda} \text{ minimo}}
+\]
+Ancora una volta abbiamo un insieme di vuoti degeneri, connessi da trasformazioni di SU$(2)$, descritto dalla condizione:
+\[
+\langle0|\Phi^\dagger\Phi|0\rangle =\frac{v^2}{2}~,\quad v^2=\frac{\mu^2}{\lambda}
+\]
+Scegliamo il vuoto che più ci fa comodo, ad esempio:
+\[
+\boxed{\overline\Phi = \frac{1}{\sqrt{2}}\begin{pmatrix} 0 \\ v \end{pmatrix}~,\quad\overline\Phi^\dagger\overline\Phi = \frac{1}{2}v^2}
+\]
+ed espandiamo le componenti del doppietto attorno a tale scelta.
+
+Come al solito partiamo dalla \underline{descrizione cartesiana}:
+\[
+\Phi(x) = \frac{1}{\sqrt{2}}\begin{pmatrix} \varphi_1(x) + i\varphi_2(x) \\ v +\varphi_4(x) +i\varphi_3(x)\end{pmatrix} \equiv \begin{pmatrix} \phi_1(x)  \\ \phi_2(x)\end{pmatrix}
+\]
+La numerazione delle componenti è scelta in modo tale che considerando $\Phi^\dagger\Phi$ si ottenga:
+\[
+\Phi^\dagger\Phi = \frac{1}{2}\big[(v +\varphi_4)^2 + |\Vec{\varphi}|^2\big]
+\]
+con $\Vec{\varphi} = \begin{pmatrix} \varphi_1 \\ \varphi_2 \\ \varphi_3\end{pmatrix}$ , dove la numerazione delle componenti è consistente.
+
+Se ora analizziamo il potenziale da questo punto di vista, svolgendo accuratamente le potenze al suo interno, scopriamo che il termine quadratico in $\varphi_4$ vale $-\mu^2\varphi^2_4$, ergo $\varphi_4$ è un campo scalare massivo.
+
+D'altro canto, il termine quadratico in $|\Vec\varphi|$ è nullo, quindi \textbf{i tre campi $\varphi_{1,2,3}$ sono i bosoni di Goldstone.}
+
+Adottiamo ora la \underline{parametrizzazione esponenziale} per i campi scalari, definendo:
+\[
+\boxed{
+\Phi(x) =  \exp(i\frac{\pi^a\sigma^a}{2v}) \frac{1}{\sqrt{2}}\begin{pmatrix}0\\v+\rho(x)\end{pmatrix}
+}
+\]
+Chiaramente l'esponenziale viene eliminato nel calcolo  di $\Phi^\dagger\Phi$, quindi i campi $\pi^a$ non hanno potenziale e si identificano con i bosoni di Goldstone.
+
+Introduciamo dunque la gauge unitaria definendo il campo trasformato:
+\[
+\Phi_u(x) = \exp(-i\frac{\sigma^a}{2}\alpha^a(x))\Phi(x)
+\]
+e scegliendo i parametri della trasformazione in modo tale da cancellare l'esponenziale in $\Phi(x)$, i.e. $\boxed{\alpha^a(x)\equiv \pi^a(x)/v}$ .
+
+Di conseguenza avremo:
+\[
+\boxed{
+\Phi_u(x) = \frac{1}{\sqrt{2}}\begin{pmatrix}0\\v+\rho(x)\end{pmatrix}
+}
+\]
+Dobbiamo inoltre trasformare a modo anche i campi di gauge, vale a dire:
+\[
+\boxed{
+A^\mu_u(x) = U(x)A^\mu(x)U(x)^{-1} +\frac{i}{\mathsf g}\big(\partial_\mu U(x)\big)U(x)^{-1}
+}
+\]
+con $U(x) = \exp(i\frac{\pi^a\sigma^a}{2v})$ .
+
+Per costruzione, \textbf{la Lagrangiana scritta in termini di $\Phi_u$ ed $A^\mu_u$ ha la stessa struttura della Lagrangiana originale.}
+\begin{exercise}
+    Verificare quanto appena affermato. \textbf{[Conti svolti Lez.39 p.13÷15]}
+\end{exercise}
+
+La Lagrangiana nella gauge unitaria per una teoria di gauge basata su SU$(2)$ si scrive infatti (tralasciando il pedice “$u$” sui campi per amor di notazione):
+\begin{equation}
+    \boxed{\mathscr{L}_u = \big(D_\mu\Phi\big)^\dagger\big(D^\mu\Phi\big) - V(\Phi) - \frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu}}
+    \label{eq:unitary_gauged_lagrangian_nonabelian}
+\end{equation}
+con $\Phi(x) = \frac{1}{\sqrt{2}}\begin{pmatrix}0\\v+\rho(x)\end{pmatrix}$ . 
+
+Guardando la (\ref{eq:unitary_gauged_lagrangian_nonabelian}) ci accorgiamo immediatamente che i bosoni di Goldstone sono scomparsi!
+
+Scriviamo quindi esplicitamente i vari termini della Lagrangiana:
+\begin{itemize}
+    \item \underline{Termini di potenziale.}
+    
+    Questo è il solito calcolo già fatto più volte. Chiaramente
+    \[
+    \Phi^\dagger\Phi = \frac{1}{2}(v^2+2v\rho+\rho^2)
+    \]
+    e non è dunque difficile convincersi del fatto che:
+    \begin{align*}
+        -V(\Phi) &= \mu^2\Phi^\dagger\Phi -\lambda (\Phi^\dagger\Phi)^2 \\
+        &=\Ccancel[Red]{\frac{\mu^4}{4\lambda}} - \mu^2\rho^2 - v\lambda\rho^3 - \frac{\lambda}{4}\rho^4
+    \end{align*}
+    
+    \item \underline{Termine cinetico.}
+
+    In questo caso il calcolo non è proprio banalissimo, in particolare dobbiamo sviluppare a dovere il prodotto tra le componenti del campo di gauge e le matrici di Pauli nascosto nella definizione di $A_\mu$. Infatti abbiamo
+    \[
+    A_\mu \equiv A_\mu^a\frac{\sigma^a}{2} = 
+    \frac{1}{2}
+    \begin{pmatrix}
+        A_\mu^3     &   A_\mu^1-iA_\mu^2 \\
+        A_\mu^1+iA_\mu^2    &   -A_\mu^3
+    \end{pmatrix}
+    \]
+
+    E di conseguenza abbiamo:
+    \begin{align*}
+        \big(D_\mu\Phi\big) &= \frac{1}{\sqrt2}\Bigg[\partial_\mu + \frac{i\mathsf g}{2}
+        \begin{pmatrix}
+            A_\mu^3     &   A_\mu^1-iA_\mu^2 \\
+            A_\mu^1+iA_\mu^2    &   -A_\mu^3
+        \end{pmatrix}
+        \Bigg]\begin{pmatrix}0\\v+\rho\end{pmatrix}\\
+        &=\frac{1}{\sqrt2}\Bigg[\begin{pmatrix}0\\\partial_\mu\rho\end{pmatrix} + \frac{i\mathsf g}{2}(v+\rho)
+        \begin{pmatrix}
+            A_\mu^1-iA_\mu^2 \\
+            -A_\mu^3
+        \end{pmatrix}\Bigg]
+    \end{align*}
+
+    Passando quindi al termine cinetico vero e proprio, svolgendo il prodotto scalare si può mostrare che i termini misti si cancellano a vicenda e in un paio di passaggi si arriva al risultato finale:
+    \begin{align*}
+        \big(D_\mu\Phi\big)^\dagger\big(D^\mu\Phi\big) =& \frac{1}{2} \big(\partial_\mu\rho\big)\big(\partial^\mu\rho\big) +\frac{1}{2} \bigg(\frac{\mathsf g^2 v^2}{4}\bigg)\sum_{a=1}^3\big(A_\mu^a\big)^2 +\\
+        &+ \frac{1}{2} \bigg(\frac{\mathsf g^2}{4} \bigg) (\rho^2+2v\rho)\sum_{a=1}^3\big(A_\mu^a\big)^2
+    \end{align*}    
+\end{itemize}
+
+Abbiamo quindi tutti gli ingredienti per scrivere la Lagrangiana esplicita nella gauge unitaria:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        \mathscr{L}_u =& \frac{1}{2} \big(\partial_\mu\rho\big)\big(\partial^\mu\rho\big) - \mu^2\rho^2 - v\lambda\rho^3 - \frac{\lambda}{4}\rho^4 \textcolor{blue}{- \frac{1}{4}F_{\mu\nu}^aF^{a,\mu\nu} +}\\
+        &\textcolor{blue}{+\frac{1}{2} \bigg(\frac{\mathsf g^2 v^2}{4}\bigg)\sum_{a=1}^3\big(A_\mu^a\big)^2} + \frac{1}{2} \bigg(\frac{\mathsf g^2}{4} \bigg) (\rho^2+2v\rho)\sum_{a=1}^3\big(A_\mu^a\big)^2
+    \end{aligned}
+    }
+    \label{eq:unitary_gauged_lagrangian_nonabelian_explicit}
+\end{equation}
+
+Possiamo a questo punto notare che:
+\begin{enumerate}
+    \item[\textbf{i)}] Il campo reale scalare $\rho$ è massivo: \textbf{lui è il bosone di Higgs!}
+    
+    \item[\textbf{ii)}] Nella broken phase tutti i bosoni di gauge di SU$(2)$ diventano massivi e sono degeneri in massa: $m_A^2\equiv \frac{\mathsf g^2 v^2}{4}$. Questa degenerazione è dovuta al fatto che i termini evidenziati in blu riproducono la struttura di tre \textcolor{blue}{Lagrangiane di Proca}, una per ogni campo di gauge, ma tutte con coefficienti identici per il termine di massa.
+    
+    \item[\textbf{iii)}] Non ci sono bosoni di Goldstone nello spettro, i tre attesi sono stati “mangiati” dai tre campi di gauge che sono diventati massivi.
+
+    \item[\textbf{iv)}] Confrontando con la (\ref{eq:SU2_gauge_invariant_lagrangian}), si può verificare come in entrambi i casi i gradi di libertà siano 10 in totale. Anche qui i gradi di libertà dei Goldstone sono stati convertiti per descrivere la massività dei bosoni di gauge.
+\end{enumerate}
+
+\subsection{Il numero di bosoni di gauge massivi}
+
+Nell'esempio precedente, l'intera simmetria SU$(2)$ era rotta. In casi come questi tutti i bosoni di gauge diventano massivi.
+
+In generale, data una teoria simmetrica sotto il gruppo $G$ che subisce una parziale SSB in $H\leq G$ (che diventa gruppo di simmetria residua), possiamo dire che:
+\begin{itemize}
+    \item inizialmente avremo $\dim G$ bosoni di gauge massless;
+    \item la SSB genera $\dim G - \dim H$ bosoni di Goldstone, equivalenti al numero di generatori rotti di $G$.
+    \item I bosoni di gauge mangiano i bosoni di Goldstone, questo produce dunque $\dim G - \dim H$ bosoni di gauge massivi!
+    \item \textbf{Di conseguenza, persistono in generale $\dim G - (\dim G - \dim H) = \dim H$ bosoni di gauge massless dopo una parziale SSB.}
+\end{itemize}
+
+
+
+\section{Modello Standard: Settore Bosonico}
+
+Il modello standard è una teoria di gauge basata sul gruppo 
+\[
+\boxed{\text{SU}(3)_C\times\underbrace{\text{SU}(2)_L\times\text{U}(1)_Y}_{\quad\quad\quad\quad\xrightarrow{SSB} ~{\text{U}(1)_{EM}}}}
+\]
+Che, come evidenziato, subisce una parziale rottura spontanea della sua componente $\text{SU}(2)_L\times\text{U}(1)_Y \rightarrow \text{U}(1)_{EM}$.
+
+Applicando quanto visto poco fa, ci aspettiamo in principio 4 bosoni di gauge massless (3 per SU$(2)_L$ e 1 per U$(1)_Y$), essendo la simmetria residua basata sul gruppo U$(1)$, solo un generatore sarà non rotto e, sulla base dei 3 generatori rotti, ci aspettiamo 3 bosoni di Goldstone.
+
+Dunque, nella broken phase, ci aspettiamo che 3 dei 4 bosoni di gauge iniziali divengano massivi “mangiando” i tre bosoni di Goldstone. Ci aspettiamo inoltre un bosone di gauge massless nello spettro di massa.
+
+\textbf{Discutiamo ora come funziona il tutto} concentrandoci sul settore bosonico.
+
+Introduciamo innanzitutto un doppietto di campi scalari $H = \begin{pmatrix} H_1 \\ H_2 \end{pmatrix}$, il \textit{doppietto di Higgs}, di cui chiaramente dobbiamo specificare la legge di trasformazione sotto il gruppo di simmetria $\text{SU}(3)_C\times\text{SU}(2)_L\times\text{U}(1)_Y$.
+
+Indichiamo i tre bosoni di gauge associati al gruppo di gauge $\text{SU}(2)_L$ con $W_\mu^{a=1,2,3}$, mentre per quanto riguarda quello associato ad $\text{U}(1)_Y$\footnote{$\text{U}(1)_Y$ è detto \textit{gruppo di gauge di ipercarica}.} decidiamo di chiamarlo $B_\mu$.
+
+I numeri quantici di $H$ sono $(1,2,+1/2) \leftrightarrow \big(\text{SU}(3)_C,\text{SU}(2)_L,\text{U}(1)_Y\big)$, da cui ricaviamo le seguenti informazioni:
+\begin{itemize}
+    \item[\blacksquare] $H$ è un singoletto di SU$(3)_C$, i.e. trasforma in sé stesso.
+    \item[\blacksquare] $H$ trasforma come un doppietto sotto SU$(2)_L$.
+    \item[\blacksquare] $H$ ha carica $+\frac{1}{2}$ sotto U$(1)_Y$.
+\end{itemize}
+
+Più nel dettaglio possiamo notare che gli elementi $H_{1,2}$ sono complessi. 
+
+Essendo U$(1)_Y$ un gruppo abeliano, per il \textit{Lemma di Schur} tutte le sue rappresentazioni complesse irriducibili sono 1-dimensionali.
+
+Quindi, siccome assume valori in $\mathbb{C}^2$, $H$ trasformerà secondo la rappresentazione 2-dimensionale \underline{riducibile} di U$(1)_Y$.
+
+Indichiamo dunque con $Y$ il generatore di ipercarica e definiamo la sua azione sul doppietto di Higgs come segue:
+\begin{equation}
+    \boxed{YH = \frac{1}{2}\mathbb1_{2\times2}H}
+    \label{eq:hypercharge_gen_action}
+\end{equation}
+
+Di conseguenza possiamo scrivere le leggi di trasformazione di $H$ sotto SU$(2)_L$ ed U$(1)_Y$:
+\begin{equation}
+    \boxed{\begin{aligned}
+        &\text{SU}(2)_L : & H(x)\rightarrow \exp(-i\alpha_L^a(x)\frac{\sigma^a}{2})H(x)\\
+        &\text{U}(1)_Y : & H(x)\rightarrow \exp(-i\theta_Y\frac{1}{2}\mathbb1_{2\times2})H(x)
+    \end{aligned}}
+\end{equation}
+
+Chiamiamo con:
+\begin{itemize}
+    \item “$\mathsf g_S$” il coupling di gauge associato al gruppo SU$(3)_C$.
+    \item “$\mathsf g_L$” il coupling di gauge associato al gruppo SU$(2)_L$.
+    \item “$\mathsf g_Y$” il coupling di gauge associato al gruppo U$(1)_Y$.
+\end{itemize}
+
+Per quanto riguarda la derivata covariante, la sua azione sul campo $H$, concentrandoci sulla parte della teoria connessa ad SU$(2)_L\times$U$(1)_Y$, può essere scritta come segue:
+\begin{equation}
+    \boxed{D_\mu H = \partial_\mu H +\frac{i\mathsf g_L}{2}W_\mu^a(x)\sigma^a H(x) +\frac{i\mathsf g_Y}{2} B_\mu(x) H(x)}
+    \label{eq:higgs_doubl_covariant_derivative}
+\end{equation}
+
+La Lagrangiana nel settore puramente bosonico sarà dunque:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        \mathscr{L} =& -\frac{1}{4}W_{\mu\nu}^a W^{a,\mu\nu}-\frac{1}{4}B_{\mu\nu} B^{\mu\nu} + \big(D_\mu H\big)^\dagger \big(D^\mu H\big) +\\
+        &+ \mu^2 H^\dagger H - \lambda (H^\dagger H)^2
+    \end{aligned}
+    }
+    \label{eq:pure_bosonic_lagrangian}
+\end{equation}
+con $W_{\mu\nu}^a = \partial_\mu W_\nu^a - \partial_\nu W_\mu^a - \mathsf g_L \varepsilon^{abc}W_\mu^b W_\nu^c$ e $B_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu$ .
+ 
+\subsection{SSB di SU$(2)_L\times$U$(1)_Y$}
+
+Nel momento in cui si considerano $\mu^2>0$ e $\lambda>0$ ci si trova davanti alla rottura spontanea della simmetria SU$(2)_L\times$U$(1)_Y$, con i minimi degeneri descritti dall'equazione 
+\begin{equation}
+    \boxed{H^\dagger H = \frac{\mu^2}{2\lambda} \equiv \frac{v^2}{2} ~,\quad v^2=\frac{\mu^2}{\lambda}}
+    \label{eq:minimum_condition_SM_bosonic}
+\end{equation}
+\begin{proof}
+    È banale convincersene se si considera $X=\sqrt{H^\dagger H}$, da cui $V(X) = -\mu^2X^2 +\lambda X^4$, e si procede con la solita tecnica per minimizzare il potenziale.
+\end{proof}
+
+Come al solito tutte le configurazioni del vuoto che realizzano la condizione (\ref{eq:minimum_condition_SM_bosonic}) sono interconnesse da trasformazioni di simmetria e noi facciamo la seguente scelta:
+\begin{equation}
+    \boxed{\langle0|H|0\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ v \end{pmatrix}}
+    \label{eq:vacuum_choice_SM_bosonic}
+\end{equation}
+
+Il punto cruciale sta nel capire quali delle simmetrie sono ancora valide (sempre se qualcuna lo è) o, equivalentemente, quali generatori distruggono il vuoto e quali invece no.
+
+Consideriamo quindi una generica trasformazione di simmetria, appartenente ad SU$(2)_L\times$U$(1)_Y$, agente su $H$. Al livello dei generatori sappiamo che, posti $T^a$ e $Y$ generatori di SU$(2)_L$ ed U$(1)_Y$ rispettivamente:
+\[
+\begin{aligned}
+    T^aH = \frac{\sigma^a}{2}H\\
+    YH = \frac{1}{2}\mathbb1_{2\times2} H
+\end{aligned}
+\]
+
+Definendo quella che è una sorta di \textit{formula di Gell-Mann - Nishijima} (a meno del fattore $1/2$), i.e.:
+\begin{equation}
+    \boxed{Q\equiv T^3 + Y}
+    \label{eq:gellmann_nishi_formula}
+\end{equation}
+in cui chiaramente $T^3$ assume il ruolo dell'isospin, possiamo verificare piuttosto facilmente che:
+\[
+QH = \begin{pmatrix}H_1 \\ 0 \end{pmatrix} \Rightarrow \boxed{Q\frac{1}{\sqrt{2}}\begin{pmatrix}0 \\ v \end{pmatrix} = 0}
+\]
+\textbf{Ergo il generatore (Hermitiano) $T^3+Y$ annichilisce il vuoto e la simmetria da questo generata è una simmetria del vuoto!}
+
+Difatti la simmetria generata da $Q$ è un sottogruppo abeliano di tipo U$(1)$ di SU$(2)_L\times$U$(1)_Y$. Sotto tale sottogruppo il doppietto di Higgs trasforma nel modo seguente:
+\marginnote{Ricordiamo che, se si prende l'esponenziale matriciale di una matrice diagonale, il risultato sarà una matrice diagonale con, sulla diagonale stessa, l'esponenziale degli elementi della matrice originale.}
+\begin{align*}
+    H' &= \exp[-i\alpha(T^3+Y)]H = \exp[-i\alpha\frac{1}{2}(\sigma^3 + \mathbb1_{2\times2})]H =\\
+    &= \exp[-i\alpha\begin{pmatrix} 1 & 0\\ 0 & 0 \end{pmatrix}]H = \begin{pmatrix} e^{-i\alpha} & 0\\ 0 & 1 \end{pmatrix} =\\
+    &=\begin{pmatrix} e^{-i\alpha}H_1\\ H_2 \end{pmatrix}
+\end{align*}
+
+$H$ trasforma quindi secondo la rappresentazione 2-dimensionale \underline{riducibile} del gruppo $U(1)$ generato da $Q = T^3 + Y$. 
+
+La prima componente, $H_1$, trasforma secondo la rappresentazione irriducibile con carica $+1$, mentre $H_2$ non trasforma (carica = 0).
+
+\subsection{Gauge unitaria e bosoni di gauge massivi}
+
+La SSB $\text{SU}(2)_L\times\text{U}(1)_Y \rightarrow \text{U}(1)$ genera 3 bosoni di Goldstone [$\dim\text{SU}(2)_L+ \dim\text{U}(1)_Y - \dim\text{U}(1) = 3+1-1$]. Ci aspettiamo, quindi, che 3 dei bosoni di gauge (tra i 4 che abbiamo chiamato $W_\mu$ e $B_\mu$) alla fine dei conti diventino massivi.
+
+Per capire come funzioni \textbf{utilizziamo la gauge unitaria}, con la stessa implementazione discussa in precedenza: utilizziamo la trasformazione di gauge per eliminare i campi di Goldstone, definendo
+\begin{equation}
+    \boxed{H_u(x) = \frac{1}{\sqrt2}\begin{pmatrix} 0 \\ v+h(x) \end{pmatrix}}
+    \label{eq:unitary_gauged_higgs_field}
+\end{equation}
+con $h(x)$ noto come \textit{campo di Higgs fisico}.
+
+\begin{itemize}
+    \item[\blacksquare] \underline{\textbf{Potenziale.}}
+
+    Il calcolo è il solito, esplicitiamo $H^\dagger H = \frac{1}{2}\big(v+h\big)^2$ e con qualche passaggio troviamo il potenziale scalare per il campo fisico di Higgs:
+    \[
+    \boxed{V(h) = - \mu^2 H^\dagger H + \lambda (H^\dagger H)^2 = \Ccancel[Red]{-\frac{\mu^4}{4\lambda}} + \lambda v^2 h^2 + \lambda v h^3 +\frac{\lambda}{4}h^4 }
+    \]
+
+    Possiamo dunque estrapolare l'informazione relativa alla massa del bosone di Higgs, $m_h^2 = 2\lambda v^2\approx(125\,GeV)^2$
+    
+    \item[\blacksquare] \underline{\textbf{Termine cinetico.}}
+
+    L'elaborazione del termine cinetico ci dà modo di discutere come la massa dei campi di gauge emerga. Innanzitutto scriviamo la derivata covariante di $H$ nella gauge unitaria ossia, partendo dalla sua definizione (\ref{eq:higgs_doubl_covariant_derivative}), sostituiamo $H_u$ al posto di $H$:
+    
+    \begin{align*}
+        D_\mu H_u = \frac{1}{\sqrt2}\begin{pmatrix} 0 \\ \partial_\mu h \end{pmatrix}& +\frac{i\mathsf g_L}{2\sqrt2}W_\mu^a\sigma^a \begin{pmatrix} 0 \\ v+h \end{pmatrix} + \frac{i\mathsf g_Y}{2\sqrt2} \mathbb1_{2\times2}B_\mu \begin{pmatrix} 0 \\ v+h \end{pmatrix}
+    \end{align*}
+
+    Utilizziamo ora:
+    \begin{equation}
+        \boxed{\sum_{a=1}^3 W_\mu^a\sigma^a = 
+        \begin{pmatrix}
+            W_\mu^3    &     W_\mu^1 - i W_\mu^2 \\
+            W_\mu^1 +i W_\mu^2   &  -W_\mu^3
+        \end{pmatrix}}
+        \label{eq:W^a_gauge_matrixform}
+    \end{equation}
+    per arrivare, con alcuni banali passaggi, al risultato finale:
+    \begin{equation}
+        \boxed{D_\mu H_u = \frac{1}{\sqrt2}
+        \begin{bmatrix}
+            \frac{i\mathsf g_L}{2}(W_\mu^1 - i W_\mu^2)(v+h) \\
+            \partial_\mu h +\frac{i}{2}(\mathsf g_Y B_\mu - \mathsf g_L W_\mu^3)(v+h)
+        \end{bmatrix}}
+        \label{eq:unitary_gauged_higgs_doubl_covariant_derivative}
+    \end{equation}
+    Non è dunque difficile convincersi del fatto che:
+    \begin{equation}
+        \boxed{
+        \begin{aligned}
+            (D_\mu H_u)^\dagger(D^\mu H_u) = &\frac{1}{2}\bigg\{
+            (\partial_\mu h)(\partial^\mu h) +\frac{\mathsf g_L^2}{4}(v+h)^2
+            \Big[\big(W_\mu^1\big)^2 + \big(W_\mu^2\big)^2\Big]\\
+            &+\frac{1}{4}(v+h)^2\big(\mathsf g_Y B_\mu - \mathsf g_L W_\mu^3\big)^2
+            \bigg\}
+        \end{aligned}
+        }
+        \label{eq:unitary_gauged_kinetic_term}
+    \end{equation}
+    Non solo abbiamo trovato il termine cinetico canonicamente normalizzato per il campo fisico di Higgs $h$, ma abbiamo trovato anche i termini di massa per i campi di gauge insieme alle loro interazioni con l'Higgs!
+\end{itemize}
+
+Concentriamoci ora sullo \textbf{spettro di bassa dei bosoni di gauge}:
+\[
+\bigg\{\frac{\mathsf g_L^2}{4}v^2\Big[\big(W_\mu^1\big)^2 + \big(W_\mu^2\big)^2\Big]+\frac{1}{4}v^2 \big(\mathsf g_Y B_\mu - \mathsf g_L W_\mu^3\big)^2\bigg\}
+\]
+
+Notiamo che il primo termine è già diagonale, dunque possiamo direttamente ricavare le masse per i bosoni di gauge $W^{1,2}_\mu$, che sono identiche e pari a:
+\begin{equation}
+    \boxed{M_W^2 \equiv \frac{\mathsf g_L^2v^2}{4} \Rightarrow M_W \equiv \frac{\mathsf g_Lv}{2}}
+    \label{eq:W_bosons_mass}
+\end{equation}
+
+D'altro canto, il secondo termine non è diagonale, ma possiamo riscriverlo nel modo seguente:
+\begin{align*}
+    \frac{1}{4}v^2 \Big[\mathsf g_Y^2 B_\mu^2 + \mathsf g_L^2 (W_\mu^3)^2 - 2\mathsf g_Y\mathsf g_LB_\mu W_\mu^3\Big] =  \begin{pmatrix} W_\mu^3 & B_\mu \end{pmatrix} 
+    \underbrace{
+    \frac{v^2}{4}
+    \begin{pmatrix}
+        \mathsf g_L^2    & -\mathsf g_L\mathsf g_Y   \\
+        -\mathsf g_L\mathsf g_Y    & \mathsf g_Y^2
+    \end{pmatrix}}_{\equiv M^2} 
+    \begin{pmatrix} W_\mu^3 \\ B_\mu \end{pmatrix} 
+\end{align*}
+
+Risolviamo quindi il problema agli autovalori per la matrice di massa non diagonale $M^2$, ovvero l'equazione $\det(M^2 - \lambda\mathbb1)=0$, da cui otteniamo:
+\[
+\lambda\bigg[\lambda - \frac{v^2(\mathsf g_L^2+\mathsf g_Y^2)}{4}\bigg] = 0
+\]
+Abbiamo dunque due soluzioni:
+\begin{equation}
+    \boxed{M_A^2 = 0 ~,\quad M_Z^2 = \frac{v^2}{4}\big(\mathsf g_L^2+\mathsf g_Y^2\big)}
+    \label{eq:A_Z_bosons_masses}
+\end{equation}
+Da cui è chiaro che un bosone di gauge sia massless, mentre un altro ancora (3 in tutto con i due di prima) diviene massivo.
+
+Possiamo vedere questa soluzione come il risultato di una trasformazione ortogonale definita da:
+\begin{align*}
+    \begin{pmatrix} W^3 & B \end{pmatrix} 
+    M^2
+    \begin{pmatrix} W^3 \\ B \end{pmatrix} &= 
+    \begin{pmatrix} W^3 & B \end{pmatrix} O^T \big(O
+    M^2 O^T \big) O
+    \begin{pmatrix} W^3 \\ B \end{pmatrix} =\\
+    &=\begin{pmatrix} W^3 & B \end{pmatrix} O^T \begin{pmatrix}
+        M_Z^2& 0   \\
+        0    & 0
+    \end{pmatrix} O
+    \begin{pmatrix} W^3 \\ B \end{pmatrix}\\
+    &=\begin{pmatrix} Z & A \end{pmatrix} 
+    \begin{pmatrix}
+        M_Z^2& 0   \\
+        0    & 0
+    \end{pmatrix}
+    \begin{pmatrix} Z \\ A \end{pmatrix}
+\end{align*}
+con autostati di massa $\begin{pmatrix} Z \\ A \end{pmatrix}:=O\begin{pmatrix} W^3 \\ B \end{pmatrix}$ .
+
+La trasformazione ortogonale viene generalmente parametrizzata sulla base di un parametro noto come angolo di Weinberg, $\theta_W$, nel modo seguente:
+\[
+O :=
+\begin{pmatrix}
+    \cos\theta_W    & -\sin\theta_W   \\
+    \sin\theta_W    & \cos\theta_W
+\end{pmatrix}
+\]
+
+Per trovare il valore dell'angolo basta considerare l'equazione 
+\[
+\big(O M^2 O^T \big) \overset{!}{=}
+\begin{pmatrix}
+        M_Z^2& 0   \\
+        0    & 0
+\end{pmatrix}~,\quad M^2 \equiv \frac{v^2}{4}
+\begin{pmatrix}
+    \mathsf g_L^2    & -\mathsf g_L\mathsf g_Y   \\
+    -\mathsf g_L\mathsf g_Y    & \mathsf g_Y^2
+\end{pmatrix}
+\]
+Sulle diagonali troviamo due equazioni:
+\[
+\begin{cases}
+    \frac{v^2}{4} \big(\mathsf g_Y\cos\theta_W - \mathsf g_L\sin\theta_W\big)^2 = 0\\
+    \frac{v^2}{4}\big(\mathsf g_L\cos\theta_W + \mathsf g_Y\sin\theta_W\big) = M_Z^2 \overset{(\ref{eq:A_Z_bosons_masses})}{\equiv} \frac{v^2}{4}\big(g^2+g_Y^2\big)
+\end{cases}
+\]
+Che risolte ci forniscono i seguenti risultati:
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+        &\mathsf g_L\sin\theta_W = \mathsf g_Y\cos\theta_W\\
+        &\sin^2\theta_W = \frac{\mathsf g_Y^2}{\mathsf g_L^2 +\mathsf g_Y^2} \Rightarrow \cos^2\theta_W = \frac{\mathsf g_L^2}{\mathsf g_L^2 +\mathsf g_Y^2}
+    \end{aligned}
+    }
+    \label{eq:weiberg_angle_relations}
+\end{equation}
+Quindi noti i coupling abbiamo modo di estrarre l'angolo di Weinberg.
+
+Tornando ora alla definizione degli autostati di massa $\begin{pmatrix} Z \\ A \end{pmatrix}$ e sfruttando le (\ref{eq:weiberg_angle_relations}) possiamo esplicitare i campi $Z_\mu$ ed $A_\mu$, i.e.:
+
+\begin{equation}
+    \boxed{\begin{aligned}
+        &Z_\mu \equiv \cos\theta_W W^3_\mu - \sin\theta_W B_\mu = \frac{1}{(\mathsf g_L^2 +\mathsf g_Y^2)^{1/2}}\big(\mathsf g_L W^3_\mu - \mathsf g_Y B_\mu\big) \\
+        &M_Z^2 =\frac{v^2}{4}\big(g^2+g_Y^2\big)
+    \end{aligned}}
+    \label{eq:Z_bosonfield}
+\end{equation}
+
+\begin{equation}
+    \boxed{\begin{aligned}
+        &A_\mu \equiv \cos\theta_W B_\mu + \sin\theta_W W^3_\mu  = \frac{1}{(\mathsf g_L^2 +\mathsf g_Y^2)^{1/2}}\big(\mathsf g_L B_\mu + \mathsf g_Y W^3_\mu\big) \\
+        &M_A^2 =0
+    \end{aligned}}
+    \label{eq:A_bosonfield}
+\end{equation}
+
+\subsection{Interazioni puramente di gauge}
+
+Invece di usare $W^1$ e $W^2$, è buona abitudine introdurre due oggetti che risultano piuttosto familiari nel nome:
+\begin{equation}
+    \boxed{W^+ \equiv \frac{1}{\sqrt{2}}\big(W^1 - i W^2\big)~,\quad W^- \equiv \frac{1}{\sqrt{2}}\big(W^1 + i W^2\big)}
+    \label{eq:W+-_def}
+\end{equation}
+che poi è la stessa cosa di $W^1 = \frac{1}{\sqrt{2}}\big(W^+ + W^-\big)$ e $W^2 = \frac{1}{\sqrt{2}}\big(W^+ - W^-\big)$ .
+
+Scriviamo quindi le interazioni puramente di gauge nella nuova base composta dai quattro bosoni di gauge del modello standard: $\{W^+, W^-, Z, A\}$.
+
+Notiamo innanzitutto che \textbf{i campi $W^\pm$ sono carichi sotto U$(1)_{EM}$}, il gruppo di simmetria residuo generato dalla carica $Q = T^3 + Y$.
+
+\begin{proof}
+    Per vederlo esplicitamente possiamo passare per la trasformazione di gauge di $W_\mu \equiv \frac{\sigma^a}{2} W_\mu^a$, che si riduce alla sola trasformazione sotto SU$(2)_L$, in quanto $W_\mu$ non trasforma sotto U$(1)_Y$ ed ha dunque $Y=0$, i.e.:
+    \[
+    W_\mu' = U W_\mu U^{-1} +\frac{i}{\mathsf g}\big(\partial_\mu U\big)U^{-1} ~,\quad U = \exp(-i\alpha_L^a(x)\frac{\sigma^a}{2})
+    \]
+
+    Siccome siamo interessati alle trasformazioni globali, possiamo considerare $\alpha_L^a$ costante e ridurci a considerare trasformazioni del tipo $U = \exp\big(-i\alpha_L\frac{\sigma^3}{2}\big)$, in cui $Q=T^3$.
+
+    Possiamo quindi togliere di mezzo il secondo termine della trasformazione e studiare:
+    \[
+    W_\mu' = U W_\mu U^{-1} \Rightarrow \frac{\sigma^a}{2} {W_\mu^a}'= U \frac{\sigma^a}{2} W_\mu^a U^{-1}
+    \]
+    che possiamo tradurre in forma matriciale sfruttando la (\ref{eq:W^a_gauge_matrixform}), i.e.: 
+    \begin{align*}
+        \begin{pmatrix}
+            \frac{W_\mu^3}{2}    &     \frac{W^+}{\sqrt2} \\
+            \frac{W^-}{\sqrt2}   &  -\frac{W_\mu^3}{2}
+        \end{pmatrix}
+        \rightarrow &
+        \begin{pmatrix}
+            e^{-i\alpha/2}    &     0 \\
+            0                 &  e^{i\alpha/2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{W_\mu^3}{2}    &     \frac{W^+}{\sqrt2} \\
+            \frac{W^-}{\sqrt2}   &  -\frac{W_\mu^3}{2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            e^{+i\alpha/2}    &     0 \\
+            0                 &  e^{-i\alpha/2}
+        \end{pmatrix} =\\
+        &= 
+        \begin{pmatrix}
+            \frac{W_\mu^3}{2}    &     e^{-i\alpha/2}\frac{W^+}{\sqrt2} \\
+           e^{+i\alpha/2} \frac{W^-}{\sqrt2}   &  -\frac{W_\mu^3}{2}
+        \end{pmatrix}
+    \end{align*}
+\end{proof}
+Dalla comparazione arriviamo alla verifica della tesi:
+\begin{equation}
+    \boxed{\begin{aligned}
+        W^+ \rightarrow e^{-i\alpha/2}W^+ \quad \text{trasforma con carica +1}\\
+        W^- \rightarrow e^{+i\alpha/2}W^-\quad \text{trasforma con carica -1}
+    \end{aligned}}
+    \label{eq:U1_EM_W+-_charges}
+\end{equation}
+
+ed allo stesso tempo possiamo concludere che $W^3$, non subendo alcun effetto dalla trasformazione, deve avere carica nulla sotto U$(1)_{EM}$. 
+
+\section{Modello Standard: Settore Fermionico}
+\subsection{Termini cinetici}
+
+\section{Correnti Elettrodeboli}
+
+\section{Generazione di Massa}
+
+\section{Il decadimento del muone}
+
+
+
+
+
+\end{document}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{images/semplicementepanati.png}
+    \caption*{}
+    \label{fig:my_label}
+\end{figure}
